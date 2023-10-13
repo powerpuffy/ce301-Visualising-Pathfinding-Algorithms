@@ -39,7 +39,6 @@ public class AStar {
             int maxFCost = 1000;
 
             for (Node n: openList){
-                // geeks4geeks f cost is 0 at start and g + h is generated as the program goes instead of all at the start
                 System.out.println(n);
                 if (n.fCost < maxFCost){
                     maxFCost = n.fCost;
@@ -52,8 +51,10 @@ public class AStar {
 
             System.out.println("successors");
 
+            //CHECK THAT THE CORRECT NODES ARE BEING OPENED
+
             // Open the up node
-            if (q.col - 1 >= 0){
+            if (q.row - 1 >= 0){
                 Node upperNode = nodeArray[q.col][q.row-1];
                 upperNode.parent = q;
 
@@ -99,12 +100,7 @@ public class AStar {
 
                 }
             }
-
             closedList.add(q);
-
-
-
-
         }
 
 

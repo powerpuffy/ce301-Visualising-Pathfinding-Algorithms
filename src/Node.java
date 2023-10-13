@@ -13,7 +13,7 @@ public class Node extends JButton implements ActionListener {
     public int fCost;
     public boolean start;
     public boolean goal;
-    public boolean solid;
+    public boolean wall;
     public boolean open;
     public boolean checked;
 
@@ -38,9 +38,15 @@ public class Node extends JButton implements ActionListener {
         goal = true;
     }
 
-    public void setAsSolid(){
+    public void setAsWall(){
         setBackground(Color.black);
-        solid = true;
+        wall = true;
+    }
+
+    public void setAsSearched(){
+        if (!this.start && !this.goal){
+            setBackground(Color.orange);
+        }
     }
 
 
@@ -60,7 +66,7 @@ public class Node extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (!this.start && !this.goal){
-            setAsSolid();
+            setAsWall();
         }
 
     }

@@ -49,7 +49,7 @@ public class GridPanel extends JPanel {
         }
 
         setStartNode(3,3);
-        setGoalNode(16,12);
+        setGoalNode(7,7);
     }
 
 
@@ -64,8 +64,20 @@ public class GridPanel extends JPanel {
         goalNode = nodeArray[col][row];
     }
 
-    private void setSolidNode(int col, int row){
-        nodeArray[col][row].setAsSolid();
+    private void setWallNode(int col, int row){
+        nodeArray[col][row].setAsWall();
+
+    }
+
+    public void samSearch(){
+        /*
+        BFS mybfs = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        mybfs.startSearch();
+
+         */
+
+        DFS mydfs = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        mydfs.startSearch();
 
     }
 
