@@ -46,8 +46,6 @@ public class Node extends JButton implements ActionListener {
 
     public void setAsDefault(){
         setBackground(Color.white);
-        wall = false;
-
     }
 
     public void setAsPath(){

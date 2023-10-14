@@ -20,6 +20,7 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_ENTER){
             try {
+                gp.resetSearch();
                 gp.samSearch();
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);

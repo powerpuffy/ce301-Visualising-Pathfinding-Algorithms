@@ -70,17 +70,23 @@ public class GridPanel extends JPanel {
 
 
 
-    public void resetSearch(){
 
+
+    public void resetSearch(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                if (!(n.start || n.goal || n.wall)){
+                    n.setAsDefault();
+                }
+            }
+        }
     }
 
 
     public void samSearch() throws InterruptedException {
 
-
-        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-
-        DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -90,18 +96,7 @@ public class GridPanel extends JPanel {
                 }
             }
         }).start();
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
 
 }
