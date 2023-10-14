@@ -26,17 +26,19 @@ public class DFS {
     }
 
 
-    public void startSearch(){
+    public void startSearch() throws InterruptedException {
 
         stack.add(startNode);
         visitedList.add(startNode);
 
         while (!stack.isEmpty()){
+            Thread.sleep(10);
 
 
             Node cur = stack.pop();
 
             if (cur.goal){
+                backTrackPath();
                 break;
             }
 
@@ -45,6 +47,7 @@ public class DFS {
 
             for (Node n: neighbourList){
                 if (!visitedList.contains(n)){
+                    n.parent = cur;
                     stack.push(n);
                     visitedList.add(n);
                 }
@@ -94,11 +97,23 @@ public class DFS {
         }
 
         return neighbourList;
-
-
-
-
     }
 
+    public void backTrackPath() throws InterruptedException {
+        Node cur = goalNode;
+
+        while (cur != startNode){
+            Thread.sleep(10);
+            System.out.println(cur);
+            //System.out.println("DASdas");
+            cur = cur.parent;
+
+            if (cur != startNode){
+                cur.setAsPath();
+            }
+
+        }
+
+    }
 
 }

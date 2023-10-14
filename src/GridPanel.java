@@ -6,9 +6,9 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    final int maxCol = 18;
+    final int maxCol = 22;
 
-    final int maxRow = 18;
+    final int maxRow = 22;
     final int nodeSize = 60;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
@@ -48,8 +48,8 @@ public class GridPanel extends JPanel {
             }
         }
 
-        setStartNode(3,3);
-        setGoalNode(7,7);
+        setStartNode(3,4);
+        setGoalNode(20,19);
     }
 
 
@@ -66,18 +66,41 @@ public class GridPanel extends JPanel {
 
     private void setWallNode(int col, int row){
         nodeArray[col][row].setAsWall();
+    }
+
+
+
+    public void resetSearch(){
 
     }
 
-    public void samSearch(){
-        /*
-        BFS mybfs = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        mybfs.startSearch();
 
-         */
+    public void samSearch() throws InterruptedException {
 
-        DFS mydfs = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        mydfs.startSearch();
+
+        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+
+        DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    algo.startSearch();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+
+
+
+
+
+
+
+
+
+
+
 
     }
 

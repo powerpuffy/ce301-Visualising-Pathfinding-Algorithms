@@ -19,7 +19,11 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(code == KeyEvent.VK_ENTER){
-            gp.samSearch();
+            try {
+                gp.samSearch();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

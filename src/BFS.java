@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public class BFS {
 
@@ -25,25 +26,30 @@ public class BFS {
     }
 
 
-    public void startSearch(){
+    public void startSearch() throws InterruptedException {
 
         queue.add(startNode);
         visitedList.add(startNode);
 
         while (!queue.isEmpty()){
 
+            Thread.sleep(10);
 
             Node cur = queue.remove();
 
             if (cur.goal){
+                backTrackPath();
                 break;
             }
 
+
             cur.setAsSearched();
+
             ArrayList<Node> neighbourList = getNeighbours(cur);
 
             for (Node n: neighbourList){
                 if (!visitedList.contains(n)){
+                    n.parent = cur;
                     queue.add(n);
                     visitedList.add(n);
                 }
@@ -68,6 +74,8 @@ public class BFS {
             Node uppernode = nodeArray[n.col-1][n.row];
             if (!uppernode.wall){
                 neighbourList.add(uppernode);
+
+
             }
         }
 
@@ -75,6 +83,7 @@ public class BFS {
             Node rightnode = nodeArray[n.col+1][n.row];
             if (!rightnode.wall){
                 neighbourList.add(rightnode);
+
             }
         }
 
@@ -82,6 +91,7 @@ public class BFS {
             Node downnode = nodeArray[n.col][n.row+1];
             if (!downnode.wall){
                 neighbourList.add(downnode);
+
             }
         }
 
@@ -89,13 +99,27 @@ public class BFS {
             Node leftnode = nodeArray[n.col][n.row-1];
             if (!leftnode.wall){
                 neighbourList.add(leftnode);
+
             }
         }
 
         return neighbourList;
+    }
 
+    public void backTrackPath() throws InterruptedException {
+        Node cur = goalNode;
 
+        while (cur != startNode){
+            Thread.sleep(10);
+            System.out.println(cur);
+            //System.out.println("DASdas");
+            cur = cur.parent;
 
+            if (cur != startNode){
+                cur.setAsPath();
+            }
+
+        }
 
     }
 

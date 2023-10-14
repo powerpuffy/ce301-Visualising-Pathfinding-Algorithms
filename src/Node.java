@@ -14,6 +14,7 @@ public class Node extends JButton implements ActionListener {
     public boolean start;
     public boolean goal;
     public boolean wall;
+    public boolean path;
     public boolean open;
     public boolean checked;
 
@@ -43,9 +44,22 @@ public class Node extends JButton implements ActionListener {
         wall = true;
     }
 
+    public void setAsDefault(){
+        setBackground(Color.white);
+        wall = false;
+
+    }
+
+    public void setAsPath(){
+        setBackground(Color.blue);
+        path = true;
+    }
+
     public void setAsSearched(){
         if (!this.start && !this.goal){
             setBackground(Color.orange);
+            System.out.println("plz repaint");
+
         }
     }
 
