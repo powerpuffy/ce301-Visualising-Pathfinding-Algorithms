@@ -1,9 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AStar {
 
-    ArrayList<Node> openList = new ArrayList<>();
-    ArrayList<Node> closedList = new ArrayList<>();
+
 
     Node startNode;
     Node goalNode;
@@ -14,6 +14,10 @@ public class AStar {
     int maxCol;
     int maxRow;
 
+    ArrayList<Node> openList = new ArrayList<>();
+    ArrayList<Node> closedList = new ArrayList<>();
+    ArrayList<Node> successorList = new ArrayList<>();
+
     public AStar(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         this.startNode = startNode;
         this.goalNode = goalNode;
@@ -23,88 +27,131 @@ public class AStar {
         this.maxRow = maxRow;
     }
 
+    public int leastFIndex(ArrayList<Node> openList){
 
-    public void startSearch(){
+        int indexOfBestNode = 0;
+        int maxFCost = 1000;
+
+        for (Node n: openList){
+            System.out.println(n);
+            if (n.fCost < maxFCost){
+                maxFCost = n.fCost;
+                indexOfBestNode = openList.indexOf(n);
+            }
+        }
+
+        return indexOfBestNode;
+    }
+
+
+    public void startSearch() throws InterruptedException {
         System.out.println("start search");
-        ArrayList<Node> openList = new ArrayList<>();
-        ArrayList<Node> closedList = new ArrayList<>();
-        ArrayList<Node> successorList = new ArrayList<>();
+
 
         openList.add(startNode);
 
         while (!openList.isEmpty()){
+            Thread.sleep(10);
             System.out.println("in while loop");
 
-            int indexOfBestNode = 0;
-            int maxFCost = 1000;
+            int indexOfBestNode = leastFIndex(openList);
 
-            for (Node n: openList){
-                System.out.println(n);
-                if (n.fCost < maxFCost){
-                    maxFCost = n.fCost;
-                    indexOfBestNode = openList.indexOf(n);
-                }
+            Node cur = openList.get(indexOfBestNode);
+
+            if (cur.goal){
+                backTrackPath();
+                break;
             }
 
-            Node q = openList.get(indexOfBestNode);
+            cur.setAsSearched();
+
             openList.remove(indexOfBestNode);
+            closedList.add(cur);
 
             System.out.println("successors");
 
-            //CHECK THAT THE CORRECT NODES ARE BEING OPENED
+            ArrayList<Node> neighbourList = getNeighbours(cur);
 
-            // Open the up node
-            if (q.row - 1 >= 0){
-                Node upperNode = nodeArray[q.col][q.row-1];
-                upperNode.parent = q;
+            for (Node n: neighbourList){
+                if (!closedList.contains(n)){
+                    n.parent = cur;
 
-                successorList.add(upperNode);
-
-            }
-
-            // Open the left node
-            if (q.col - 1 >= 0){
-                Node leftNode = nodeArray[q.col-1][q.row];
-                leftNode.parent = q;
-                successorList.add(leftNode);
-            }
-
-            // Open the down node
-            if (q.row + 1 < maxRow){
-                Node downNode = nodeArray[q.col][q.row+1];
-                downNode.parent = q;
-                successorList.add(downNode);
-            }
-
-            // Open the right node
-            if (q.col + 1 < maxCol){
-                Node rightNode = nodeArray[q.col+1][q.row];
-                rightNode.parent = q;
-                successorList.add(rightNode);
-            }
-
-            for (Node n: successorList){
-                System.out.println(n);
-                if (n.goal){
-                    System.out.println("goal reached");
-                    break;
-                } else {
-
-                    // these will go
-                    int distanceFromUpperNodeandQ = 2;
-                    n.gCost = q.gCost + distanceFromUpperNodeandQ;
-
-                    System.out.println("create heuristic");
-                    Manhattan myheuristic = new Manhattan();
-                    n.hCost = myheuristic.calculateH(n.row,n.col,goalNode.row,goalNode.col);
-
+                    n.fCost = calculateH(cur,goalNode);
+                    openList.add(n);
                 }
             }
-            closedList.add(q);
+            Collections.sort(openList);
+
         }
 
 
         System.out.println("ended");
+    }
+
+    public ArrayList<Node> getNeighbours(Node n){
+
+        ArrayList<Node> neighbourList = new ArrayList<>();
+
+        System.out.println(n);
+
+
+
+        if (n.col - 1 >= 0){
+            Node uppernode = nodeArray[n.col-1][n.row];
+            if (!uppernode.wall){
+                neighbourList.add(uppernode);
+            }
+        }
+
+        if (n.col + 1 < maxCol){
+            Node rightnode = nodeArray[n.col+1][n.row];
+            if (!rightnode.wall){
+                neighbourList.add(rightnode);
+
+            }
+        }
+
+        if (n.row + 1 < maxRow){
+            Node downnode = nodeArray[n.col][n.row+1];
+            if (!downnode.wall){
+                neighbourList.add(downnode);
+
+            }
+        }
+
+        if (n.row - 1 >= 0){
+            Node leftnode = nodeArray[n.col][n.row-1];
+            if (!leftnode.wall){
+                neighbourList.add(leftnode);
+
+            }
+        }
+
+        return neighbourList;
+    }
+
+    public void backTrackPath() throws InterruptedException {
+        Node cur = goalNode;
+
+        while (cur != startNode){
+            Thread.sleep(10);
+            System.out.println(cur);
+            cur = cur.parent;
+
+            if (cur != startNode){
+                cur.setAsPath();
+            }
+
+        }
+
+    }
+
+    public int calculateH(Node cur, Node goalNode){
+        return Math.abs(cur.col - goalNode.col) + Math.abs(cur.row - goalNode.row);
+    }
+
+    public int calculateH(int currentX, int currentY, int goalX, int goalY){
+        return Math.abs(currentX - goalX) + Math.abs(currentY - goalY);
     }
 
 }

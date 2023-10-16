@@ -6,10 +6,10 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    final int maxCol = 22;
+    final int maxCol = 25;
 
-    final int maxRow = 22;
-    final int nodeSize = 60;
+    final int maxRow = 25;
+    final int nodeSize = 30;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -25,7 +25,10 @@ public class GridPanel extends JPanel {
 
     boolean goalReached = false;
 
+
+
     public GridPanel(){
+        ControlPanel cp = new ControlPanel(this);
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
         this.setLayout(new GridLayout(maxRow,maxCol));
@@ -48,8 +51,8 @@ public class GridPanel extends JPanel {
             }
         }
 
-        setStartNode(3,4);
-        setGoalNode(20,19);
+        //setStartNode(3,4);
+        //setGoalNode(21,21);
     }
 
 
@@ -57,6 +60,30 @@ public class GridPanel extends JPanel {
         nodeArray[col][row].setAsStart();
         startNode = nodeArray[col][row];
         currentNode = startNode;
+    }
+
+    private void samSetStartNode(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                if (n.start){
+                    n.setAsStart();
+                    startNode = n;
+                    currentNode = startNode;
+                }
+            }
+        }
+    }
+
+    private void samSetGoalNode(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                if (n.goal){
+                    n.setAsGoal();
+                    goalNode = n;
+
+                }
+            }
+        }
     }
 
     private void setGoalNode(int col, int row){
@@ -85,8 +112,15 @@ public class GridPanel extends JPanel {
 
     public void samSearch() throws InterruptedException {
 
-        BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        resetSearch();
+
+        samSetStartNode();
+        samSetGoalNode();
+
+        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+
+        AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         new Thread(new Runnable() {
             public void run() {
                 try {

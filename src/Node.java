@@ -2,8 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
-public class Node extends JButton implements ActionListener {
+public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public Node parent;
     public int col;
@@ -46,6 +47,8 @@ public class Node extends JButton implements ActionListener {
 
     public void setAsDefault(){
         setBackground(Color.white);
+        wall = false;
+        path = false;
     }
 
     public void setAsPath(){
@@ -77,11 +80,30 @@ public class Node extends JButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (!this.start && !this.goal){
+        if (!start && Objects.equals(ControlPanel.currentselection, "start")){
+            setAsStart();
+        }
+
+        if (!goal && Objects.equals(ControlPanel.currentselection, "goal")){
+            setAsGoal();
+        }
+
+        if (!this.start && !this.goal && Objects.equals(ControlPanel.currentselection, "wall")){
             setAsWall();
         }
 
     }
 
 
+    @Override
+    public int compareTo(Node o) {
+        if(this.fCost > o.fCost){
+            return 1;
+        }else if(this.fCost < o.fCost){
+            return -1;
+        } else{
+            return 0;
+        }
+
+    }
 }
