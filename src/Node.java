@@ -12,6 +12,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public int gCost;
     public int hCost;
     public int fCost;
+
+    public int weight;
     public boolean start;
     public boolean goal;
     public boolean wall;
@@ -22,6 +24,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public Node(int col, int row){
         this.col = col;
         this.row = row;
+        this.weight = 1;
         this.setFocusable(false);
 
         setBackground(Color.white);

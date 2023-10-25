@@ -96,6 +96,38 @@ public class GridPanel extends JPanel {
     }
 
 
+    public int[][] getMap(){
+        int[][] map = new int[this.maxCol][this.maxRow];
+        for (int i = 0; i < this.nodeArray.length; i++) {
+            for (int j = 0; j < this.nodeArray[i].length; j++){
+                if (nodeArray[i][j].wall){
+                    map[i][j] = 1;
+                } else{
+                    map[i][j] = 0;
+                }
+            }
+        }
+        return map;
+    }
+
+    public void fillMap(int[][] maparray){
+        for (int i = 0; i < maparray.length; i++) {
+            for (int j = 0; j < maparray[i].length; j++){
+                if (maparray[i][j] == 1){
+                    nodeArray[i][j].setAsWall();
+                }
+            }
+        }
+
+    }
+
+    public void wipeGrid(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.setAsDefault();
+            }
+        }
+    }
 
 
 

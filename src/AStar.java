@@ -76,7 +76,9 @@ public class AStar {
                 if (!closedList.contains(n)){
                     n.parent = cur;
 
-                    n.fCost = calculateH(cur,goalNode);
+                    n.gCost = cur.gCost + Math.abs(n.weight - cur.weight);
+
+                    n.fCost = n.gCost + calculateH(cur,goalNode);
                     openList.add(n);
                 }
             }
