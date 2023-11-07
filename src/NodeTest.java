@@ -1,41 +1,92 @@
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NodeTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAsStart() {
-
+        Node n = new Node(1,2);
+        n.setAsStart();
+        assertTrue(n.start);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAsGoal() {
+        Node n = new Node(1,2);
+        n.setAsGoal();
+        assertTrue(n.goal);
     }
 
-    @org.junit.jupiter.api.Test
-    void setAsWall() {
+    @Test
+    void ssetAsWall() {
+        Node n = new Node(1,2);
+        n.setAsWall();
+        assertTrue(n.wall);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAsDefault() {
+        Node n = new Node(1,2);
+        n.setAsDefault();
+        assertFalse(n.start);
+        assertFalse(n.goal);
+        assertFalse(n.wall);
+        assertFalse(n.swamp);
+        assertFalse(n.path);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAsPath() {
+        Node n = new Node(1,2);
+        n.setAsPath();
+        assertTrue(n.path);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAsSearched() {
+
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testToString() {
+
+
     }
 
-    @org.junit.jupiter.api.Test
-    void actionPerformed() {
+    @Test
+    void verifyStartPressedWithStartSelected() {
+
     }
 
-    @org.junit.jupiter.api.Test
-    void compareTo() {
+    @Test
+    void compareGreaterThan() {
+        Node n = new Node(1,2);
+        Node n2 = new Node(3,4);
+        n.fCost = 20;
+        n2.fCost = 10;
+
+        assertEquals(1,n.compareTo(n2));
+
+    }
+
+    @Test
+    void compareEqualTo() {
+        Node n = new Node(1,2);
+        Node n2 = new Node(3,4);
+        n.fCost = 20;
+        n2.fCost = 20;
+
+        assertEquals(0,n.compareTo(n2));
+    }
+
+    @Test
+    void compareLessThan() {
+        Node n = new Node(1,2);
+        Node n2 = new Node(3,4);
+        n.fCost = 10;
+        n2.fCost = 20;
+
+        assertEquals(-1,n.compareTo(n2));
     }
 }

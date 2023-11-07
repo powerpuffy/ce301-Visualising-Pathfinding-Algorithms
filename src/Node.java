@@ -17,6 +17,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public boolean start;
     public boolean goal;
     public boolean wall;
+
+    public boolean swamp;
     public boolean path;
     public boolean open;
     public boolean checked;
@@ -27,6 +29,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         this.weight = 1;
         this.setFocusable(false);
 
+        //setFont(new Font("Arial", Font.PLAIN, 4));
+
         setBackground(Color.white);
         setForeground(Color.black);
 
@@ -34,23 +38,37 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     }
 
     public void setAsStart(){
+        setAsDefault();
         setBackground(Color.green);
+        this.weight = 0;
         start = true;
     }
 
     public void setAsGoal(){
+        setAsDefault();
         setBackground(Color.red);
         goal = true;
     }
 
     public void setAsWall(){
+        setAsDefault();
         setBackground(Color.black);
         wall = true;
     }
 
+    public void setAsSwamp(){
+        setAsDefault();
+        setBackground(new Color(113, 153, 44));
+        this.weight = 5;
+        swamp = true;
+    }
+
     public void setAsDefault(){
         setBackground(Color.white);
+        start = false;
+        goal = false;
         wall = false;
+        swamp = false;
         path = false;
     }
 
@@ -60,11 +78,19 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     }
 
     public void setAsSearched(){
-        if (!this.start && !this.goal){
-            setBackground(Color.orange);
-            System.out.println("plz repaint");
 
+        if (!this.start && !this.goal){
+            if (this.swamp){
+                setBackground(new Color(181, 245, 71));
+            } else{
+                setBackground(Color.orange);
+            }
+            this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
         }
+    }
+
+    public void deleteText(){
+        this.setText("");
     }
 
 
@@ -83,16 +109,20 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (!start && Objects.equals(ControlPanel.currentselection, "start")){
+        if (Objects.equals(ControlPanel.currentselection, "start")){
             setAsStart();
         }
 
-        if (!goal && Objects.equals(ControlPanel.currentselection, "goal")){
+        if (Objects.equals(ControlPanel.currentselection, "goal")){
             setAsGoal();
         }
 
-        if (!this.start && !this.goal && Objects.equals(ControlPanel.currentselection, "wall")){
+        if (Objects.equals(ControlPanel.currentselection, "wall")){
             setAsWall();
+        }
+
+        if (Objects.equals(ControlPanel.currentselection, "swamp")){
+            setAsSwamp();
         }
 
     }

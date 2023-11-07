@@ -33,18 +33,24 @@ public class AStar {
         int maxFCost = 1000;
 
         for (Node n: openList){
-            System.out.println(n);
+            //System.out.println(n);
             if (n.fCost < maxFCost){
                 maxFCost = n.fCost;
                 indexOfBestNode = openList.indexOf(n);
             }
         }
 
+        System.out.println("wow");
+        System.out.println(openList.get(indexOfBestNode));
         return indexOfBestNode;
     }
 
 
     public void startSearch() throws InterruptedException {
+
+        ArrayList<Node> openList = new ArrayList<>();
+        ArrayList<Node> closedList = new ArrayList<>();
+
         System.out.println("start search");
 
 
@@ -52,7 +58,8 @@ public class AStar {
 
         while (!openList.isEmpty()){
             Thread.sleep(10);
-            System.out.println("in while loop");
+            //System.out.println("in while loop");
+            System.out.println("open list size: " + openList.size());
 
             int indexOfBestNode = leastFIndex(openList);
 
@@ -66,19 +73,22 @@ public class AStar {
             cur.setAsSearched();
 
             openList.remove(indexOfBestNode);
+            System.out.println("open list size after remove: " + openList.size());
             closedList.add(cur);
 
-            System.out.println("successors");
+            //System.out.println("successors");
 
             ArrayList<Node> neighbourList = getNeighbours(cur);
 
             for (Node n: neighbourList){
-                if (!closedList.contains(n)){
+                if (!closedList.contains(n) && !openList.contains(n)){
                     n.parent = cur;
 
-                    n.gCost = cur.gCost + Math.abs(n.weight - cur.weight);
+                    n.gCost =  n.weight + cur.gCost;
+                    n.hCost = calculateHEuclidean(n,goalNode);
 
-                    n.fCost = n.gCost + calculateH(cur,goalNode);
+                    n.fCost = n.gCost + n.hCost;
+                    //n.fCost = n.gCost;
                     openList.add(n);
                 }
             }
@@ -137,7 +147,7 @@ public class AStar {
 
         while (cur != startNode){
             Thread.sleep(10);
-            System.out.println(cur);
+            //System.out.println(cur);
             cur = cur.parent;
 
             if (cur != startNode){
@@ -148,11 +158,16 @@ public class AStar {
 
     }
 
-    public int calculateH(Node cur, Node goalNode){
+
+    public int calculateHManhattan(Node cur, Node goalNode){
         return Math.abs(cur.col - goalNode.col) + Math.abs(cur.row - goalNode.row);
     }
 
-    public int calculateH(int currentX, int currentY, int goalX, int goalY){
+    public int calculateHEuclidean(Node cur, Node goalNode){
+        return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
+    }
+
+    public int calculateHManhattan(int currentX, int currentY, int goalX, int goalY){
         return Math.abs(currentX - goalX) + Math.abs(currentY - goalY);
     }
 

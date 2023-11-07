@@ -9,7 +9,9 @@ public class GridPanel extends JPanel {
     final int maxCol = 25;
 
     final int maxRow = 25;
-    final int nodeSize = 30;
+
+    // Change back to size 30. Increasing for debug
+    final int nodeSize = 50;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -51,15 +53,6 @@ public class GridPanel extends JPanel {
             }
         }
 
-        //setStartNode(3,4);
-        //setGoalNode(21,21);
-    }
-
-
-    private void setStartNode(int col, int row){
-        nodeArray[col][row].setAsStart();
-        startNode = nodeArray[col][row];
-        currentNode = startNode;
     }
 
     private void samSetStartNode(){
@@ -84,15 +77,6 @@ public class GridPanel extends JPanel {
                 }
             }
         }
-    }
-
-    private void setGoalNode(int col, int row){
-        nodeArray[col][row].setAsGoal();
-        goalNode = nodeArray[col][row];
-    }
-
-    private void setWallNode(int col, int row){
-        nodeArray[col][row].setAsWall();
     }
 
 
@@ -135,8 +119,20 @@ public class GridPanel extends JPanel {
         for (Node[] na: nodeArray){
             for (Node n: na){
                 if (!(n.start || n.goal || n.wall)){
-                    n.setAsDefault();
+                    if (n.swamp){
+                        n.setAsSwamp();
+                    } else{
+                        n.setAsDefault();
+                    }
                 }
+            }
+        }
+    }
+
+    public void resetButtonText(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.deleteText();
             }
         }
     }
@@ -145,14 +141,15 @@ public class GridPanel extends JPanel {
     public void samSearch() throws InterruptedException {
 
         resetSearch();
+        resetButtonText();
 
         samSetStartNode();
         samSetGoalNode();
 
-        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
 
-        AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -162,6 +159,21 @@ public class GridPanel extends JPanel {
                 }
             }
         }).start();
+    }
+
+    private void setGoalNode(int col, int row){
+        nodeArray[col][row].setAsGoal();
+        goalNode = nodeArray[col][row];
+    }
+
+    private void setWallNode(int col, int row){
+        nodeArray[col][row].setAsWall();
+    }
+
+    private void setStartNode(int col, int row){
+        nodeArray[col][row].setAsStart();
+        startNode = nodeArray[col][row];
+        currentNode = startNode;
     }
 
 

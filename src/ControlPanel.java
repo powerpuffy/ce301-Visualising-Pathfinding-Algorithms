@@ -47,6 +47,14 @@ public class ControlPanel  extends JPanel {
             }
         });
 
+        JButton swampNodeButton = new JButton("Swamp Node");
+        swampNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentselection = "swamp";
+            }
+        });
+
         JButton goButton = new JButton("GO");
         goButton.setPreferredSize(new Dimension(60,60));
         goButton.addActionListener(new ActionListener() {
@@ -64,6 +72,7 @@ public class ControlPanel  extends JPanel {
         this.add(startNodeButton);
         this.add(goalNodeButton);
         this.add(wallNodeButton);
+        this.add(swampNodeButton);
         this.add(goButton);
 
         JTextField t = new JTextField(16);
