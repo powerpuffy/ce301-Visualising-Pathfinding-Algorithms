@@ -94,7 +94,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     }
 
 
-
+    /*
     @Override
     public String toString() {
         return "Node{" +
@@ -104,6 +104,13 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
                 ", hCost=" + hCost +
                 ", fCost=" + fCost +
                 '}';
+    }
+
+     */
+
+    @Override
+    public String toString() {
+        return "N: " + col + "," + row;
     }
 
     @Override

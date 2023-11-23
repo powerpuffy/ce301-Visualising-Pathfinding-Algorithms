@@ -19,7 +19,7 @@ class NodeTest {
     }
 
     @Test
-    void ssetAsWall() {
+    void setAsWall() {
         Node n = new Node(1,2);
         n.setAsWall();
         assertTrue(n.wall);

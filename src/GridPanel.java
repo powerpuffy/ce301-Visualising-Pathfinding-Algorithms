@@ -109,6 +109,7 @@ public class GridPanel extends JPanel {
         for (Node[] na: nodeArray){
             for (Node n: na){
                 n.setAsDefault();
+                n.deleteText();
             }
         }
     }

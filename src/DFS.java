@@ -32,10 +32,12 @@ public class DFS {
         visitedList.add(startNode);
 
         while (!stack.isEmpty()){
-            Thread.sleep(10);
+            Thread.sleep(ControlPanel.algoSpeed);
+            System.out.println(stack);
 
 
             Node cur = stack.pop();
+            visitedList.add(cur);
 
             if (cur.goal){
                 backTrackPath();
@@ -49,7 +51,7 @@ public class DFS {
                 if (!visitedList.contains(n)){
                     n.parent = cur;
                     stack.push(n);
-                    visitedList.add(n);
+                    //visitedList.add(cur);
                 }
             }
 
@@ -64,12 +66,12 @@ public class DFS {
 
         ArrayList<Node> neighbourList = new ArrayList<>();
 
-        System.out.println(n);
+        //System.out.println(n);
 
 
 
-        if (n.col - 1 >= 0){
-            Node uppernode = nodeArray[n.col-1][n.row];
+        if (n.row - 1 >= 0){
+            Node uppernode = nodeArray[n.col][n.row-1];
             if (!uppernode.wall){
                 neighbourList.add(uppernode);
             }
@@ -89,8 +91,8 @@ public class DFS {
             }
         }
 
-        if (n.row - 1 >= 0){
-            Node leftnode = nodeArray[n.col][n.row-1];
+        if (n.col - 1 >= 0){
+            Node leftnode = nodeArray[n.col-1][n.row];
             if (!leftnode.wall){
                 neighbourList.add(leftnode);
             }

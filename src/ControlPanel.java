@@ -1,15 +1,18 @@
-import javax.print.DocFlavor;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class ControlPanel  extends JPanel {
 
+    public static int algoSpeed = 90;
     static String currentselection;
     final int maxCol = 25;
 
@@ -127,11 +130,42 @@ public class ControlPanel  extends JPanel {
         JButton deleteButton = new JButton("Delete Map");
 
 
+
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL,
+                1, 100, 10);
+
+        //Create the label table
+        Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
+        labelTable.put( 100 , new JLabel("Fast") );
+        labelTable.put( 1, new JLabel("Slow") );
+        speedSlider.setLabelTable( labelTable );
+        speedSlider.setPaintLabels(true);
+        speedSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider)e.getSource();
+                algoSpeed = 101 - source.getValue();
+            }
+        });
+
+        JButton resetButton = new JButton("Reset Grid");
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.wipeGrid();
+            }
+        });
+
+
+
         this.add(t);
         this.add(saveButton);
         this.add(retrieveButton);
         this.add(deleteButton);
 
+
+        this.add(speedSlider);
+        this.add(resetButton);
 
     }
 

@@ -33,7 +33,7 @@ public class BFS {
 
         while (!queue.isEmpty()){
 
-            Thread.sleep(10);
+            Thread.sleep(ControlPanel.algoSpeed);
 
             Node cur = queue.remove();
 
@@ -70,12 +70,10 @@ public class BFS {
 
 
 
-        if (n.col - 1 >= 0){
-            Node uppernode = nodeArray[n.col-1][n.row];
+        if (n.row - 1 >= 0){
+            Node uppernode = nodeArray[n.col][n.row-1];
             if (!uppernode.wall){
                 neighbourList.add(uppernode);
-
-
             }
         }
 
@@ -83,7 +81,6 @@ public class BFS {
             Node rightnode = nodeArray[n.col+1][n.row];
             if (!rightnode.wall){
                 neighbourList.add(rightnode);
-
             }
         }
 
@@ -91,15 +88,13 @@ public class BFS {
             Node downnode = nodeArray[n.col][n.row+1];
             if (!downnode.wall){
                 neighbourList.add(downnode);
-
             }
         }
 
-        if (n.row - 1 >= 0){
-            Node leftnode = nodeArray[n.col][n.row-1];
+        if (n.col - 1 >= 0){
+            Node leftnode = nodeArray[n.col-1][n.row];
             if (!leftnode.wall){
                 neighbourList.add(leftnode);
-
             }
         }
 

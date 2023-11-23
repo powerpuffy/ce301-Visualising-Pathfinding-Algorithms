@@ -47,17 +47,17 @@ public class AStar {
 
 
     public void startSearch() throws InterruptedException {
-
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
 
         System.out.println("start search");
 
-
+        // Maybe add array of startnodes so you can search from multiple points
         openList.add(startNode);
 
         while (!openList.isEmpty()){
-            Thread.sleep(10);
+            System.out.println("SPEED : "  + ControlPanel.algoSpeed);
+            Thread.sleep(ControlPanel.algoSpeed);
             //System.out.println("in while loop");
             System.out.println("open list size: " + openList.size());
 
@@ -85,7 +85,7 @@ public class AStar {
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHEuclidean(n,goalNode);
+                    n.hCost = calculateHManhattan(n,goalNode);
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;
@@ -104,12 +104,12 @@ public class AStar {
 
         ArrayList<Node> neighbourList = new ArrayList<>();
 
-        System.out.println(n);
+        //System.out.println(n);
 
 
 
-        if (n.col - 1 >= 0){
-            Node uppernode = nodeArray[n.col-1][n.row];
+        if (n.row - 1 >= 0){
+            Node uppernode = nodeArray[n.col][n.row-1];
             if (!uppernode.wall){
                 neighbourList.add(uppernode);
             }
@@ -119,7 +119,6 @@ public class AStar {
             Node rightnode = nodeArray[n.col+1][n.row];
             if (!rightnode.wall){
                 neighbourList.add(rightnode);
-
             }
         }
 
@@ -127,15 +126,13 @@ public class AStar {
             Node downnode = nodeArray[n.col][n.row+1];
             if (!downnode.wall){
                 neighbourList.add(downnode);
-
             }
         }
 
-        if (n.row - 1 >= 0){
-            Node leftnode = nodeArray[n.col][n.row-1];
+        if (n.col - 1 >= 0){
+            Node leftnode = nodeArray[n.col-1][n.row];
             if (!leftnode.wall){
                 neighbourList.add(leftnode);
-
             }
         }
 
@@ -159,16 +156,13 @@ public class AStar {
     }
 
 
+
     public int calculateHManhattan(Node cur, Node goalNode){
         return Math.abs(cur.col - goalNode.col) + Math.abs(cur.row - goalNode.row);
     }
 
     public int calculateHEuclidean(Node cur, Node goalNode){
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
-    }
-
-    public int calculateHManhattan(int currentX, int currentY, int goalX, int goalY){
-        return Math.abs(currentX - goalX) + Math.abs(currentY - goalY);
     }
 
 }
