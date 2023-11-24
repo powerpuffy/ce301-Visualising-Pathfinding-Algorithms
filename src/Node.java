@@ -14,6 +14,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public int fCost;
 
     public int weight;
+
+    public int visitedCount;
     public boolean start;
     public boolean goal;
     public boolean wall;
@@ -89,6 +91,20 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         }
     }
 
+    public void setAsCurrentRandomWalk(){
+        if (!this.start && !this.goal){
+            setBackground(new Color(255,0,255));
+            this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+        }
+    }
+
+    public void setShadeOfBlue(int normalisedVisitedCount){
+        //int scale= (int) (Math.random() * 100);
+
+        //int scale = visitedCount;
+        setBackground(new Color(200-normalisedVisitedCount,200-normalisedVisitedCount,255));
+    }
+
     public void deleteText(){
         this.setText("");
     }
@@ -132,6 +148,10 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             setAsSwamp();
         }
 
+    }
+
+    public int getVisitedCount() {
+        return visitedCount;
     }
 
 
