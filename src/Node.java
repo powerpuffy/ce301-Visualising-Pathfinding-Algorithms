@@ -15,6 +15,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public int weight;
 
+    public double probabilityWeight;
+
     public int visitedCount;
     public boolean start;
     public boolean goal;
@@ -29,6 +31,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         this.col = col;
         this.row = row;
         this.weight = 1;
+        this.probabilityWeight = 2;
         this.setFocusable(false);
 
         //setFont(new Font("Arial", Font.PLAIN, 4));
