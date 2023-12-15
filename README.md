@@ -157,3 +157,24 @@ public int[][] getMap(){
 }
 ```
 
+``` java
+JButton saveButton = new JButton("Save Map");
+saveButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (t.getText() != null){
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter("saves.txt",true));
+
+                out.write("\n" + t.getText() + Arrays.deepToString(gridPanel.getMap()));
+                out.close();
+                        
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+    }
+});
+```
+
