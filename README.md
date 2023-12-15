@@ -119,7 +119,21 @@ public void samSearch() throws InterruptedException {
                 }
             }
         }).start();
+}
+```
+
+## ControlPanel
+
+The ControlPanel is another JPanel used to contain the buttons and fields that the user will interact with to change the processes of the algorithms. The buttons are implement using JButtons and they each have an ActionListener to perform a certain function. Below is an example of one.
+
+``` java
+JButton resetButton = new JButton("Reset Grid");
+resetButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        gridPanel.wipeGrid();
     }
+});
 ```
 
 
