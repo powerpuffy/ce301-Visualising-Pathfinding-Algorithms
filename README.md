@@ -178,3 +178,44 @@ saveButton.addActionListener(new ActionListener() {
 });
 ```
 
+To implement map retrieving, the program will open the saves.txt file, then scan through it until it finds the ID that the user has placed in the JTextField. When this is found, it will wipe the current grid, then fill the grid with the new map.
+
+``` java
+public void fillMap(int[][] maparray){
+    for (int i = 0; i < maparray.length; i++) {
+        for (int j = 0; j < maparray[i].length; j++){
+            if (maparray[i][j] == 1){
+                nodeArray[i][j].setAsWall();
+            }
+        }
+    }
+}
+```
+
+``` java
+JButton retrieveButton = new JButton("Retrieve Map");
+retrieveButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (t.getText() != null){
+            try {
+                File file = new File("saves.txt");
+                Scanner sc = new Scanner(file);
+
+                while (sc.hasNextLine()){
+                    String nl = sc.nextLine();
+                    if (Objects.equals(getID(nl), t.getText())){
+                        gridPanel.wipeGrid();
+                        gridPanel.fillMap(getMapArray(nl));
+                    }
+                }
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+    }
+});
+
+
