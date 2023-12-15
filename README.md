@@ -73,4 +73,17 @@ public void backTrackPath() throws InterruptedException {
 }
 ```
 
+# Heuristics
 
+Mainly A* will need to use a heursitics to calculate an estimated distance to the goal node. I have currently implemented a function to calculate the Manhattan distance and the Euclidean distance.
+
+``` java
+public int calculateHManhattan(Node cur, Node goalNode){
+        return Math.abs(cur.col - goalNode.col) + Math.abs(cur.row - goalNode.row);
+}
+```
+``` java
+public int calculateHEuclidean(Node cur, Node goalNode){
+        return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
+}
+```
