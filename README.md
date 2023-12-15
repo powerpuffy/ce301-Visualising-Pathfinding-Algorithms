@@ -14,6 +14,7 @@ This is a Java based tool that can be used by students/teachers to help understa
 - Ability to control the speed the algorithms operate at
 - Dynamic colour alterations of nodes
 
+
 # Algorithms
 
 To implement the different algorithms, I created an individual class for each one. When the program needs to use a specific algorithm, it will create one of the algorithm classes. Each class hasa set of standard functions (In the fututre I will create a parent Algorithm class which contains the methods each sub-class should use). Each algorithm class currently contains a constructor that sets the start node, goal node, and a complete array of nodes in the graph. Each algorithm class also has a startSearch() method which will commence the search process. This is where the implementation differs for each different algorithm.
@@ -87,6 +88,7 @@ public int calculateHEuclidean(Node cur, Node goalNode){
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
 }
 ```
+
 
 # Graphical User Interface
 
