@@ -21,6 +21,7 @@ To implement the different algorithms, I created an individual class for each on
 A common method needed for each algorithm is a method to find a node's neighbours. I created this function which gets the node above the current node, the node right of the current node, the node below the current node, and the node to the left of the current node, then returns these in an ArrayList of Nodes.
 
 ''' Java
+
 public ArrayList<Node> getNeighbours(Node n){
 
         ArrayList<Node> neighbourList = new ArrayList<>();
@@ -55,4 +56,5 @@ public ArrayList<Node> getNeighbours(Node n){
 
         return neighbourList;
     }
+    
 '''
