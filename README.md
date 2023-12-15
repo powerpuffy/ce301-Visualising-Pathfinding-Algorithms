@@ -90,6 +90,8 @@ public int calculateHEuclidean(Node cur, Node goalNode){
 
 # Graphical User Interface
 
+## GridPanel
+
 My main frame currently features 2 JPanels, one for the GridPanel and one for the ControlPanel. To create the grid panel I set the maximum number of rows and columns, then set the panel size accordingly. Inside the GridPanel constructor, a Node array will be created with each node representing a column number and row number. Then it will go on to set any change any node to a start node or goal node according to what the user selects. If the user presses the "Go" button, the GridPanel will perform the samSearch() function. This will reset the grid incase there were any previous searches, then create an algorithm based on the algorithms I have implemented above. This algorithm will then run on the GridPanel until it finds the goal or searches every possible node.
 
 ``` java
