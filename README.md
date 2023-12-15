@@ -57,7 +57,7 @@ public ArrayList<Node> getNeighbours(Node n){
 }
 ```
 
-The common algorithms such as DFS, BFS, Dijkstra, and A* all find a path to the goal. To actually find the path taken when it hits the goal, the algorithm will need to keep track of the parent of each node visited. Now that the parent is known for each node, we can call a backTrackPath() method once the algorithm hits the goal. This function will loop continously until the current node is set to the start node. It will intitially be performed on the goal node, then continue to find the parent of each node from there.
+The common algorithms such as DFS, BFS, Dijkstra, and A* all find a path to the goal. To actually find the path taken when it hits the goal, the algorithm will need to keep track of the parent of each node visited. Now that the parent is known for each node, we can call a backTrackPath() method once the algorithm hits the goal. This function will loop continously until the current node is set to the start node. It will intitially be performed on the goal node, then continue to find the parent of each node from there. I have added a Thread.Sleep() so that the user can see the process of the back-tracking.
 
 ``` java
 public void backTrackPath() throws InterruptedException {
