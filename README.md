@@ -87,3 +87,7 @@ public int calculateHEuclidean(Node cur, Node goalNode){
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
 }
 ```
+
+# GUI
+
+
