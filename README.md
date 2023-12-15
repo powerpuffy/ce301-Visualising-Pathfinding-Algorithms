@@ -137,3 +137,23 @@ resetButton.addActionListener(new ActionListener() {
 ```
 
 
+# Map Saving/Retrieving
+
+To implement map saving/retrieving, I created some methods inside the ControlPanel class to handle this functionality. To save a map, the user will need to enter an ID in the JTextField. When the save button is pressed, the program will open the saves.txt file, then write the map of the current grid panel to the file. To get the map, I created a function that checks through the grid's nodeArray then sets creates a new array of nodes with a 1 being set for each wall node, and a 0 being set for any other node. This map then gets returned and writen to the file.
+
+``` java
+public int[][] getMap(){
+    int[][] map = new int[this.maxCol][this.maxRow];
+    for (int i = 0; i < this.nodeArray.length; i++) {
+        for (int j = 0; j < this.nodeArray[i].length; j++){
+            if (nodeArray[i][j].wall){
+                map[i][j] = 1;
+            } else{
+                map[i][j] = 0;
+            }
+        }
+    }
+    return map;
+}
+```
+
