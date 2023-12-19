@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class RandomWalk {
@@ -42,7 +41,7 @@ public class RandomWalk {
         Node cur = startNode;
         Node parent = null;
 
-        while (!cur.goal){
+        while (!cur.isGoal){
 
             cur.setAsCurrentRandomWalk();
             if (!visitedList.contains(cur)){
@@ -59,8 +58,10 @@ public class RandomWalk {
             //System.out.println(parent);
             //System.out.println(neighbourList);
             //getRandomNodeBiased(neighbourList,parent);
+
             cur  = getRandomNodeBiased(neighbourList,cur);
             //cur = getRandomNode(neighbourList);
+
             cur.parent = parent;
         }
 
@@ -191,28 +192,28 @@ public class RandomWalk {
 
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.wall){
+            if (!uppernode.isWall){
                 neighbourList.add(uppernode);
             }
         }
 
         if (n.col + 1 < maxCol){
             Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.wall){
+            if (!rightnode.isWall){
                 neighbourList.add(rightnode);
             }
         }
 
         if (n.row + 1 < maxRow){
             Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.wall){
+            if (!downnode.isWall){
                 neighbourList.add(downnode);
             }
         }
 
         if (n.col - 1 >= 0){
             Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.wall){
+            if (!leftnode.isWall){
                 neighbourList.add(leftnode);
             }
         }

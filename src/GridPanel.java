@@ -6,9 +6,9 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    final int maxCol = 25;
+    public final int maxCol = 25;
 
-    final int maxRow = 25;
+    public final int maxRow = 25;
 
     // Change back to size 30. Increasing for debug
     final int nodeSize = 50;
@@ -58,7 +58,7 @@ public class GridPanel extends JPanel {
     private void samSetStartNode(){
         for (Node[] na: nodeArray){
             for (Node n: na){
-                if (n.start){
+                if (n.isStart){
                     n.setAsStart();
                     startNode = n;
                     currentNode = startNode;
@@ -70,7 +70,7 @@ public class GridPanel extends JPanel {
     private void samSetGoalNode(){
         for (Node[] na: nodeArray){
             for (Node n: na){
-                if (n.goal){
+                if (n.isGoal){
                     n.setAsGoal();
                     goalNode = n;
 
@@ -84,7 +84,7 @@ public class GridPanel extends JPanel {
         int[][] map = new int[this.maxCol][this.maxRow];
         for (int i = 0; i < this.nodeArray.length; i++) {
             for (int j = 0; j < this.nodeArray[i].length; j++){
-                if (nodeArray[i][j].wall){
+                if (nodeArray[i][j].isWall){
                     map[i][j] = 1;
                 } else{
                     map[i][j] = 0;
@@ -102,7 +102,6 @@ public class GridPanel extends JPanel {
                 }
             }
         }
-
     }
 
     public void wipeGrid(){
@@ -119,8 +118,8 @@ public class GridPanel extends JPanel {
     public void resetSearch(){
         for (Node[] na: nodeArray){
             for (Node n: na){
-                if (!(n.start || n.goal || n.wall)){
-                    if (n.swamp){
+                if (!(n.isStart || n.isGoal || n.isWall)){
+                    if (n.isSwamp){
                         n.setAsSwamp();
                     } else{
                         n.setAsDefault();
@@ -149,9 +148,9 @@ public class GridPanel extends JPanel {
 
         //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-
         //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+
         new Thread(new Runnable() {
             public void run() {
                 try {

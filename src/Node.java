@@ -18,14 +18,17 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public double probabilityWeight;
 
     public int visitedCount;
-    public boolean start;
-    public boolean goal;
-    public boolean wall;
+    public boolean isStart;
+    public boolean isGoal;
 
-    public boolean swamp;
-    public boolean path;
-    public boolean open;
-    public boolean checked;
+    public boolean isWall;
+
+    public boolean isDefault;
+
+    public boolean isSwamp;
+    public boolean isPath;
+    public boolean isOpen;
+    public boolean isChecked;
 
     public Node(int col, int row){
         this.col = col;
@@ -46,46 +49,47 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         setAsDefault();
         setBackground(Color.green);
         this.weight = 0;
-        start = true;
+        isStart = true;
     }
 
     public void setAsGoal(){
         setAsDefault();
         setBackground(Color.red);
-        goal = true;
+        isGoal = true;
     }
 
     public void setAsWall(){
         setAsDefault();
         setBackground(Color.black);
-        wall = true;
+        isWall = true;
     }
 
     public void setAsSwamp(){
         setAsDefault();
         setBackground(new Color(113, 153, 44));
         this.weight = 5;
-        swamp = true;
+        isSwamp = true;
     }
 
     public void setAsDefault(){
         setBackground(Color.white);
-        start = false;
-        goal = false;
-        wall = false;
-        swamp = false;
-        path = false;
+        isDefault = true;
+        isStart = false;
+        isGoal = false;
+        isWall = false;
+        isSwamp = false;
+        isPath = false;
     }
 
     public void setAsPath(){
         setBackground(Color.blue);
-        path = true;
+        isPath = true;
     }
 
     public void setAsSearched(){
 
-        if (!this.start && !this.goal){
-            if (this.swamp){
+        if (!this.isStart && !this.isGoal){
+            if (this.isSwamp){
                 setBackground(new Color(181, 245, 71));
             } else{
                 setBackground(Color.orange);
@@ -95,7 +99,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     }
 
     public void setAsCurrentRandomWalk(){
-        if (!this.start && !this.goal){
+        if (!this.isStart && !this.isGoal){
             setBackground(new Color(255,0,255));
             this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
         }

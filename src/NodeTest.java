@@ -8,39 +8,39 @@ class NodeTest {
     void setAsStart() {
         Node n = new Node(1,2);
         n.setAsStart();
-        assertTrue(n.start);
+        assertTrue(n.isStart);
     }
 
     @Test
     void setAsGoal() {
         Node n = new Node(1,2);
         n.setAsGoal();
-        assertTrue(n.goal);
+        assertTrue(n.isGoal);
     }
 
     @Test
     void setAsWall() {
         Node n = new Node(1,2);
         n.setAsWall();
-        assertTrue(n.wall);
+        assertTrue(n.isWall);
     }
 
     @Test
     void setAsDefault() {
         Node n = new Node(1,2);
         n.setAsDefault();
-        assertFalse(n.start);
-        assertFalse(n.goal);
-        assertFalse(n.wall);
-        assertFalse(n.swamp);
-        assertFalse(n.path);
+        assertFalse(n.isStart);
+        assertFalse(n.isGoal);
+        assertFalse(n.isWall);
+        assertFalse(n.isSwamp);
+        assertFalse(n.isPath);
     }
 
     @Test
     void setAsPath() {
         Node n = new Node(1,2);
         n.setAsPath();
-        assertTrue(n.path);
+        assertTrue(n.isPath);
     }
 
     @Test

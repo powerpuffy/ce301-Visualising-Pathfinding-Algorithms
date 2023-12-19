@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 
 public class DFS {
@@ -39,7 +37,7 @@ public class DFS {
             Node cur = stack.pop();
             visitedList.add(cur);
 
-            if (cur.goal){
+            if (cur.isGoal){
                 backTrackPath();
                 break;
             }
@@ -72,28 +70,28 @@ public class DFS {
 
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.wall){
+            if (!uppernode.isWall){
                 neighbourList.add(uppernode);
             }
         }
 
         if (n.col + 1 < maxCol){
             Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.wall){
+            if (!rightnode.isWall){
                 neighbourList.add(rightnode);
             }
         }
 
         if (n.row + 1 < maxRow){
             Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.wall){
+            if (!downnode.isWall){
                 neighbourList.add(downnode);
             }
         }
 
         if (n.col - 1 >= 0){
             Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.wall){
+            if (!leftnode.isWall){
                 neighbourList.add(leftnode);
             }
         }

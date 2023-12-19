@@ -65,7 +65,7 @@ public class AStar {
 
             Node cur = openList.get(indexOfBestNode);
 
-            if (cur.goal){
+            if (cur.isGoal){
                 backTrackPath();
                 break;
             }
@@ -104,34 +104,30 @@ public class AStar {
 
         ArrayList<Node> neighbourList = new ArrayList<>();
 
-        //System.out.println(n);
-
-
-
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.wall){
+            if (!uppernode.isWall){
                 neighbourList.add(uppernode);
             }
         }
 
         if (n.col + 1 < maxCol){
             Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.wall){
+            if (!rightnode.isWall){
                 neighbourList.add(rightnode);
             }
         }
 
         if (n.row + 1 < maxRow){
             Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.wall){
+            if (!downnode.isWall){
                 neighbourList.add(downnode);
             }
         }
 
         if (n.col - 1 >= 0){
             Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.wall){
+            if (!leftnode.isWall){
                 neighbourList.add(leftnode);
             }
         }
@@ -144,15 +140,11 @@ public class AStar {
 
         while (cur != startNode){
             Thread.sleep(10);
-            //System.out.println(cur);
             cur = cur.parent;
-
             if (cur != startNode){
                 cur.setAsPath();
             }
-
         }
-
     }
 
 

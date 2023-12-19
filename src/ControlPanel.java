@@ -79,6 +79,7 @@ public class ControlPanel  extends JPanel {
         this.add(goButton);
 
         JTextField t = new JTextField(16);
+
         JButton saveButton = new JButton("Save Map");
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -89,7 +90,6 @@ public class ControlPanel  extends JPanel {
 
                         out.write("\n" + t.getText() + Arrays.deepToString(gridPanel.getMap()));
                         out.close();
-
 
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
@@ -156,6 +156,15 @@ public class ControlPanel  extends JPanel {
             }
         });
 
+        JButton mazeButton = new JButton("Generate Maze");
+        mazeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RandomizedPrims newMaze = new RandomizedPrims(gridPanel.nodeArray,maxCol,maxRow);
+                newMaze.generateMaze();
+            }
+        });
+
 
 
         this.add(t);
@@ -167,6 +176,7 @@ public class ControlPanel  extends JPanel {
         this.add(speedSlider);
         this.add(resetButton);
 
+        this.add(mazeButton);
     }
 
     public String getID(String s){
