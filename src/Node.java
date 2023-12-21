@@ -7,6 +7,8 @@ import java.util.Objects;
 public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public Node parent;
+
+    public Node frontierParent;
     public int col;
     public int row;
     public int gCost;

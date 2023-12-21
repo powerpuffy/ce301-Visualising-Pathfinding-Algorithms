@@ -85,7 +85,7 @@ public class AStar {
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHEuclidean(n,goalNode);
+                    n.hCost = calculateHManhattan(n,goalNode);
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;

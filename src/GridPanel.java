@@ -146,10 +146,10 @@ public class GridPanel extends JPanel {
         samSetStartNode();
         samSetGoalNode();
 
-        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
 
         new Thread(new Runnable() {
             public void run() {

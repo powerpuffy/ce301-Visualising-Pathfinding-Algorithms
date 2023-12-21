@@ -161,7 +161,16 @@ public class ControlPanel  extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RandomizedPrims newMaze = new RandomizedPrims(gridPanel.nodeArray,maxCol,maxRow);
-                newMaze.generateMaze();
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            newMaze.generateMaze();
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }).start();
+
             }
         });
 
