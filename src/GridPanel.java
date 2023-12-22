@@ -6,12 +6,12 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    public final int maxCol = 25;
+    public final int maxCol = 50;
 
-    public final int maxRow = 25;
+    public final int maxRow = 50;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 50;
+    final int nodeSize = 20;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -146,9 +146,9 @@ public class GridPanel extends JPanel {
         samSetStartNode();
         samSetGoalNode();
 
-        BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
 
         new Thread(new Runnable() {

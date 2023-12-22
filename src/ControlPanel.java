@@ -14,14 +14,20 @@ public class ControlPanel  extends JPanel {
 
     public static int algoSpeed = 90;
     static String currentselection;
-    final int maxCol = 25;
+    int maxCol;
 
-    final int maxRow = 25;
-    final int nodeSize = 30;
-    final int screenWidth = nodeSize * maxCol;
-    final int screenHeight = nodeSize * maxRow;
+    int maxRow;
+    int nodeSize;
+    int screenWidth;
+    int screenHeight;
 
     public ControlPanel(GridPanel gridPanel){
+        this.maxCol = gridPanel.maxCol;
+        this.maxRow = gridPanel.maxRow;
+        this.nodeSize = gridPanel.nodeSize;
+        this.screenWidth = gridPanel.screenWidth;
+        this.screenHeight = gridPanel.screenHeight;
+
         this.setPreferredSize(new Dimension(400,screenHeight));
         this.setBackground(Color.LIGHT_GRAY);
         this.setFocusable(false);

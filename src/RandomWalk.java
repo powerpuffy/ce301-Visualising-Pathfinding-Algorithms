@@ -93,7 +93,7 @@ public class RandomWalk {
         return d;
     }
 
-    public Node getRandomNode(ArrayList<Node> nodeList){
+    public Node getRandomNode (ArrayList<Node> nodeList){
         int random = (int) (Math.random() * (nodeList.size()));
         System.out.println("Random: " + random );
         return  nodeList.get(random);

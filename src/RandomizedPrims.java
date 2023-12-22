@@ -25,6 +25,7 @@ public class RandomizedPrims {
         for (Node[] na: nodeArray){
             for(Node n: na){
                 n.setAsWall();
+                //n.setBorderPainted(false);
             }
         }
     }
@@ -120,49 +121,28 @@ public class RandomizedPrims {
         setAllToWall();
 
         Node curNode = getRandomNodeFromGrid();
-        System.out.println(curNode);
         curNode.setAsDefault();
 
         ArrayList<Node> frontierList = getFrontierNodes(curNode);
 
-        /*
-        for (Node n: frontierList){
-            n.setAsDefault();
-        }
-
-         */
         for (Node n : frontierList){
             n.setBackground(new Color(169, 100, 217));
         }
 
-
-
-
         while (!frontierList.isEmpty()){
 
-            //Thread.sleep(ControlPanel.algoSpeed);
-            //Thread.sleep(5000);
 
-            int wallcount = 0;
-            int othercount = 0;
 
             for (Node n : frontierList){
-                if (n.isWall){
-                    n.setBackground(new Color(169, 100, 217));
-                    wallcount ++;
-                } else{
-                    othercount++;
-                }
-
-
+                n.setBackground(new Color(169, 100, 217));
             }
-
-            System.out.println("Number of wall nodes: " + wallcount + "     Number of other nodes: " + othercount);
 
             Node frontierNode = getRandomNode(frontierList);
             frontierList.remove(frontierNode);
 
-            Thread.sleep(200);
+            Thread.sleep(ControlPanel.algoSpeed);
+            //Thread.sleep(2000);
+
 
 
             frontierNode.setAsDefault();
@@ -173,13 +153,16 @@ public class RandomizedPrims {
             inbetweenNode.setAsDefault();
 
             //frontierList.addAll(getFrontierNodes(frontierNode));
+
             for (Node f: getFrontierNodes(frontierNode)){
                 if (!frontierList.contains(f)){
                     frontierList.add(f);
                 }
             }
-            System.out.println(frontierList);
-            //curNode = inbetweenNode;
+
+
+
+
         }
 
 
