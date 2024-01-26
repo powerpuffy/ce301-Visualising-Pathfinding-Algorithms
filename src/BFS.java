@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BFS {
+public class BFS extends PathfindingAlgorithm{
 
     ArrayList<Node> visitedList = new ArrayList<>();
 
@@ -24,10 +24,20 @@ public class BFS {
         this.maxRow = maxRow;
     }
 
+    public BFS(GridPanel gridPanel) {
+        this.startNode = gridPanel.startNode;
+        this.goalNode = gridPanel.goalNode;
+        this.currentNode = gridPanel.currentNode;
+        this.nodeArray = gridPanel.nodeArray;
+        this.maxCol = gridPanel.maxCol;
+        this.maxRow = gridPanel.maxRow;
+    }
+
 
     public void startSearch() throws InterruptedException {
 
         queue.add(startNode);
+        System.out.println(startNode);
         visitedList.add(startNode);
 
         while (!queue.isEmpty()){
@@ -115,6 +125,11 @@ public class BFS {
 
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "BFS";
     }
 
 

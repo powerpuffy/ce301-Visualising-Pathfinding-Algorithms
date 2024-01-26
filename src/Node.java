@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -99,6 +101,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
         }
     }
+
 
     public void setAsCurrentRandomWalk(){
         if (!this.isStart && !this.isGoal){

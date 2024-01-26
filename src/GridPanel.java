@@ -6,12 +6,12 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    public final int maxCol = 50;
+    public final int maxCol = 40;
 
-    public final int maxRow = 50;
+    public final int maxRow = 40;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 20;
+    final int nodeSize = 30;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -137,8 +137,24 @@ public class GridPanel extends JPanel {
         }
     }
 
+    public void enableBorders(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.setBorderPainted(true);
+            }
+        }
+    }
 
-    public void samSearch() throws InterruptedException {
+    public void disableBorders(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.setBorderPainted(false);
+            }
+        }
+    }
+
+
+    public void samSearch(String algoString) throws InterruptedException {
 
         resetSearch();
         resetButtonText();
@@ -146,15 +162,29 @@ public class GridPanel extends JPanel {
         samSetStartNode();
         samSetGoalNode();
 
+        //algo.setGridpanel(this);
+        PathfindingAlgorithm algo = null;
+        if (algoString.equals("A*")){
+            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("BFS")) {
+            algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("DFS")) {
+            algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("Random Walk")) {
+            algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else{
+            algo = null;
+        }
         //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         //RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
 
+        PathfindingAlgorithm finalAlgo = algo;
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    algo.startSearch();
+                    finalAlgo.startSearch();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

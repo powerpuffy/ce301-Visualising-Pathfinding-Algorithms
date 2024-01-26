@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AStar {
+public class AStar extends PathfindingAlgorithm{
 
 
 
@@ -25,6 +25,15 @@ public class AStar {
         this.nodeArray = nodeArray;
         this.maxCol = maxCol;
         this.maxRow = maxRow;
+    }
+
+    public AStar(GridPanel gridPanel) {
+        this.startNode = gridPanel.startNode;
+        this.goalNode = gridPanel.goalNode;
+        this.currentNode = gridPanel.currentNode;
+        this.nodeArray = gridPanel.nodeArray;
+        this.maxCol = gridPanel.maxCol;
+        this.maxRow = gridPanel.maxRow;
     }
 
     public int leastFIndex(ArrayList<Node> openList){
@@ -85,10 +94,11 @@ public class AStar {
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHManhattan(n,goalNode);
+                    n.hCost = calculateHEuclidean(n,goalNode);
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;
+                    //n.fCost = n.hCost;
                     openList.add(n);
                 }
             }
@@ -157,4 +167,8 @@ public class AStar {
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
     }
 
+    @Override
+    public String toString() {
+        return "A*";
+    }
 }

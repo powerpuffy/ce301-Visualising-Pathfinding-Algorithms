@@ -14,19 +14,20 @@ public class KeyHandler implements KeyListener {
 
     }
 
+
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
         if(code == KeyEvent.VK_ENTER){
-            try {
+
                 gp.resetSearch();
-                gp.samSearch();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+
+
         }
     }
+
+
 
     @Override
     public void keyReleased(KeyEvent e) {

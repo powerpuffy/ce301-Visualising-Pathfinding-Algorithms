@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class RandomWalk {
+public class RandomWalk extends PathfindingAlgorithm{
 
     Node startNode;
     Node goalNode;
@@ -102,8 +102,6 @@ public class RandomWalk {
 
 
     public static Node getRandomNodeBiased(ArrayList<Node> nodeList, Node cur){
-        //nodeList.remove(previousNode);
-        //previousNode.probabilityWeight = 1;
 
         // Reset all their probability weights back to 2
         for (Node n : nodeList){
@@ -116,7 +114,7 @@ public class RandomWalk {
         for (Node n : nodeList){
             if (n.equals(cur.parent)){
                 n.probabilityWeight = 0.1;
-                System.out.println("setting to 1");
+                //System.out.println("setting to 1");
             }
             totalProbabilityWeights += n.probabilityWeight;
         }
@@ -144,43 +142,6 @@ public class RandomWalk {
             }
         }
 
-
-        /*
-        double previousNodeProbabilityWeight = 1;
-        double node1ProbabilityWeight = 2;
-        double node2ProbabilityWeight = 2;
-        double node3ProbabilityWeight = 2;
-
-        // totalProbabilityWeights = (int) (previousNodeProbabilityWeight + node1ProbabilityWeight + node2ProbabilityWeight + node3ProbabilityWeight);
-
-
-        double previousNodeProbability = previousNodeProbabilityWeight / totalProbabilityWeights;
-        double node1Probability = node1ProbabilityWeight / totalProbabilityWeights;
-        double node2Probability = node2ProbabilityWeight / totalProbabilityWeights;
-        double node3Probability = node3ProbabilityWeight / totalProbabilityWeights;
-
-        System.out.println(previousNodeProbability);
-        System.out.println(node1Probability);
-        System.out.println(node2Probability);
-        System.out.println(node3Probability);
-
-         */
-
-
-        /*
-        System.out.println(nodeList);
-
-        if (random < (double) previousNode.probabilityWeight / totalProbabilityWeights){
-            return previousNode;
-        } else if(random < previousNodeProbability + node1Probability){
-            return nodeList.get(0);
-        } else if(random < previousNodeProbability + node1Probability + node2Probability){
-            return nodeList.get(1);
-        } else {
-            return nodeList.get(2);
-        }
-
-         */
         System.out.println("Returning null");
         return null;
     }

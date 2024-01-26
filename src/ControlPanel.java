@@ -64,13 +64,19 @@ public class ControlPanel  extends JPanel {
             }
         });
 
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.addItem("A*");
+        comboBox.addItem("BFS");
+        comboBox.addItem("DFS");
+        comboBox.addItem("Random Walk");
+
         JButton goButton = new JButton("GO");
         goButton.setPreferredSize(new Dimension(60,60));
         goButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    gridPanel.samSearch();
+                    gridPanel.samSearch((String) comboBox.getSelectedItem());
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -180,6 +186,31 @@ public class ControlPanel  extends JPanel {
             }
         });
 
+        JRadioButton enableBorder = new JRadioButton("Enable borders",true);
+        enableBorder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.enableBorders();
+            }
+        });
+
+        JRadioButton disableBorder = new JRadioButton("Disable borders");
+        disableBorder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.disableBorders();
+            }
+        });
+
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(enableBorder);
+        bg.add(disableBorder);
+
+
+
+
+
+
 
 
         this.add(t);
@@ -192,7 +223,15 @@ public class ControlPanel  extends JPanel {
         this.add(resetButton);
 
         this.add(mazeButton);
+
+        this.add(enableBorder);
+        this.add(disableBorder);
+
+        this.add(comboBox);
     }
+
+
+
 
     public String getID(String s){
         char[] ch = s.toCharArray();

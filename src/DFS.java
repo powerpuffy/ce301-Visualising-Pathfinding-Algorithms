@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class DFS {
+public class DFS extends PathfindingAlgorithm{
 
     ArrayList<Node> visitedList = new ArrayList<>();
 
@@ -14,6 +14,8 @@ public class DFS {
     int maxCol;
     int maxRow;
 
+
+
     public DFS(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         this.startNode = startNode;
         this.goalNode = goalNode;
@@ -21,6 +23,10 @@ public class DFS {
         this.nodeArray = nodeArray;
         this.maxCol = maxCol;
         this.maxRow = maxRow;
+    }
+
+    public DFS(GridPanel gridPanel) {
+        super();
     }
 
 
@@ -114,6 +120,11 @@ public class DFS {
 
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "DFS";
     }
 
 }
