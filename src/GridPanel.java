@@ -6,12 +6,12 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
-    public final int maxCol = 40;
+    public final int maxCol = 20;
 
-    public final int maxRow = 40;
+    public final int maxRow = 20;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 30;
+    final int nodeSize = 50;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -153,11 +153,22 @@ public class GridPanel extends JPanel {
         }
     }
 
+    public void resetAllParents(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.parent = null;
+                n.secondParent = null;
+            }
+        }
+    }
+
 
     public void samSearch(String algoString) throws InterruptedException {
 
         resetSearch();
         resetButtonText();
+        resetAllParents();
+
 
         samSetStartNode();
         samSetGoalNode();

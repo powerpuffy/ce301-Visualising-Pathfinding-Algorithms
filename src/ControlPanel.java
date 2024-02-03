@@ -157,6 +157,7 @@ public class ControlPanel  extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider)e.getSource();
                 algoSpeed = 101 - source.getValue();
+                //algoSpeed = 1000 - source.getValue();
             }
         });
 
@@ -176,7 +177,9 @@ public class ControlPanel  extends JPanel {
                 new Thread(new Runnable() {
                     public void run() {
                         try {
+                            gridPanel.resetButtonText();
                             newMaze.generateMaze();
+
                         } catch (InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -264,10 +267,11 @@ public class ControlPanel  extends JPanel {
         s = s.replaceAll("[^\\d.]", "");
         System.out.println(s);
 
+        //setting to maxRow... assuming it will always be a square
         int count = 0;
-        int[][] ar = new int[25][25];
-        for (int i = 0; i < 25; i++){
-            for (int j = 0; j < 25; j++){
+        int[][] ar = new int[maxRow][maxRow];
+        for (int i = 0; i < maxRow; i++){
+            for (int j = 0; j < maxRow; j++){
                 ar[i][j] = Integer.parseInt(String.valueOf(s.charAt(count)));
                 count++;
             }

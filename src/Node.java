@@ -10,6 +10,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public Node parent;
 
+    public Node secondParent;
+
     public Node frontierParent;
     public int col;
     public int row;
@@ -98,7 +100,31 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             } else{
                 setBackground(Color.orange);
             }
-            this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+            //this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+            if (this.secondParent != null){
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
+            }
+            else{
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+            }
+        }
+    }
+
+    public void setAsSearched2(){
+
+        if (!this.isStart && !this.isGoal){
+            if (this.isSwamp){
+                setBackground(new Color(181, 245, 71));
+            } else{
+                setBackground(Color.pink);
+            }
+            //this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+            if (this.secondParent != null){
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
+            }
+            else{
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+            }
         }
     }
 

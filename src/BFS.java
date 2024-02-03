@@ -4,13 +4,19 @@ import java.util.Queue;
 
 public class BFS extends PathfindingAlgorithm{
 
-    ArrayList<Node> visitedList = new ArrayList<>();
+    ArrayList<Node> visitedListStart = new ArrayList<>();
+    ArrayList<Node> visitedListGoal = new ArrayList<>();
 
-    Queue<Node> queue = new LinkedList<>();
+    Queue<Node> queueStart = new LinkedList<>();
+    Queue<Node> queueGoal = new LinkedList<>();
+
+    Boolean fromStart;
 
     Node startNode;
     Node goalNode;
     Node currentNode;
+
+    Node intersectionNode;
     Node[][] nodeArray;
     int maxCol;
     int maxRow;
@@ -33,7 +39,7 @@ public class BFS extends PathfindingAlgorithm{
         this.maxRow = gridPanel.maxRow;
     }
 
-
+    /*
     public void startSearch() throws InterruptedException {
 
         queue.add(startNode);
@@ -67,8 +73,115 @@ public class BFS extends PathfindingAlgorithm{
         }
 
         System.out.println("Queue is empty");
+    }
+
+     */
+
+    public void startSearch() throws InterruptedException {
+        queueStart.add(startNode);
+        System.out.println(startNode);
+        visitedListStart.add(startNode);
+
+        queueGoal.add(goalNode);
+        System.out.println(goalNode);
+        visitedListGoal.add(goalNode);
 
 
+        while (!queueStart.isEmpty() || !queueGoal.isEmpty()){
+
+            Thread.sleep(ControlPanel.algoSpeed);
+
+            Node curStart = null;
+            Node curGoal = null;
+
+
+            if (!queueStart.isEmpty()){
+                curStart = queueStart.remove();
+
+
+            }
+            
+            if (!queueGoal.isEmpty()){
+                curGoal = queueGoal.remove();
+            }
+
+
+            if (curStart != null){
+                curStart.setAsSearched();
+
+                if (intersects(curStart, visitedListStart, visitedListGoal)){
+                    System.out.println("from start");
+                    fromStart = true;
+                    //backTrackPath();
+                    backTrackPathToNode(intersectionNode,startNode);
+                    backTrackPathToNode(intersectionNode,goalNode);
+                    break;
+                }
+
+                ArrayList<Node> neighbourList = getNeighbours(curStart);
+
+                for (Node n: neighbourList){
+                    if (!visitedListStart.contains(n)){
+                        if (n.parent == null){
+                            n.parent = curStart;
+                        } else {
+                            n.secondParent = n.parent;
+                            n.parent = curStart;
+                        }
+                        queueStart.add(n);
+                        visitedListStart.add(n);
+                    }
+                }
+            }
+
+            //Thread.sleep(100);
+
+            if (curGoal != null){
+
+                curGoal.setAsSearched2();
+
+                if (intersects(curGoal, visitedListStart, visitedListGoal)){
+                    fromStart = false;
+                    System.out.println("from goal");
+                    //backTrackPath();
+
+                    backTrackPathToNode(intersectionNode,startNode);
+                    backTrackPathToNode(intersectionNode,goalNode);
+                    break;
+                }
+
+                ArrayList<Node> neighbourList2 = getNeighbours(curGoal);
+
+                for (Node n: neighbourList2){
+                    if (!visitedListGoal.contains(n)){
+                        if (n.parent == null){
+                            n.parent = curGoal;
+                        } else {
+                            n.secondParent = curGoal;
+                        }
+
+                        queueGoal.add(n);
+                        visitedListGoal.add(n);
+                    }
+                }
+            }
+        }
+        System.out.println("Queue is empty");
+    }
+
+    public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
+        if (visitedList1.contains(n) && visitedList2.contains(n)){
+            intersectionNode = n;
+
+            System.out.println("Intersection node: " + intersectionNode);
+
+            System.out.println("Intersection node parent: " + intersectionNode.parent);
+            System.out.println("Intersection node secondParent: " + intersectionNode.secondParent);
+
+            return true;
+        } else{
+            return false;
+        }
     }
 
     public ArrayList<Node> getNeighbours(Node n){
@@ -111,17 +224,56 @@ public class BFS extends PathfindingAlgorithm{
     }
 
     public void backTrackPath() throws InterruptedException {
-        Node cur = goalNode;
+        Node cur = intersectionNode;
+        System.out.println("Intersection node: " + intersectionNode);
 
-        while (cur != startNode){
+
+        while (cur != goalNode){
             Thread.sleep(10);
+            System.out.println("Backtrack");
             System.out.println(cur);
             //System.out.println("DASdas");
-            cur = cur.parent;
+            cur = cur.secondParent;
+            System.out.println(cur);
+            //cur.setAsPath();
 
-            if (cur != startNode){
+
+            if (cur != goalNode){
                 cur.setAsPath();
             }
+
+
+
+        }
+
+    }
+
+    public void backTrackPathToNode(Node start, Node goal) throws InterruptedException {
+        Node cur = start;
+        //System.out.println("Intersection node: " + intersectionNode);
+        if (goal.isStart){
+            cur = cur.parent;
+        } else if (goal.isGoal){
+            cur = cur.secondParent;
+        }
+
+        while (cur != goal){
+            Thread.sleep(10);
+            System.out.println("Backtrack2");
+            System.out.println(cur);
+            //System.out.println("DASdas");
+
+
+            cur = cur.parent;
+            System.out.println(cur);
+            //cur.setAsPath();
+
+
+            if (cur != goal){
+                cur.setAsPath();
+            }
+
+
 
         }
 
