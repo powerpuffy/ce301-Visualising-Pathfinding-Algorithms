@@ -107,12 +107,10 @@ public class BFS extends PathfindingAlgorithm{
 
 
             if (curStart != null){
-                curStart.setAsSearched();
 
+                curStart.setAsSearched();
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
-                    fromStart = true;
-                    //backTrackPath();
                     backTrackPathToNode(intersectionNode,startNode);
                     backTrackPathToNode(intersectionNode,goalNode);
                     break;
@@ -134,17 +132,11 @@ public class BFS extends PathfindingAlgorithm{
                 }
             }
 
-            //Thread.sleep(100);
-
             if (curGoal != null){
 
                 curGoal.setAsSearched2();
-
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
-                    fromStart = false;
                     System.out.println("from goal");
-                    //backTrackPath();
-
                     backTrackPathToNode(intersectionNode,startNode);
                     backTrackPathToNode(intersectionNode,goalNode);
                     break;
@@ -177,7 +169,7 @@ public class BFS extends PathfindingAlgorithm{
 
             System.out.println("Intersection node parent: " + intersectionNode.parent);
             System.out.println("Intersection node secondParent: " + intersectionNode.secondParent);
-
+            intersectionNode.setAsIntersectedPath();
             return true;
         } else{
             return false;
@@ -189,8 +181,6 @@ public class BFS extends PathfindingAlgorithm{
         ArrayList<Node> neighbourList = new ArrayList<>();
 
         System.out.println(n);
-
-
 
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
@@ -227,22 +217,12 @@ public class BFS extends PathfindingAlgorithm{
         Node cur = intersectionNode;
         System.out.println("Intersection node: " + intersectionNode);
 
-
         while (cur != goalNode){
             Thread.sleep(10);
-            System.out.println("Backtrack");
-            System.out.println(cur);
-            //System.out.println("DASdas");
             cur = cur.secondParent;
-            System.out.println(cur);
-            //cur.setAsPath();
-
-
             if (cur != goalNode){
                 cur.setAsPath();
             }
-
-
 
         }
 
@@ -250,31 +230,22 @@ public class BFS extends PathfindingAlgorithm{
 
     public void backTrackPathToNode(Node start, Node goal) throws InterruptedException {
         Node cur = start;
-        //System.out.println("Intersection node: " + intersectionNode);
+
         if (goal.isStart){
             cur = cur.parent;
         } else if (goal.isGoal){
             cur = cur.secondParent;
         }
+        cur.setAsPath();
 
         while (cur != goal){
             Thread.sleep(10);
-            System.out.println("Backtrack2");
-            System.out.println(cur);
-            //System.out.println("DASdas");
-
 
             cur = cur.parent;
-            System.out.println(cur);
-            //cur.setAsPath();
-
 
             if (cur != goal){
                 cur.setAsPath();
             }
-
-
-
         }
 
     }

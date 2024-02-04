@@ -6,6 +6,10 @@ public class GridPanel extends JPanel {
 
     //SCREEN SETTINGS
 
+    public boolean isDisplayText;
+    public boolean isCostText;
+    public boolean isPositionText;
+
     public final int maxCol = 20;
 
     public final int maxRow = 20;
@@ -129,6 +133,16 @@ public class GridPanel extends JPanel {
         }
     }
 
+    public void resetCosts(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.gCost = 0;
+                n.hCost = 0;
+                n.fCost = 0;
+            }
+        }
+    }
+
     public void resetButtonText(){
         for (Node[] na: nodeArray){
             for (Node n: na){
@@ -162,12 +176,38 @@ public class GridPanel extends JPanel {
         }
     }
 
+    public void disableText(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.disableText();
+            }
+        }
+    }
+
+    public void enableCostText(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.enableCostText();
+            }
+        }
+    }
+
+    public void enablePositionText(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                n.enablePositionText();
+            }
+        }
+    }
+
+
 
     public void samSearch(String algoString) throws InterruptedException {
 
         resetSearch();
         resetButtonText();
         resetAllParents();
+        resetCosts();
 
 
         samSetStartNode();

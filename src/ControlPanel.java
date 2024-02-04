@@ -157,7 +157,6 @@ public class ControlPanel  extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider)e.getSource();
                 algoSpeed = 101 - source.getValue();
-                //algoSpeed = 1000 - source.getValue();
             }
         });
 
@@ -205,14 +204,39 @@ public class ControlPanel  extends JPanel {
             }
         });
 
-        ButtonGroup bg=new ButtonGroup();
-        bg.add(enableBorder);
-        bg.add(disableBorder);
+        ButtonGroup borderButtonGroup = new ButtonGroup();
+        borderButtonGroup.add(enableBorder);
+        borderButtonGroup.add(disableBorder);
 
 
+        JRadioButton noText = new JRadioButton("No Text",true);
+        noText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.disableText();
+            }
+        });
 
+        JRadioButton costText = new JRadioButton("Display Costs");
+        costText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.enableCostText();
+            }
+        });
 
+        JRadioButton positionText = new JRadioButton("Display Coordinates");
+        positionText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridPanel.enablePositionText();
+            }
+        });
 
+        ButtonGroup textButtonGroup = new ButtonGroup();
+        textButtonGroup.add(noText);
+        textButtonGroup.add(costText);
+        textButtonGroup.add(positionText);
 
 
 
@@ -231,6 +255,10 @@ public class ControlPanel  extends JPanel {
         this.add(disableBorder);
 
         this.add(comboBox);
+
+        this.add(noText);
+        this.add(costText);
+        this.add(positionText);
     }
 
 

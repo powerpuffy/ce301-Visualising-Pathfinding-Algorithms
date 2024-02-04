@@ -33,6 +33,12 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public boolean isSwamp;
     public boolean isPath;
+
+    public boolean isSearched;
+
+    public boolean isCostTextEnabled;
+
+    public boolean isPositionTextEnabled;
     public boolean isOpen;
     public boolean isChecked;
 
@@ -85,6 +91,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         isWall = false;
         isSwamp = false;
         isPath = false;
+        isSearched = false;
     }
 
     public void setAsPath(){
@@ -92,21 +99,34 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         isPath = true;
     }
 
+    public void setAsIntersectedPath(){
+        setBackground(new Color(122, 214, 247));
+        isPath = true;
+    }
+
     public void setAsSearched(){
 
+        this.isSearched = true;
         if (!this.isStart && !this.isGoal){
             if (this.isSwamp){
                 setBackground(new Color(181, 245, 71));
             } else{
                 setBackground(Color.orange);
             }
-            //this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
-            if (this.secondParent != null){
-                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
+
+            if (isCostTextEnabled){
+                this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
             }
-            else{
-                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+
+            if (isPositionTextEnabled){
+                if (this.secondParent != null){
+                    this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
+                }
+                else{
+                    this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+                }
             }
+
         }
     }
 
@@ -127,6 +147,34 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             }
         }
     }
+
+    public void disableText(){
+        isCostTextEnabled = false;
+        isPositionTextEnabled = false;
+        this.deleteText();
+    }
+
+    public void enableCostText(){
+        isPositionTextEnabled = false;
+        isCostTextEnabled = true;
+        if (isSearched && !this.isStart && !this.isGoal){
+            this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+        }
+    }
+
+    public void enablePositionText(){
+        isCostTextEnabled = false;
+        isPositionTextEnabled = true;
+        if (isSearched && !this.isStart && !this.isGoal){
+            if (this.secondParent != null){
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
+            }
+            else{
+                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+            }
+        }
+    }
+
 
 
     public void setAsCurrentRandomWalk(){
