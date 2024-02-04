@@ -97,8 +97,6 @@ public class BFS extends PathfindingAlgorithm{
 
             if (!queueStart.isEmpty()){
                 curStart = queueStart.remove();
-
-
             }
             
             if (!queueGoal.isEmpty()){
@@ -134,7 +132,8 @@ public class BFS extends PathfindingAlgorithm{
 
             if (curGoal != null){
 
-                curGoal.setAsSearched2();
+                curGoal.isFromGoal = true;
+                curGoal.setAsSearched();
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     backTrackPathToNode(intersectionNode,startNode);

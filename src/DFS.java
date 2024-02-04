@@ -3,13 +3,18 @@ import java.util.Stack;
 
 public class DFS extends PathfindingAlgorithm{
 
-    ArrayList<Node> visitedList = new ArrayList<>();
+    ArrayList<Node> visitedListStart = new ArrayList<>();
 
-    Stack<Node> stack = new Stack<>();
+    ArrayList<Node> visitedListGoal = new ArrayList<>();
+
+    Stack<Node> stackStart = new Stack<>();
+
+    Stack<Node> stackGoal = new Stack<>();
 
     Node startNode;
     Node goalNode;
     Node currentNode;
+    Node intersectionNode;
     Node[][] nodeArray;
     int maxCol;
     int maxRow;
@@ -29,7 +34,7 @@ public class DFS extends PathfindingAlgorithm{
         super();
     }
 
-
+    /*
     public void startSearch() throws InterruptedException {
 
         stack.add(startNode);
@@ -63,16 +68,96 @@ public class DFS extends PathfindingAlgorithm{
 
         System.out.println("Stack is empty");
 
-
     }
+
+     */
+
+    public void startSearch() throws InterruptedException {
+
+        stackStart.add(startNode);
+        visitedListStart.add(startNode);
+
+        stackGoal.add(goalNode);
+        visitedListGoal.add(goalNode);
+
+        while (!stackStart.isEmpty() || !stackGoal.isEmpty()){
+            Thread.sleep(ControlPanel.algoSpeed);
+            System.out.println(stackStart);
+
+            Node curStart = null;
+            Node curGoal = null;
+
+            if (!stackStart.isEmpty()){
+                curStart = stackStart.pop();
+                visitedListStart.add(curStart);
+            }
+
+            if (!stackGoal.isEmpty()){
+                curGoal = stackGoal.pop();
+                visitedListGoal.add(curGoal);
+            }
+
+            if (curStart != null){
+
+                curStart.setAsSearched();
+                if (intersects(curStart, visitedListStart, visitedListGoal)){
+                    System.out.println("from start");
+                    backTrackPathToNode(intersectionNode,startNode);
+                    backTrackPathToNode(intersectionNode,goalNode);
+                    break;
+                }
+
+                ArrayList<Node> neighbourList = getNeighbours(curStart);
+
+                for (Node n: neighbourList){
+                    if (!visitedListStart.contains(n)){
+                        if (n.parent == null){
+                            n.parent = curStart;
+                        } else {
+                            n.secondParent = n.parent;
+                            n.parent = curStart;
+                        }
+                        stackStart.add(n);
+                        visitedListStart.add(n);
+                    }
+                }
+            }
+
+            if (curGoal != null){
+
+                curGoal.isFromGoal = true;
+                curGoal.setAsSearched();
+                if (intersects(curGoal, visitedListStart, visitedListGoal)){
+                    System.out.println("from goal");
+                    backTrackPathToNode(intersectionNode,startNode);
+                    backTrackPathToNode(intersectionNode,goalNode);
+                    break;
+                }
+
+                ArrayList<Node> neighbourList2 = getNeighbours(curGoal);
+
+                for (Node n: neighbourList2){
+                    if (!visitedListGoal.contains(n)){
+                        if (n.parent == null){
+                            n.parent = curGoal;
+                        } else {
+                            n.secondParent = curGoal;
+                        }
+
+                        stackGoal.add(n);
+                        visitedListGoal.add(n);
+                    }
+                }
+            }
+        }
+
+        System.out.println("Stack is empty");
+    }
+
 
     public ArrayList<Node> getNeighbours(Node n){
 
         ArrayList<Node> neighbourList = new ArrayList<>();
-
-        //System.out.println(n);
-
-
 
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
@@ -119,7 +204,42 @@ public class DFS extends PathfindingAlgorithm{
             }
 
         }
+    }
 
+    public void backTrackPathToNode(Node start, Node goal) throws InterruptedException {
+        Node cur = start;
+
+        if (goal.isStart){
+            cur = cur.parent;
+        } else if (goal.isGoal){
+            cur = cur.secondParent;
+        }
+        cur.setAsPath();
+
+        while (cur != goal){
+            Thread.sleep(10);
+
+            cur = cur.parent;
+
+            if (cur != goal){
+                cur.setAsPath();
+            }
+        }
+    }
+
+    public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
+        if (visitedList1.contains(n) && visitedList2.contains(n)){
+            intersectionNode = n;
+
+            System.out.println("Intersection node: " + intersectionNode);
+
+            System.out.println("Intersection node parent: " + intersectionNode.parent);
+            System.out.println("Intersection node secondParent: " + intersectionNode.secondParent);
+            intersectionNode.setAsIntersectedPath();
+            return true;
+        } else{
+            return false;
+        }
     }
 
     @Override

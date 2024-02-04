@@ -39,6 +39,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public boolean isCostTextEnabled;
 
     public boolean isPositionTextEnabled;
+
+    public boolean isFromGoal;
     public boolean isOpen;
     public boolean isChecked;
 
@@ -92,6 +94,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         isSwamp = false;
         isPath = false;
         isSearched = false;
+        isFromGoal = false;
     }
 
     public void setAsPath(){
@@ -110,7 +113,9 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         if (!this.isStart && !this.isGoal){
             if (this.isSwamp){
                 setBackground(new Color(181, 245, 71));
-            } else{
+            } else if (this.isFromGoal){
+                setBackground(Color.pink);
+            }else{
                 setBackground(Color.orange);
             }
 
@@ -127,24 +132,6 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
                 }
             }
 
-        }
-    }
-
-    public void setAsSearched2(){
-
-        if (!this.isStart && !this.isGoal){
-            if (this.isSwamp){
-                setBackground(new Color(181, 245, 71));
-            } else{
-                setBackground(Color.pink);
-            }
-            //this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
-            if (this.secondParent != null){
-                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
-            }
-            else{
-                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
-            }
         }
     }
 
