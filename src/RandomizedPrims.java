@@ -31,14 +31,9 @@ public class RandomizedPrims {
     }
 
     private Node getRandomNodeFromGrid(){
-        int count = 0;
-        for (Node[] na: nodeArray){
-            for(Node n: na){
-                count++;
-            }
-        }
 
-        int random = (int) (Math.random() * count);
+        int numberOfNodes = maxCol * maxRow;
+        int random = (int) (Math.random() * numberOfNodes);
         int row = Math.floorDiv(random,maxRow);
         int col = random - (row * maxCol);
 
@@ -78,12 +73,6 @@ public class RandomizedPrims {
             if (leftnode.isWall){
                 leftnode.frontierParent = n;
                 frontierList.add(leftnode);
-            }
-        }
-
-        for (Node x: frontierList){
-            if (!x.isWall){
-                System.out.println("not a wall");
             }
         }
 
@@ -160,14 +149,58 @@ public class RandomizedPrims {
                 }
             }
 
-
-
-
         }
 
+    }
+
+    public void generateMazeQuick() throws InterruptedException {
+        setAllToWall();
+
+        Node curNode = getRandomNodeFromGrid();
+        curNode.setAsDefault();
+
+        ArrayList<Node> frontierList = getFrontierNodes(curNode);
+
+        /*
+        for (Node n : frontierList){
+            n.setBackground(new Color(169, 100, 217));
+        }
+
+         */
+
+        while (!frontierList.isEmpty()){
 
 
 
+            /*
+            for (Node n : frontierList){
+                n.setBackground(new Color(169, 100, 217));
+            }
+
+             */
+
+            Node frontierNode = getRandomNode(frontierList);
+            frontierList.remove(frontierNode);
+
+
+
+
+            frontierNode.setAsDefault();
+
+
+            Node inbetweenNode = getInbetweenNode(frontierNode.frontierParent,frontierNode);
+            //System.out.println("First Node: " + frontierNode.frontierParent + "   Inbetween Node: " + inbetweenNode + "   Frontier Node" + frontierNode);
+            inbetweenNode.setAsDefault();
+
+            //frontierList.addAll(getFrontierNodes(frontierNode));
+
+            for (Node f: getFrontierNodes(frontierNode)){
+                if (!frontierList.contains(f)){
+                    frontierList.add(f);
+                }
+            }
+
+        }
 
     }
 

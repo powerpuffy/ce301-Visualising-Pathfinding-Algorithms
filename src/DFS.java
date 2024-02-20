@@ -72,7 +72,7 @@ public class DFS extends PathfindingAlgorithm{
 
      */
 
-    public void startSearch() throws InterruptedException {
+    public void startSearch(boolean isFast) throws InterruptedException {
 
         stackStart.add(startNode);
         visitedListStart.add(startNode);
@@ -81,7 +81,13 @@ public class DFS extends PathfindingAlgorithm{
         visitedListGoal.add(goalNode);
 
         while (!stackStart.isEmpty() || !stackGoal.isEmpty()){
-            Thread.sleep(ControlPanel.algoSpeed);
+
+            if (isFast){
+                Thread.sleep(1);
+            } else{
+                Thread.sleep(ControlPanel.algoSpeed);
+            }
+
             System.out.println(stackStart);
 
             Node curStart = null;
@@ -102,8 +108,8 @@ public class DFS extends PathfindingAlgorithm{
                 curStart.setAsSearched();
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
-                    backTrackPathToNode(intersectionNode,startNode);
-                    backTrackPathToNode(intersectionNode,goalNode);
+                    backTrackPathToNode(intersectionNode,startNode, isFast);
+                    backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
                 }
 
@@ -129,8 +135,8 @@ public class DFS extends PathfindingAlgorithm{
                 curGoal.setAsSearched();
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
-                    backTrackPathToNode(intersectionNode,startNode);
-                    backTrackPathToNode(intersectionNode,goalNode);
+                    backTrackPathToNode(intersectionNode,startNode, isFast);
+                    backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
                 }
 
@@ -206,7 +212,7 @@ public class DFS extends PathfindingAlgorithm{
         }
     }
 
-    public void backTrackPathToNode(Node start, Node goal) throws InterruptedException {
+    public void backTrackPathToNode(Node start, Node goal, boolean isFast) throws InterruptedException {
         Node cur = start;
 
         if (goal.isStart){
@@ -214,10 +220,18 @@ public class DFS extends PathfindingAlgorithm{
         } else if (goal.isGoal){
             cur = cur.secondParent;
         }
-        cur.setAsPath();
+
+        if (!cur.isGoal && !cur.isStart){
+            cur.setAsPath();
+        }
+
 
         while (cur != goal){
-            Thread.sleep(10);
+            if(isFast){
+                Thread.sleep(2);
+            } else{
+                Thread.sleep(10);
+            }
 
             cur = cur.parent;
 

@@ -10,7 +10,7 @@ import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class ControlPanel  extends JPanel {
+public class ControlPanel extends JPanel {
 
     public static int algoSpeed = 90;
     static String currentselection;
@@ -259,6 +259,8 @@ public class ControlPanel  extends JPanel {
         this.add(noText);
         this.add(costText);
         this.add(positionText);
+
+        this.add(new ComparisonPanel(gridPanel));
     }
 
 

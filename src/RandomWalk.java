@@ -27,7 +27,7 @@ public class RandomWalk extends PathfindingAlgorithm{
         this.maxRow = maxRow;
     }
 
-    public void startSearch() throws InterruptedException {
+    public void startSearch(boolean isFast) throws InterruptedException {
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
 
@@ -49,7 +49,13 @@ public class RandomWalk extends PathfindingAlgorithm{
             }
 
             cur.visitedCount += 1;
-            Thread.sleep(ControlPanel.algoSpeed);
+
+            if (isFast){
+                Thread.sleep(0);
+            } else{
+                Thread.sleep(ControlPanel.algoSpeed);
+            }
+
             ArrayList<Node> neighbourList = getNeighbours(cur);
             cur.setAsSearched();
 

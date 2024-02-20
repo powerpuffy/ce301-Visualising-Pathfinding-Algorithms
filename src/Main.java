@@ -14,6 +14,7 @@ public class Main {
         GridPanel gp = new GridPanel();
         window.add(gp, BorderLayout.CENTER);
         window.add(new ControlPanel(gp), BorderLayout.EAST);
+        //window.add(new ComparisonPanel(gp), BorderLayout.WEST);
         window.setFocusable(false);
 
         window.pack();

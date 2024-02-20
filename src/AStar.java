@@ -55,7 +55,10 @@ public class AStar extends PathfindingAlgorithm{
     }
 
 
-    public void startSearch() throws InterruptedException {
+    public void startSearch(boolean isFast) throws InterruptedException {
+        long start = System.nanoTime();
+
+
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
 
@@ -66,7 +69,14 @@ public class AStar extends PathfindingAlgorithm{
 
         while (!openList.isEmpty()){
             System.out.println("SPEED : "  + ControlPanel.algoSpeed);
-            Thread.sleep(ControlPanel.algoSpeed);
+
+            if (isFast){
+                Thread.sleep(1);
+            } else{
+                Thread.sleep(ControlPanel.algoSpeed);
+            }
+
+
             //System.out.println("in while loop");
             System.out.println("open list size: " + openList.size());
 
@@ -75,7 +85,11 @@ public class AStar extends PathfindingAlgorithm{
             Node cur = openList.get(indexOfBestNode);
 
             if (cur.isGoal){
-                backTrackPath();
+                long finish = System.nanoTime();
+                double timeElapsed = (double) (finish - start) / 1000000000;
+                System.out.println(timeElapsed);
+
+                backTrackPath(isFast);
                 break;
             }
 
@@ -94,7 +108,7 @@ public class AStar extends PathfindingAlgorithm{
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHEuclidean(n,goalNode);
+                    n.hCost = calculateHManhattan(n,goalNode);
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;
@@ -145,11 +159,16 @@ public class AStar extends PathfindingAlgorithm{
         return neighbourList;
     }
 
-    public void backTrackPath() throws InterruptedException {
+    public void backTrackPath(boolean isFast) throws InterruptedException {
         Node cur = goalNode;
 
         while (cur != startNode){
-            Thread.sleep(10);
+            if (isFast){
+                Thread.sleep(1);
+            } else{
+                Thread.sleep(10);
+            }
+
             cur = cur.parent;
             if (cur != startNode){
                 cur.setAsPath();

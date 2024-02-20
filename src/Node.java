@@ -56,6 +56,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         setBackground(Color.white);
         setForeground(Color.black);
 
+
+
         addActionListener(this);
     }
 
@@ -76,6 +78,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
         setAsDefault();
         setBackground(Color.black);
         isWall = true;
+        isDefault = false;
     }
 
     public void setAsSwamp(){
@@ -166,8 +169,16 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public void setAsCurrentRandomWalk(){
         if (!this.isStart && !this.isGoal){
+
+
+
+
             setBackground(new Color(255,0,255));
-            this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+
+            if (isCostTextEnabled){
+                this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+            }
+
         }
     }
 

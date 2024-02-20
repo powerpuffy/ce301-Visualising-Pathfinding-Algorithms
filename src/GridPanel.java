@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GridPanel extends JPanel {
 
@@ -10,12 +13,12 @@ public class GridPanel extends JPanel {
     public boolean isCostText;
     public boolean isPositionText;
 
-    public final int maxCol = 20;
+    public final int maxCol = 40;
 
-    public final int maxRow = 20;
+    public final int maxRow = 40;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 50;
+    final int nodeSize = 30;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -200,9 +203,51 @@ public class GridPanel extends JPanel {
         }
     }
 
+    public void disableButtons(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                //n.setEnabled(false);
+
+                for( ActionListener al : n.getActionListeners() ) {
+                    n.removeActionListener( al );
+                }
+            }
+        }
+    }
+
+    public void enableButtons(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                //n.setEnabled(true);
+                n.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (Objects.equals(ControlPanel.currentselection, "start")){
+                            n.setAsStart();
+                        }
+
+                        if (Objects.equals(ControlPanel.currentselection, "goal")){
+                            n.setAsGoal();
+                        }
+
+                        if (Objects.equals(ControlPanel.currentselection, "wall")){
+                            n.setAsWall();
+                        }
+
+                        if (Objects.equals(ControlPanel.currentselection, "swamp")){
+                            n.setAsSwamp();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
 
     public void samSearch(String algoString) throws InterruptedException {
+
+        disableButtons();
 
         resetSearch();
         resetButtonText();
@@ -210,8 +255,15 @@ public class GridPanel extends JPanel {
         resetCosts();
 
 
+
+        startNode = null;
+        goalNode = null;
+        boolean isFast = false;
+
         samSetStartNode();
         samSetGoalNode();
+
+
 
         //algo.setGridpanel(this);
         PathfindingAlgorithm algo = null;
@@ -235,12 +287,114 @@ public class GridPanel extends JPanel {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    finalAlgo.startSearch();
+                    finalAlgo.startSearch(isFast);
+                    enableButtons();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
+
+
+    }
+
+
+    public void samSearchComparison(String algoString, String algoString2, int numOfRuns) throws InterruptedException {
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    for (int i = 0; i < numOfRuns; i++){
+
+                        startNode = null;
+                        goalNode = null;
+                        boolean isFast = true;
+
+                        disableButtons();
+                        resetSearch();
+                        resetButtonText();
+                        resetAllParents();
+                        resetCosts();
+
+                        wipeGrid();
+                        RandomizedPrims rp = new RandomizedPrims(nodeArray,maxCol,maxRow);
+                        rp.generateMazeQuick();
+
+                        setRandomStartNode();
+                        setRandomGoalNode();
+                        samSetStartNode();
+                        samSetGoalNode();
+
+                        //algo.setGridpanel(this);
+                        PathfindingAlgorithm algo = null;
+                        if (algoString.equals("A*")){
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("BFS")) {
+                            algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("DFS")) {
+                            algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("Random Walk")) {
+                            algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else{
+                            algo = null;
+                        }
+
+
+                        PathfindingAlgorithm finalAlgo = algo;
+                        finalAlgo.startSearch(isFast);
+
+
+                        resetSearch();
+                        resetButtonText();
+                        resetAllParents();
+                        resetCosts();
+
+                        if (algoString2.equals("A*")){
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("BFS")) {
+                            algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("DFS")) {
+                            algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("Random Walk")) {
+                            algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else{
+                            algo = null;
+                        }
+
+                        PathfindingAlgorithm finalAlgo2 = algo;
+                        finalAlgo2.startSearch(isFast);
+
+                        enableButtons();
+                    }
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+
+    }
+
+    public void setRandomStartNode(){
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                if (n.isDefault){
+                    n.setAsStart();
+                    return;
+                }
+            }
+        }
+    }
+
+    public void setRandomGoalNode(){
+        for (int i = nodeArray.length-1; i > 0; i--){
+            for (int j = nodeArray[i].length-1; j > 0; j--){
+                if (nodeArray[i][j].isDefault){
+                    nodeArray[i][j].setAsGoal();
+                    return;
+                }
+            }
+        }
     }
 
     private void setGoalNode(int col, int row){
