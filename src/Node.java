@@ -245,8 +245,14 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             return 1;
         }else if(this.fCost < o.fCost){
             return -1;
-        } else{
-            return 0;
+        } else {
+            if (this.hCost > o.hCost){
+                return 1;
+            } else if (this.hCost < o.hCost) {
+                return -1;
+            } else{
+                return 0;
+            }
         }
 
     }

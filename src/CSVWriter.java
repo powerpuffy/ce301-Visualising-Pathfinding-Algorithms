@@ -14,6 +14,10 @@ public class CSVWriter {
     public void writeToCSV(List<PathfindingData> pathfindingDataList) {
         try (FileWriter writer = new FileWriter(file, true)) {
 
+            String home = System.getProperty("user.home");
+            home = home + "\\Downloads";
+            System.out.println(home);
+
             File myfile = new File(file);
 
 

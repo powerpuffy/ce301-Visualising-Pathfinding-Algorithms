@@ -51,16 +51,21 @@ public class AStar extends PathfindingAlgorithm{
 
         int indexOfBestNode = 0;
         int maxFCost = 1000;
+        int maxHCost = 1000;
 
         for (Node n: openList){
             //System.out.println(n);
             if (n.fCost < maxFCost){
                 maxFCost = n.fCost;
-                indexOfBestNode = openList.indexOf(n);
+                if(n.hCost < maxHCost){
+
+                    maxHCost = n.hCost;
+                    indexOfBestNode = openList.indexOf(n);
+                }
+
             }
         }
 
-        System.out.println("wow");
         System.out.println(openList.get(indexOfBestNode));
         return indexOfBestNode;
     }
@@ -99,10 +104,13 @@ public class AStar extends PathfindingAlgorithm{
 
             //System.out.println("in while loop");
             System.out.println("open list size: " + openList.size());
+            System.out.println(openList);
 
-            int indexOfBestNode = leastFIndex(openList);
+            //int indexOfBestNode = leastFIndex(openList);
+            //System.out.println(indexOfBestNode);
 
-            Node cur = openList.get(indexOfBestNode);
+            //Node cur = openList.get(indexOfBestNode);
+            Node cur = openList.get(0);
 
             if (cur.isGoal){
                 endTime = System.nanoTime();
@@ -116,7 +124,7 @@ public class AStar extends PathfindingAlgorithm{
             cur.setAsSearched();
             numOfNodesVisited += 1;
 
-            openList.remove(indexOfBestNode);
+            openList.remove(0);
             System.out.println("open list size after remove: " + openList.size());
             closedList.add(cur);
 
@@ -129,7 +137,7 @@ public class AStar extends PathfindingAlgorithm{
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHManhattan(n,goalNode);
+                    n.hCost = calculateHEuclidean(n,goalNode);
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;

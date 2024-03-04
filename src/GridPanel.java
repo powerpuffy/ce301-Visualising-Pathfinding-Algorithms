@@ -13,12 +13,12 @@ public class GridPanel extends JPanel {
     public boolean isCostText;
     public boolean isPositionText;
 
-    public final int maxCol = 50;
+    public final int maxCol = 25;
 
-    public final int maxRow = 50;
+    public final int maxRow = 25;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 20;
+    final int nodeSize = 50;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
