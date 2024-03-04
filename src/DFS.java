@@ -3,10 +3,12 @@ import java.util.Stack;
 
 public class DFS extends PathfindingAlgorithm{
 
+    ArrayList<Node> visitedList = new ArrayList<>();
     ArrayList<Node> visitedListStart = new ArrayList<>();
 
     ArrayList<Node> visitedListGoal = new ArrayList<>();
 
+    Stack<Node> stack = new Stack<>();
     Stack<Node> stackStart = new Stack<>();
 
     Stack<Node> stackGoal = new Stack<>();
@@ -18,6 +20,18 @@ public class DFS extends PathfindingAlgorithm{
     Node[][] nodeArray;
     int maxCol;
     int maxRow;
+
+    double startTime ;
+    double endTime ;
+
+    String algorithm = this.getClass().getSimpleName();
+
+    int totalNumOfNodes;
+    int numOfNodesVisited;
+    int numOfNodesToGoal;
+
+    double elapsedTime;
+
 
 
 
@@ -74,6 +88,15 @@ public class DFS extends PathfindingAlgorithm{
 
     public void startSearch(boolean isFast) throws InterruptedException {
 
+        startTime = System.nanoTime();
+        endTime = 0.0;
+
+        totalNumOfNodes = this.maxCol * this.maxRow;
+        numOfNodesVisited = 0;
+        numOfNodesToGoal = 0;
+
+        elapsedTime = 0.0;
+
         stackStart.add(startNode);
         visitedListStart.add(startNode);
 
@@ -106,8 +129,13 @@ public class DFS extends PathfindingAlgorithm{
             if (curStart != null){
 
                 curStart.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
+                    endTime = System.nanoTime();
+                    elapsedTime = (double) (endTime - startTime) / 1000000000;
+
+                    numOfNodesToGoal += 2;
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -135,6 +163,10 @@ public class DFS extends PathfindingAlgorithm{
                 curGoal.setAsSearched();
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
+                    endTime = System.nanoTime();
+                    elapsedTime = (double) (endTime - startTime) / 1000000000;
+
+                    numOfNodesToGoal += 2;
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -196,19 +228,21 @@ public class DFS extends PathfindingAlgorithm{
         return neighbourList;
     }
 
-    public void backTrackPath() throws InterruptedException {
+    public void backTrackPath(boolean isFast) throws InterruptedException {
         Node cur = goalNode;
 
         while (cur != startNode){
-            Thread.sleep(10);
-            System.out.println(cur);
-            //System.out.println("DASdas");
-            cur = cur.parent;
-
-            if (cur != startNode){
-                cur.setAsPath();
+            if(isFast){
+                Thread.sleep(1);
+            } else{
+                Thread.sleep(10);
             }
 
+            cur = cur.parent;
+            if (cur != startNode){
+                cur.setAsPath();
+                numOfNodesToGoal += 1;
+            }
         }
     }
 
@@ -223,6 +257,7 @@ public class DFS extends PathfindingAlgorithm{
 
         if (!cur.isGoal && !cur.isStart){
             cur.setAsPath();
+            numOfNodesToGoal += 1;
         }
 
 
@@ -237,6 +272,7 @@ public class DFS extends PathfindingAlgorithm{
 
             if (cur != goal){
                 cur.setAsPath();
+                numOfNodesToGoal += 1;
             }
         }
     }
@@ -254,6 +290,10 @@ public class DFS extends PathfindingAlgorithm{
         } else{
             return false;
         }
+    }
+
+    public PathfindingData getPathfindingDataObject(){
+        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
     }
 
     @Override

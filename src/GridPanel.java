@@ -13,12 +13,12 @@ public class GridPanel extends JPanel {
     public boolean isCostText;
     public boolean isPositionText;
 
-    public final int maxCol = 40;
+    public final int maxCol = 50;
 
-    public final int maxRow = 40;
+    public final int maxRow = 50;
 
     // Change back to size 30. Increasing for debug
-    final int nodeSize = 30;
+    final int nodeSize = 20;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
@@ -269,10 +269,16 @@ public class GridPanel extends JPanel {
         PathfindingAlgorithm algo = null;
         if (algoString.equals("A*")){
             algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("Dijkstra")) {
+            algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         } else if (algoString.equals("BFS")) {
             algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("BFS - Bidirectional")) {
+            algo = new BFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         } else if (algoString.equals("DFS")) {
             algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        } else if (algoString.equals("DFS - Bidirectional")) {
+            algo = new DFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         } else if (algoString.equals("Random Walk")) {
             algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         } else{
@@ -325,14 +331,23 @@ public class GridPanel extends JPanel {
                         samSetStartNode();
                         samSetGoalNode();
 
+                        ArrayList<PathfindingData> pathfindingDataArrayList = new ArrayList<>();
+                        CSVWriter myCSVWriter = new CSVWriter();
+
                         //algo.setGridpanel(this);
                         PathfindingAlgorithm algo = null;
                         if (algoString.equals("A*")){
                             algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("Dijkstra")) {
+                            algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString.equals("BFS")) {
                             algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("BFS - Bidirectional")) {
+                            algo = new BFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString.equals("DFS")) {
                             algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString.equals("DFS - Bidirectional")) {
+                            algo = new DFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString.equals("Random Walk")) {
                             algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else{
@@ -343,6 +358,15 @@ public class GridPanel extends JPanel {
                         PathfindingAlgorithm finalAlgo = algo;
                         finalAlgo.startSearch(isFast);
 
+                        PathfindingData data = finalAlgo.getPathfindingDataObject();
+                        data.run = i+1;
+                        System.out.println(data);
+
+                        pathfindingDataArrayList.add(data);
+
+
+
+
 
                         resetSearch();
                         resetButtonText();
@@ -351,10 +375,16 @@ public class GridPanel extends JPanel {
 
                         if (algoString2.equals("A*")){
                             algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("Dijkstra")) {
+                            algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString2.equals("BFS")) {
                             algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("BFS - Bidirectional")) {
+                            algo = new BFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString2.equals("DFS")) {
                             algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        } else if (algoString2.equals("DFS - Bidirectional")) {
+                            algo = new DFSBidirectional(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString2.equals("Random Walk")) {
                             algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else{
@@ -364,7 +394,16 @@ public class GridPanel extends JPanel {
                         PathfindingAlgorithm finalAlgo2 = algo;
                         finalAlgo2.startSearch(isFast);
 
+                        data = finalAlgo2.getPathfindingDataObject();
+                        data.run = i+1;
+                        System.out.println(data);
+
+                        pathfindingDataArrayList.add(data);
+
+
+                        myCSVWriter.writeToCSV(pathfindingDataArrayList);
                         enableButtons();
+
                     }
 
                 } catch (InterruptedException e) {

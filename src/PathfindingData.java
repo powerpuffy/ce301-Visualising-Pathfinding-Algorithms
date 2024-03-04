@@ -1,4 +1,6 @@
 public class PathfindingData {
+
+    int run;
     String algorithm;
     String map;
 
@@ -29,6 +31,6 @@ public class PathfindingData {
     }
 
     public String toCSV() {
-        return algorithm + "," + totalNumOfNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime;
+        return run + "," + algorithm + "," + totalNumOfNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime;
     }
 }

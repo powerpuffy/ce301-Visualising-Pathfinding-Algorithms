@@ -26,14 +26,20 @@ public class ComparisonPanel extends JPanel {
 
         JComboBox<String> comaprisonBox1 = new JComboBox<>();
         comaprisonBox1.addItem("A*");
+        comaprisonBox1.addItem("Dijkstra");
         comaprisonBox1.addItem("BFS");
+        comaprisonBox1.addItem("BFS - Bidirectional");
         comaprisonBox1.addItem("DFS");
+        comaprisonBox1.addItem("DFS - Bidirectional");
         comaprisonBox1.addItem("Random Walk");
 
         JComboBox<String> comaprisonBox2 = new JComboBox<>();
         comaprisonBox2.addItem("A*");
+        comaprisonBox2.addItem("Dijkstra");
         comaprisonBox2.addItem("BFS");
+        comaprisonBox2.addItem("BFS - Bidirectional");
         comaprisonBox2.addItem("DFS");
+        comaprisonBox2.addItem("DFS - Bidirectional");
         comaprisonBox2.addItem("Random Walk");
 
         JTextField t2 = new JTextField(16);

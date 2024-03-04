@@ -89,6 +89,11 @@ public class RandomWalk extends PathfindingAlgorithm{
         }
     }
 
+    @Override
+    PathfindingData getPathfindingDataObject() {
+        return null;
+    }
+
     public static double normaliseVisitedCount(int visitedCount, int minimumVisitedCount, int maximumVisitedCount){
         //System.out.println(visitedCount);
         //System.out.println(minimumVisitedCount);

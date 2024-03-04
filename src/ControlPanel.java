@@ -66,8 +66,11 @@ public class ControlPanel extends JPanel {
 
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem("A*");
+        comboBox.addItem("Dijkstra");
         comboBox.addItem("BFS");
+        comboBox.addItem("BFS - Bidirectional");
         comboBox.addItem("DFS");
+        comboBox.addItem("DFS - Bidirectional");
         comboBox.addItem("Random Walk");
 
         JButton goButton = new JButton("GO");

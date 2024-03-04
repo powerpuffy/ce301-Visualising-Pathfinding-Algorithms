@@ -18,6 +18,17 @@ public class AStar extends PathfindingAlgorithm{
     ArrayList<Node> closedList = new ArrayList<>();
     ArrayList<Node> successorList = new ArrayList<>();
 
+    double startTime ;
+    double endTime ;
+
+    String algorithm = this.getClass().getSimpleName();
+
+    int totalNumOfNodes;
+    int numOfNodesVisited;
+    int numOfNodesToGoal;
+
+    double elapsedTime;
+
     public AStar(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         this.startNode = startNode;
         this.goalNode = goalNode;
@@ -56,7 +67,16 @@ public class AStar extends PathfindingAlgorithm{
 
 
     public void startSearch(boolean isFast) throws InterruptedException {
-        long start = System.nanoTime();
+
+        startTime = System.nanoTime();
+        endTime = 0.0;
+
+        totalNumOfNodes = this.maxCol * this.maxRow;
+        numOfNodesVisited = 0;
+        numOfNodesToGoal = 0;
+
+        elapsedTime = 0.0;
+
 
 
         ArrayList<Node> openList = new ArrayList<>();
@@ -85,15 +105,16 @@ public class AStar extends PathfindingAlgorithm{
             Node cur = openList.get(indexOfBestNode);
 
             if (cur.isGoal){
-                long finish = System.nanoTime();
-                double timeElapsed = (double) (finish - start) / 1000000000;
-                System.out.println(timeElapsed);
+                endTime = System.nanoTime();
+                elapsedTime = (double) (endTime - startTime) / 1000000000;
 
+                numOfNodesToGoal += 1;
                 backTrackPath(isFast);
                 break;
             }
 
             cur.setAsSearched();
+            numOfNodesVisited += 1;
 
             openList.remove(indexOfBestNode);
             System.out.println("open list size after remove: " + openList.size());
@@ -122,6 +143,10 @@ public class AStar extends PathfindingAlgorithm{
 
 
         System.out.println("ended");
+    }
+
+    public PathfindingData getPathfindingDataObject(){
+        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
     }
 
     public ArrayList<Node> getNeighbours(Node n){
@@ -172,6 +197,7 @@ public class AStar extends PathfindingAlgorithm{
             cur = cur.parent;
             if (cur != startNode){
                 cur.setAsPath();
+                numOfNodesToGoal += 1;
             }
         }
     }

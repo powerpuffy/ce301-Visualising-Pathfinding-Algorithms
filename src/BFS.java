@@ -4,9 +4,11 @@ import java.util.Queue;
 
 public class BFS extends PathfindingAlgorithm{
 
+    ArrayList<Node> visitedList = new ArrayList<>();
     ArrayList<Node> visitedListStart = new ArrayList<>();
     ArrayList<Node> visitedListGoal = new ArrayList<>();
 
+    Queue<Node> queue = new LinkedList<>();
     Queue<Node> queueStart = new LinkedList<>();
     Queue<Node> queueGoal = new LinkedList<>();
 
@@ -20,6 +22,17 @@ public class BFS extends PathfindingAlgorithm{
     Node[][] nodeArray;
     int maxCol;
     int maxRow;
+
+    double startTime ;
+    double endTime ;
+
+    String algorithm = this.getClass().getSimpleName();
+
+    int totalNumOfNodes;
+    int numOfNodesVisited;
+    int numOfNodesToGoal;
+
+    double elapsedTime;
 
     public BFS(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         this.startNode = startNode;
@@ -38,6 +51,7 @@ public class BFS extends PathfindingAlgorithm{
         this.maxCol = gridPanel.maxCol;
         this.maxRow = gridPanel.maxRow;
     }
+
 
     /*
     public void startSearch() throws InterruptedException {
@@ -77,7 +91,21 @@ public class BFS extends PathfindingAlgorithm{
 
      */
 
+
+
+    // this is bidircetional
     public void startSearch(boolean isFast) throws InterruptedException {
+
+        startTime = System.nanoTime();
+        endTime = 0.0;
+
+        totalNumOfNodes = this.maxCol * this.maxRow;
+        numOfNodesVisited = 0;
+        numOfNodesToGoal = 0;
+
+        elapsedTime = 0.0;
+
+
         queueStart.add(startNode);
         System.out.println(startNode);
         visitedListStart.add(startNode);
@@ -111,8 +139,13 @@ public class BFS extends PathfindingAlgorithm{
             if (curStart != null){
 
                 curStart.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
+                    endTime = System.nanoTime();
+                    elapsedTime = (double) (endTime - startTime) / 1000000000;
+
+                    numOfNodesToGoal += 2;
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -138,8 +171,13 @@ public class BFS extends PathfindingAlgorithm{
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
+                    endTime = System.nanoTime();
+                    elapsedTime = (double) (endTime - startTime) / 1000000000;
+
+                    numOfNodesToGoal += 2;
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -163,6 +201,7 @@ public class BFS extends PathfindingAlgorithm{
         }
         System.out.println("Queue is empty");
     }
+
 
     public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
         if (visitedList1.contains(n) && visitedList2.contains(n)){
@@ -216,19 +255,22 @@ public class BFS extends PathfindingAlgorithm{
         return neighbourList;
     }
 
-    public void backTrackPath() throws InterruptedException {
-        Node cur = intersectionNode;
-        System.out.println("Intersection node: " + intersectionNode);
+    public void backTrackPath(boolean isFast) throws InterruptedException {
+        Node cur = goalNode;
 
-        while (cur != goalNode){
-            Thread.sleep(10);
-            cur = cur.secondParent;
-            if (cur != goalNode){
-                cur.setAsPath();
+        while (cur != startNode){
+            if(isFast){
+                Thread.sleep(1);
+            } else{
+                Thread.sleep(10);
             }
 
+            cur = cur.parent;
+            if (cur != startNode){
+                cur.setAsPath();
+                numOfNodesToGoal += 1;
+            }
         }
-
     }
 
     public void backTrackPathToNode(Node start, Node goal, boolean isFast) throws InterruptedException {
@@ -243,10 +285,10 @@ public class BFS extends PathfindingAlgorithm{
 
         if (!cur.isGoal && !cur.isStart){
             cur.setAsPath();
+            numOfNodesToGoal += 1;
         }
 
         while (cur != goal){
-
             if(isFast){
                 Thread.sleep(1);
             } else{
@@ -258,9 +300,14 @@ public class BFS extends PathfindingAlgorithm{
 
             if (cur != goal){
                 cur.setAsPath();
+                numOfNodesToGoal += 1;
             }
         }
 
+    }
+
+    public PathfindingData getPathfindingDataObject(){
+        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
     }
 
     @Override
