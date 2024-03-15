@@ -1,14 +1,6 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class ControlPanel extends JPanel {
 
@@ -21,6 +13,38 @@ public class ControlPanel extends JPanel {
     int screenWidth;
     int screenHeight;
 
+    public ControlPanel(GridPanel gridPanel){
+        this.maxCol = gridPanel.maxCol;
+        this.maxRow = gridPanel.maxRow;
+        this.nodeSize = gridPanel.nodeSize;
+        this.screenWidth = gridPanel.screenWidth;
+        this.screenHeight = gridPanel.screenHeight;
+
+
+
+        this.setPreferredSize(new Dimension(400,screenHeight));
+        this.setBackground(Color.LIGHT_GRAY);
+        this.setFocusable(false);
+
+        this.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        this.add(new ButtonPanel(gridPanel));
+
+        this.add(new SliderPanel(gridPanel));
+
+        this.add(new RadioPanel(gridPanel));
+
+        this.add(new MazePanel(gridPanel));
+
+        this.add(new MapPanel(gridPanel));
+
+        this.add(new ComparisonPanel(gridPanel));
+
+
+
+    }
+
+    /*
     public ControlPanel(GridPanel gridPanel){
         this.maxCol = gridPanel.maxCol;
         this.maxRow = gridPanel.maxRow;
@@ -53,6 +77,14 @@ public class ControlPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 currentselection = "wall";
+            }
+        });
+
+        JButton defaultNodeButton = new JButton("Clear Node");
+        defaultNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentselection = "default";
             }
         });
 
@@ -90,6 +122,7 @@ public class ControlPanel extends JPanel {
         this.add(startNodeButton);
         this.add(goalNodeButton);
         this.add(wallNodeButton);
+        this.add(defaultNodeButton);
         this.add(swampNodeButton);
         this.add(goButton);
 
@@ -265,6 +298,8 @@ public class ControlPanel extends JPanel {
 
         this.add(new ComparisonPanel(gridPanel));
     }
+
+     */
 
 
 

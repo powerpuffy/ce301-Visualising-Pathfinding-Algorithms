@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -234,6 +235,10 @@ public class GridPanel extends JPanel {
                             n.setAsWall();
                         }
 
+                        if (Objects.equals(ControlPanel.currentselection, "default")){
+                            n.setAsDefault();
+                        }
+
                         if (Objects.equals(ControlPanel.currentselection, "swamp")){
                             n.setAsSwamp();
                         }
@@ -305,7 +310,7 @@ public class GridPanel extends JPanel {
     }
 
 
-    public void samSearchComparison(String algoString, String algoString2, int numOfRuns) throws InterruptedException {
+    public void samSearchComparison(String algoString, String algoString2, int numOfRuns, File file) throws InterruptedException {
 
         new Thread(new Runnable() {
             public void run() {
@@ -332,7 +337,7 @@ public class GridPanel extends JPanel {
                         samSetGoalNode();
 
                         ArrayList<PathfindingData> pathfindingDataArrayList = new ArrayList<>();
-                        CSVWriter myCSVWriter = new CSVWriter();
+                        CSVWriter myCSVWriter = new CSVWriter(file);
 
                         //algo.setGridpanel(this);
                         PathfindingAlgorithm algo = null;
@@ -360,6 +365,9 @@ public class GridPanel extends JPanel {
 
                         PathfindingData data = finalAlgo.getPathfindingDataObject();
                         data.run = i+1;
+                        data.maxCol = maxCol;
+                        data.maxRow = maxRow;
+                        data.seed = rp.seed;
                         System.out.println(data);
 
                         pathfindingDataArrayList.add(data);
@@ -396,6 +404,9 @@ public class GridPanel extends JPanel {
 
                         data = finalAlgo2.getPathfindingDataObject();
                         data.run = i+1;
+                        data.maxCol = maxCol;
+                        data.maxRow = maxRow;
+                        data.seed = rp.seed;
                         System.out.println(data);
 
                         pathfindingDataArrayList.add(data);

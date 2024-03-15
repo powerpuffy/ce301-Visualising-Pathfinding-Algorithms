@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RandomizedPrims {
 
@@ -12,11 +13,24 @@ public class RandomizedPrims {
     int maxCol;
     int maxRow;
 
+    long seed;
+
+    Random rng;
 
     public RandomizedPrims(Node[][] nodeArray, int maxCol, int maxRow) {
         this.nodeArray = nodeArray;
         this.maxCol = maxCol;
         this.maxRow = maxRow;
+        this.rng = new Random();
+        this.seed = rng.nextLong();
+    }
+
+    public RandomizedPrims(Node[][] nodeArray, int maxCol, int maxRow, long seed) {
+        this.nodeArray = nodeArray;
+        this.maxCol = maxCol;
+        this.maxRow = maxRow;
+        this.rng = new Random(seed);
+        System.out.println(this.rng);
     }
 
 
@@ -32,12 +46,19 @@ public class RandomizedPrims {
 
     private Node getRandomNodeFromGrid(){
 
+        //System.out.println(maxCol);
+        //System.out.println(maxRow);
         int numberOfNodes = maxCol * maxRow;
-        int random = (int) (Math.random() * numberOfNodes);
-        int row = Math.floorDiv(random,maxRow);
-        int col = random - (row * maxCol);
 
-        return nodeArray[row][col];
+        //int random = (int) (Math.random() * numberOfNodes);
+        int random = (int) (rng.nextFloat() * numberOfNodes);
+        int row = random % maxRow;
+        int col = random % maxCol;
+
+        //System.out.println(row);
+        //System.out.println(col);
+
+        return nodeArray[col][row];
     }
 
 
@@ -80,7 +101,8 @@ public class RandomizedPrims {
     }
 
     public Node getRandomNode(ArrayList<Node> nodeList){
-        int random = (int) (Math.random() * (nodeList.size()));
+        //int random = (int) (Math.random() * (nodeList.size()));
+        int random = (int) (rng.nextFloat() * nodeList.size());
         //System.out.println("Random: " + random );
         return  nodeList.get(random);
     }
@@ -154,6 +176,9 @@ public class RandomizedPrims {
     }
 
     public void generateMazeQuick() throws InterruptedException {
+
+        System.out.println(seed);
+
         setAllToWall();
 
         Node curNode = getRandomNodeFromGrid();

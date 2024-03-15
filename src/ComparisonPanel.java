@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class ComparisonPanel extends JPanel {
 
@@ -56,7 +58,24 @@ public class ComparisonPanel extends JPanel {
                         numberOfRuns = Integer.parseInt(t2.getText());
                     }
 
-                    gridPanel.samSearchComparison((String) comaprisonBox1.getSelectedItem(),(String) comaprisonBox2.getSelectedItem(), numberOfRuns);
+                    File file = null;
+                    JFileChooser fileChooser = new JFileChooser();
+
+                    // restrict the user to select files of all types
+                    fileChooser.setAcceptAllFileFilterUsed(false);
+
+
+
+                    // only allow files of .txt extension
+                    FileNameExtensionFilter restrict = new FileNameExtensionFilter("CSV File", "csv");
+                    fileChooser.addChoosableFileFilter(restrict);
+
+                    if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                        file = new File(fileChooser.getSelectedFile() + ".csv");
+
+                    }
+
+                    gridPanel.samSearchComparison((String) comaprisonBox1.getSelectedItem(),(String) comaprisonBox2.getSelectedItem(), numberOfRuns, file);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }

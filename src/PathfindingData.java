@@ -1,7 +1,12 @@
+import java.util.Arrays;
+
 public class PathfindingData {
 
     int run;
     String algorithm;
+
+    int maxCol;
+    int maxRow;
     String map;
 
     int totalNumOfNodes;
@@ -9,6 +14,8 @@ public class PathfindingData {
     int numOfNodesToGoal;
 
     double elapsedTime;
+
+    long seed;
 
     public PathfindingData(String algorithm, int totalNumOfNodes, int numOfNodesVisited, int numOfNodesToGoal, double elapsedTime) {
         this.algorithm = algorithm;
@@ -18,19 +25,23 @@ public class PathfindingData {
         this.elapsedTime = elapsedTime;
     }
 
-
     @Override
     public String toString() {
         return "PathfindingData{" +
-                "algorithm='" + algorithm + '\'' +
-                ", totalNumOfNodes='" + totalNumOfNodes + '\'' +
+                "run=" + run +
+                ", algorithm='" + algorithm + '\'' +
+                ", maxCol=" + maxCol +
+                ", maxRow=" + maxRow +
+                ", map='" + map + '\'' +
+                ", totalNumOfNodes=" + totalNumOfNodes +
                 ", numOfNodesVisited=" + numOfNodesVisited +
                 ", numOfNodesToGoal=" + numOfNodesToGoal +
                 ", elapsedTime=" + elapsedTime +
+                ", seed=" + seed +
                 '}';
     }
 
     public String toCSV() {
-        return run + "," + algorithm + "," + totalNumOfNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime;
+        return run + "," + algorithm + "," + maxCol + "x" + maxRow + "," + totalNumOfNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime + "," + seed;
     }
 }

@@ -7,18 +7,23 @@ import java.util.List;
 
 public class CSVWriter {
 
-    String file = "samcsv.csv";
+    //String file = "samcsv.csv";
 
-    String header = "Run number, Algorithm, totalNumOfNodes, numOfNodesVisited, numOfNodesToGoal, elapsedTime" ;
+    String header = "Run number,Algorithm,Grid Shape,totalNumOfNodes,numOfNodesVisited,numOfNodesToGoal,elapsedTime,seed" ;
+
+
+    File file;
+
+    public CSVWriter(File file){
+        this.file = file;
+    }
 
     public void writeToCSV(List<PathfindingData> pathfindingDataList) {
         try (FileWriter writer = new FileWriter(file, true)) {
 
-            String home = System.getProperty("user.home");
-            home = home + "\\Downloads";
-            System.out.println(home);
 
-            File myfile = new File(file);
+            //File myfile = new File(file);
+            File myfile = file;
 
 
             if (myfile.length() == 0) {
@@ -30,6 +35,7 @@ public class CSVWriter {
             }
 
             writer.close();
+            System.out.println("Written to " + file.getAbsolutePath());
             System.out.println("Data written to CSV successfully");
 
         } catch (IOException e) {

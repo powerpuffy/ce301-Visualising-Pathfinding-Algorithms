@@ -228,6 +228,10 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             setAsWall();
         }
 
+        if (Objects.equals(ControlPanel.currentselection, "default")){
+            setAsDefault();
+        }
+
         if (Objects.equals(ControlPanel.currentselection, "swamp")){
             setAsSwamp();
         }
