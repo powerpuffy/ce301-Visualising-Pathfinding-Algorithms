@@ -1,3 +1,8 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.util.Node;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +18,7 @@ public class RandomizedPrims {
     int maxCol;
     int maxRow;
 
-    long seed;
+    public long seed;
 
     Random rng;
 
@@ -160,7 +165,7 @@ public class RandomizedPrims {
 
 
             Node inbetweenNode = getInbetweenNode(frontierNode.frontierParent,frontierNode);
-            //System.out.println("First Node: " + frontierNode.frontierParent + "   Inbetween Node: " + inbetweenNode + "   Frontier Node" + frontierNode);
+            //System.out.println("First main.java.com.sam.util.Node: " + frontierNode.frontierParent + "   Inbetween main.java.com.sam.util.Node: " + inbetweenNode + "   Frontier main.java.com.sam.util.Node" + frontierNode);
             inbetweenNode.setAsDefault();
 
             //frontierList.addAll(getFrontierNodes(frontierNode));
@@ -187,7 +192,7 @@ public class RandomizedPrims {
         ArrayList<Node> frontierList = getFrontierNodes(curNode);
 
         /*
-        for (Node n : frontierList){
+        for (main.java.com.sam.util.Node n : frontierList){
             n.setBackground(new Color(169, 100, 217));
         }
 
@@ -198,7 +203,7 @@ public class RandomizedPrims {
 
 
             /*
-            for (Node n : frontierList){
+            for (main.java.com.sam.util.Node n : frontierList){
                 n.setBackground(new Color(169, 100, 217));
             }
 
@@ -214,7 +219,7 @@ public class RandomizedPrims {
 
 
             Node inbetweenNode = getInbetweenNode(frontierNode.frontierParent,frontierNode);
-            //System.out.println("First Node: " + frontierNode.frontierParent + "   Inbetween Node: " + inbetweenNode + "   Frontier Node" + frontierNode);
+            //System.out.println("First main.java.com.sam.util.Node: " + frontierNode.frontierParent + "   Inbetween main.java.com.sam.util.Node: " + inbetweenNode + "   Frontier main.java.com.sam.util.Node" + frontierNode);
             inbetweenNode.setAsDefault();
 
             //frontierList.addAll(getFrontierNodes(frontierNode));

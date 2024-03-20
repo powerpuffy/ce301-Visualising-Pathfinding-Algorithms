@@ -1,3 +1,5 @@
+import main.java.com.sam.util.Node;
+
 public class Settings {
 
     final int maxCol = 25;

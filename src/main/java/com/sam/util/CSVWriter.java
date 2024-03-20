@@ -1,8 +1,10 @@
+package main.java.com.sam.util;
+
+import main.java.com.sam.data.PathfindingData;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 public class CSVWriter {

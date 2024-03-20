@@ -1,3 +1,10 @@
+package main.java.com.sam.ui;
+
+import main.java.com.sam.algorithms.*;
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.util.CSVWriter;
+import main.java.com.sam.util.Node;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,31 +31,40 @@ public class GridPanel extends JPanel {
     final int screenHeight = nodeSize * maxRow;
 
     //NODE
-    Node[][] nodeArray = new Node[maxCol][maxRow];
+    public Node[][] nodeArray = new Node[maxCol][maxRow];
 
-    public static Node startNode;
-    static Node goalNode;
-    static Node currentNode;
+    public  Node startNode;
+    public Node goalNode;
+    public Node currentNode;
 
     ArrayList<Node> openList = new ArrayList<>();
     ArrayList<Node> checkedList = new ArrayList<>();
 
     boolean goalReached = false;
 
+    TextPanel tp;
 
+    public Node getStartNode() {
+        return startNode;
+    }
+
+    public Node getGoalNode() {
+        return goalNode;
+    }
+
+    public Node getCurrentNode() {
+        return currentNode;
+    }
 
     public GridPanel(){
-        ControlPanel cp = new ControlPanel(this);
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
         this.setLayout(new GridLayout(maxRow,maxCol));
-        this.addKeyListener(new KeyHandler(this));
+
         this.setFocusable(true);
 
-        //PLACE NODES
         int col = 0;
         int row = 0;
-
         while (col < maxCol && row < maxRow){
 
             nodeArray[col][row] = new Node(col,row);
@@ -60,7 +76,6 @@ public class GridPanel extends JPanel {
                 row++;
             }
         }
-
     }
 
     private void samSetStartNode(){
@@ -81,7 +96,6 @@ public class GridPanel extends JPanel {
                 if (n.isGoal){
                     n.setAsGoal();
                     goalNode = n;
-
                 }
             }
         }
@@ -102,6 +116,7 @@ public class GridPanel extends JPanel {
         return map;
     }
 
+    // could alter so it just loops through node array taking values from map array?
     public void fillMap(int[][] maparray){
         for (int i = 0; i < maparray.length; i++) {
             for (int j = 0; j < maparray[i].length; j++){
@@ -186,6 +201,12 @@ public class GridPanel extends JPanel {
                 n.disableText();
             }
         }
+        /*
+        Arrays.stream(nodeArray)
+                .flatMap(Arrays::stream)
+                .forEach(main.java.com.sam.util.Node::disableText);
+
+         */
     }
 
     public void enableCostText(){
@@ -215,6 +236,23 @@ public class GridPanel extends JPanel {
             }
         }
     }
+
+    public int getNumOfVisitableNodes(){
+        int count = 0;
+        for (Node[] na: nodeArray){
+            for (Node n: na){
+                if (n.isDefault || n.isSwamp){
+                    count += 1;
+                }
+            }
+        }
+        return count;
+    }
+
+    public void setTextPanelReference(TextPanel tp){
+        this.tp = tp;
+    }
+
 
     public void enableButtons(){
         for (Node[] na: nodeArray){
@@ -268,7 +306,13 @@ public class GridPanel extends JPanel {
         samSetStartNode();
         samSetGoalNode();
 
+        if (startNode == null){
+            JOptionPane.showMessageDialog(null, "Cannot search without a start node");
+            enableButtons();
+            return;
+        }
 
+        System.out.println("hey");
 
         //algo.setGridpanel(this);
         PathfindingAlgorithm algo = null;
@@ -289,16 +333,20 @@ public class GridPanel extends JPanel {
         } else{
             algo = null;
         }
-        //BFS algo = new BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        //DFS algo = new DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        //AStar algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-        //RandomWalk algo = new RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //main.java.sam.algorithms.BFS algo = new main.java.sam.algorithms.BFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //main.java.sam.algorithms.DFS algo = new main.java.sam.algorithms.DFS(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //Algorithms.AStar algo = new Algorithms.AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        //main.java.com.sam.algorithms.RandomWalk algo = new main.java.com.sam.algorithms.RandomWalk(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
 
         PathfindingAlgorithm finalAlgo = algo;
         new Thread(new Runnable() {
             public void run() {
                 try {
                     finalAlgo.startSearch(isFast);
+                    PathfindingData data = finalAlgo.getPathfindingDataObject();
+                    //Panels.TextPanel.setPanelData(data);
+                    tp.setPanelData(data);
+                    System.out.println(data);
                     enableButtons();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -364,10 +412,10 @@ public class GridPanel extends JPanel {
                         finalAlgo.startSearch(isFast);
 
                         PathfindingData data = finalAlgo.getPathfindingDataObject();
-                        data.run = i+1;
-                        data.maxCol = maxCol;
-                        data.maxRow = maxRow;
-                        data.seed = rp.seed;
+                        data.setRun(i + 1);
+                        data.setMaxCol(maxCol);
+                        data.setMaxRow(maxRow);
+                        data.setSeed(rp.seed);
                         System.out.println(data);
 
                         pathfindingDataArrayList.add(data);
@@ -403,17 +451,17 @@ public class GridPanel extends JPanel {
                         finalAlgo2.startSearch(isFast);
 
                         data = finalAlgo2.getPathfindingDataObject();
-                        data.run = i+1;
-                        data.maxCol = maxCol;
-                        data.maxRow = maxRow;
-                        data.seed = rp.seed;
+                        data.setRun(i + 1);
+                        data.setMaxCol(maxCol);
+                        data.setMaxRow(maxRow);
+                        data.setSeed(rp.seed);
                         System.out.println(data);
 
                         pathfindingDataArrayList.add(data);
 
-
-                        myCSVWriter.writeToCSV(pathfindingDataArrayList);
                         enableButtons();
+                        myCSVWriter.writeToCSV(pathfindingDataArrayList);
+
 
                     }
 
@@ -446,21 +494,5 @@ public class GridPanel extends JPanel {
             }
         }
     }
-
-    private void setGoalNode(int col, int row){
-        nodeArray[col][row].setAsGoal();
-        goalNode = nodeArray[col][row];
-    }
-
-    private void setWallNode(int col, int row){
-        nodeArray[col][row].setAsWall();
-    }
-
-    private void setStartNode(int col, int row){
-        nodeArray[col][row].setAsStart();
-        startNode = nodeArray[col][row];
-        currentNode = startNode;
-    }
-
 
 }

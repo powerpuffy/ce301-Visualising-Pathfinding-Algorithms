@@ -1,11 +1,18 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.util.Node;
+
 import java.util.ArrayList;
 
-public class BFSBidirectional extends BFS{
-    public BFSBidirectional(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
+public class DFSBidirectional extends DFS {
+    public DFSBidirectional(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         super(startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
     }
 
-    public BFSBidirectional(GridPanel gridPanel) {
+    public DFSBidirectional(GridPanel gridPanel) {
         super(gridPanel);
     }
 
@@ -20,17 +27,13 @@ public class BFSBidirectional extends BFS{
 
         elapsedTime = 0.0;
 
-
-        queueStart.add(startNode);
-        System.out.println(startNode);
+        stackStart.add(startNode);
         visitedListStart.add(startNode);
 
-        queueGoal.add(goalNode);
-        System.out.println(goalNode);
+        stackGoal.add(goalNode);
         visitedListGoal.add(goalNode);
 
-
-        while (!queueStart.isEmpty() || !queueGoal.isEmpty()){
+        while (!stackStart.isEmpty() || !stackGoal.isEmpty()){
 
             if (isFast){
                 Thread.sleep(1);
@@ -38,18 +41,20 @@ public class BFSBidirectional extends BFS{
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
+            System.out.println(stackStart);
+
             Node curStart = null;
             Node curGoal = null;
 
-
-            if (!queueStart.isEmpty()){
-                curStart = queueStart.remove();
+            if (!stackStart.isEmpty()){
+                curStart = stackStart.pop();
+                visitedListStart.add(curStart);
             }
 
-            if (!queueGoal.isEmpty()){
-                curGoal = queueGoal.remove();
+            if (!stackGoal.isEmpty()){
+                curGoal = stackGoal.pop();
+                visitedListGoal.add(curGoal);
             }
-
 
             if (curStart != null){
 
@@ -76,8 +81,8 @@ public class BFSBidirectional extends BFS{
                             n.secondParent = n.parent;
                             n.parent = curStart;
                         }
-                        queueStart.add(n);
-                        visitedListStart.add(n);
+                        stackStart.add(n);
+                        //visitedListStart.add(n);
                     }
                 }
             }
@@ -86,7 +91,6 @@ public class BFSBidirectional extends BFS{
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
-                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     endTime = System.nanoTime();
@@ -108,13 +112,14 @@ public class BFSBidirectional extends BFS{
                             n.secondParent = curGoal;
                         }
 
-                        queueGoal.add(n);
-                        visitedListGoal.add(n);
+                        stackGoal.add(n);
+                        //visitedListGoal.add(n);
                     }
                 }
             }
         }
-        System.out.println("Queue is empty");
+
+        System.out.println("Stack is empty");
     }
 
     public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
@@ -141,19 +146,18 @@ public class BFSBidirectional extends BFS{
             cur = cur.secondParent;
         }
 
-
         if (!cur.isGoal && !cur.isStart){
             cur.setAsPath();
             numOfNodesToGoal += 1;
         }
 
+
         while (cur != goal){
             if(isFast){
-                Thread.sleep(1);
+                Thread.sleep(2);
             } else{
                 Thread.sleep(10);
             }
-
 
             cur = cur.parent;
 
@@ -163,5 +167,8 @@ public class BFSBidirectional extends BFS{
             }
         }
     }
+
+
+
 
 }

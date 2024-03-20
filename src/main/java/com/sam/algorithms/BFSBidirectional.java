@@ -1,11 +1,18 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.util.Node;
+
 import java.util.ArrayList;
 
-public class DFSBidirectional extends DFS{
-    public DFSBidirectional(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
+public class BFSBidirectional extends BFS {
+    public BFSBidirectional(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         super(startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
     }
 
-    public DFSBidirectional(GridPanel gridPanel) {
+    public BFSBidirectional(GridPanel gridPanel) {
         super(gridPanel);
     }
 
@@ -20,13 +27,17 @@ public class DFSBidirectional extends DFS{
 
         elapsedTime = 0.0;
 
-        stackStart.add(startNode);
+
+        queueStart.add(startNode);
+        System.out.println(startNode);
         visitedListStart.add(startNode);
 
-        stackGoal.add(goalNode);
+        queueGoal.add(goalNode);
+        System.out.println(goalNode);
         visitedListGoal.add(goalNode);
 
-        while (!stackStart.isEmpty() || !stackGoal.isEmpty()){
+
+        while (!queueStart.isEmpty() || !queueGoal.isEmpty()){
 
             if (isFast){
                 Thread.sleep(1);
@@ -34,20 +45,18 @@ public class DFSBidirectional extends DFS{
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
-            System.out.println(stackStart);
-
             Node curStart = null;
             Node curGoal = null;
 
-            if (!stackStart.isEmpty()){
-                curStart = stackStart.pop();
-                visitedListStart.add(curStart);
+
+            if (!queueStart.isEmpty()){
+                curStart = queueStart.remove();
             }
 
-            if (!stackGoal.isEmpty()){
-                curGoal = stackGoal.pop();
-                visitedListGoal.add(curGoal);
+            if (!queueGoal.isEmpty()){
+                curGoal = queueGoal.remove();
             }
+
 
             if (curStart != null){
 
@@ -74,7 +83,7 @@ public class DFSBidirectional extends DFS{
                             n.secondParent = n.parent;
                             n.parent = curStart;
                         }
-                        stackStart.add(n);
+                        queueStart.add(n);
                         visitedListStart.add(n);
                     }
                 }
@@ -84,6 +93,7 @@ public class DFSBidirectional extends DFS{
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     endTime = System.nanoTime();
@@ -105,14 +115,13 @@ public class DFSBidirectional extends DFS{
                             n.secondParent = curGoal;
                         }
 
-                        stackGoal.add(n);
+                        queueGoal.add(n);
                         visitedListGoal.add(n);
                     }
                 }
             }
         }
-
-        System.out.println("Stack is empty");
+        System.out.println("Queue is empty");
     }
 
     public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
@@ -139,18 +148,19 @@ public class DFSBidirectional extends DFS{
             cur = cur.secondParent;
         }
 
+
         if (!cur.isGoal && !cur.isStart){
             cur.setAsPath();
             numOfNodesToGoal += 1;
         }
 
-
         while (cur != goal){
             if(isFast){
-                Thread.sleep(2);
+                Thread.sleep(1);
             } else{
                 Thread.sleep(10);
             }
+
 
             cur = cur.parent;
 
@@ -161,5 +171,8 @@ public class DFSBidirectional extends DFS{
         }
     }
 
+    public PathfindingData getPathfindingDataObject(){
+        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
+    }
 
 }

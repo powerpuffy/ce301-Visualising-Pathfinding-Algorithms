@@ -1,4 +1,6 @@
-import org.w3c.dom.ls.LSOutput;
+package main.java.com.sam.util;
+
+import main.java.com.sam.ui.ControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -169,12 +171,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public void setAsCurrentRandomWalk(){
         if (!this.isStart && !this.isGoal){
-
-
-
-
             setBackground(new Color(255,0,255));
-
             if (isCostTextEnabled){
                 this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
             }
@@ -184,7 +181,6 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public void setShadeOfBlue(int normalisedVisitedCount){
         //int scale= (int) (Math.random() * 100);
-
         //int scale = visitedCount;
         setBackground(new Color(200-normalisedVisitedCount,200-normalisedVisitedCount,255));
     }
@@ -197,7 +193,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     /*
     @Override
     public String toString() {
-        return "Node{" +
+        return "main.java.com.sam.util.Node{" +
                 ", col=" + col +
                 ", row=" + row +
                 ", gCost=" + gCost +
@@ -216,23 +212,23 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (Objects.equals(ControlPanel.currentselection, "start")){
+        if (Objects.equals(ControlPanel.getCurrentselection(), "start")){
             setAsStart();
         }
 
-        if (Objects.equals(ControlPanel.currentselection, "goal")){
+        if (Objects.equals(ControlPanel.getCurrentselection(), "goal")){
             setAsGoal();
         }
 
-        if (Objects.equals(ControlPanel.currentselection, "wall")){
+        if (Objects.equals(ControlPanel.getCurrentselection(), "wall")){
             setAsWall();
         }
 
-        if (Objects.equals(ControlPanel.currentselection, "default")){
+        if (Objects.equals(ControlPanel.getCurrentselection(), "default")){
             setAsDefault();
         }
 
-        if (Objects.equals(ControlPanel.currentselection, "swamp")){
+        if (Objects.equals(ControlPanel.getCurrentselection(), "swamp")){
             setAsSwamp();
         }
 

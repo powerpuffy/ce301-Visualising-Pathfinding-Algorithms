@@ -1,3 +1,5 @@
+package main.java.com.sam.ui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -12,6 +14,12 @@ public class ControlPanel extends JPanel {
     int nodeSize;
     int screenWidth;
     int screenHeight;
+
+    public TextPanel tp;
+
+    public static String getCurrentselection() {
+        return currentselection;
+    }
 
     public ControlPanel(GridPanel gridPanel){
         this.maxCol = gridPanel.maxCol;
@@ -40,12 +48,14 @@ public class ControlPanel extends JPanel {
 
         this.add(new ComparisonPanel(gridPanel));
 
+        this.add(this.tp = new TextPanel(gridPanel));
+
 
 
     }
 
     /*
-    public ControlPanel(GridPanel gridPanel){
+    public Panels.ControlPanel(Panels.GridPanel gridPanel){
         this.maxCol = gridPanel.maxCol;
         this.maxRow = gridPanel.maxRow;
         this.nodeSize = gridPanel.nodeSize;
@@ -56,7 +66,7 @@ public class ControlPanel extends JPanel {
         this.setBackground(Color.LIGHT_GRAY);
         this.setFocusable(false);
 
-        JButton startNodeButton = new JButton("Start Node");
+        JButton startNodeButton = new JButton("Start main.java.com.sam.util.Node");
         startNodeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +74,7 @@ public class ControlPanel extends JPanel {
             }
         });
 
-        JButton goalNodeButton = new JButton("Goal Node");
+        JButton goalNodeButton = new JButton("Goal main.java.com.sam.util.Node");
         goalNodeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +82,7 @@ public class ControlPanel extends JPanel {
             }
         });
 
-        JButton wallNodeButton = new JButton("Wall Node");
+        JButton wallNodeButton = new JButton("Wall main.java.com.sam.util.Node");
         wallNodeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +90,7 @@ public class ControlPanel extends JPanel {
             }
         });
 
-        JButton defaultNodeButton = new JButton("Clear Node");
+        JButton defaultNodeButton = new JButton("Clear main.java.com.sam.util.Node");
         defaultNodeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,7 +98,7 @@ public class ControlPanel extends JPanel {
             }
         });
 
-        JButton swampNodeButton = new JButton("Swamp Node");
+        JButton swampNodeButton = new JButton("Swamp main.java.com.sam.util.Node");
         swampNodeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,11 +108,11 @@ public class ControlPanel extends JPanel {
 
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem("A*");
-        comboBox.addItem("Dijkstra");
-        comboBox.addItem("BFS");
-        comboBox.addItem("BFS - Bidirectional");
-        comboBox.addItem("DFS");
-        comboBox.addItem("DFS - Bidirectional");
+        comboBox.addItem("main.java.sam.algorithms.Dijkstra");
+        comboBox.addItem("main.java.sam.algorithms.BFS");
+        comboBox.addItem("main.java.sam.algorithms.BFS - Bidirectional");
+        comboBox.addItem("main.java.sam.algorithms.DFS");
+        comboBox.addItem("main.java.sam.algorithms.DFS - Bidirectional");
         comboBox.addItem("Random Walk");
 
         JButton goButton = new JButton("GO");
@@ -208,7 +218,7 @@ public class ControlPanel extends JPanel {
         mazeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RandomizedPrims newMaze = new RandomizedPrims(gridPanel.nodeArray,maxCol,maxRow);
+                main.java.sam.algorithms.RandomizedPrims newMaze = new main.java.sam.algorithms.RandomizedPrims(gridPanel.nodeArray,maxCol,maxRow);
                 new Thread(new Runnable() {
                     public void run() {
                         try {
@@ -296,7 +306,7 @@ public class ControlPanel extends JPanel {
         this.add(costText);
         this.add(positionText);
 
-        this.add(new ComparisonPanel(gridPanel));
+        this.add(new Panels.ComparisonPanel(gridPanel));
     }
 
      */

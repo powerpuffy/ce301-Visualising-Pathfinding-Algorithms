@@ -1,23 +1,28 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+package main.java.com.sam.algorithms;
 
-public class BFS extends PathfindingAlgorithm{
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.util.Node;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class DFS extends PathfindingAlgorithm {
 
     ArrayList<Node> visitedList = new ArrayList<>();
     ArrayList<Node> visitedListStart = new ArrayList<>();
+
     ArrayList<Node> visitedListGoal = new ArrayList<>();
 
-    Queue<Node> queue = new LinkedList<>();
-    Queue<Node> queueStart = new LinkedList<>();
-    Queue<Node> queueGoal = new LinkedList<>();
+    Stack<Node> stack = new Stack<>();
+    Stack<Node> stackStart = new Stack<>();
 
-    Boolean fromStart;
+    Stack<Node> stackGoal = new Stack<>();
 
     Node startNode;
     Node goalNode;
     Node currentNode;
-
     Node intersectionNode;
     Node[][] nodeArray;
     int maxCol;
@@ -34,7 +39,10 @@ public class BFS extends PathfindingAlgorithm{
 
     double elapsedTime;
 
-    public BFS(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
+
+
+
+    public DFS(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         this.startNode = startNode;
         this.goalNode = goalNode;
         this.currentNode = currentNode;
@@ -43,14 +51,10 @@ public class BFS extends PathfindingAlgorithm{
         this.maxRow = maxRow;
     }
 
-    public BFS(GridPanel gridPanel) {
-        this.startNode = gridPanel.startNode;
-        this.goalNode = gridPanel.goalNode;
-        this.currentNode = gridPanel.currentNode;
-        this.nodeArray = gridPanel.nodeArray;
-        this.maxCol = gridPanel.maxCol;
-        this.maxRow = gridPanel.maxRow;
+    public DFS(GridPanel gridPanel) {
+        super();
     }
+
 
     public void startSearch(boolean isFast) throws InterruptedException {
 
@@ -63,11 +67,10 @@ public class BFS extends PathfindingAlgorithm{
 
         elapsedTime = 0.0;
 
-        queue.add(startNode);
-        System.out.println(startNode);
+        stack.add(startNode);
         visitedList.add(startNode);
 
-        while (!queue.isEmpty()){
+        while (!stack.isEmpty()){
 
             if (isFast){
                 Thread.sleep(1);
@@ -75,7 +78,11 @@ public class BFS extends PathfindingAlgorithm{
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
-            Node cur = queue.remove();
+            System.out.println(stack);
+
+
+            Node cur = stack.pop();
+            visitedList.add(cur);
 
             if (cur.isGoal){
                 endTime = System.nanoTime();
@@ -86,7 +93,6 @@ public class BFS extends PathfindingAlgorithm{
                 break;
             }
 
-
             cur.setAsSearched();
             numOfNodesVisited += 1;
 
@@ -95,22 +101,20 @@ public class BFS extends PathfindingAlgorithm{
             for (Node n: neighbourList){
                 if (!visitedList.contains(n)){
                     n.parent = cur;
-                    queue.add(n);
-                    visitedList.add(n);
+                    stack.push(n);
+                    //visitedList.add(cur);
                 }
             }
 
         }
 
-        System.out.println("Queue is empty");
-    }
+        System.out.println("Stack is empty");
 
+    }
 
     public ArrayList<Node> getNeighbours(Node n){
 
         ArrayList<Node> neighbourList = new ArrayList<>();
-
-        System.out.println(n);
 
         if (n.row - 1 >= 0){
             Node uppernode = nodeArray[n.col][n.row-1];
@@ -161,16 +165,14 @@ public class BFS extends PathfindingAlgorithm{
         }
     }
 
-
-
     public PathfindingData getPathfindingDataObject(){
         return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
     }
 
+
     @Override
     public String toString() {
-        return "BFS";
+        return "main.java.sam.algorithms.DFS";
     }
-
 
 }

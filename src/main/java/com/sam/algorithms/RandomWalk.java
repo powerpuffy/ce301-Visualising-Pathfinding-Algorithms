@@ -1,7 +1,13 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.algorithms.PathfindingAlgorithm;
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.util.Node;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class RandomWalk extends PathfindingAlgorithm{
+public class RandomWalk extends PathfindingAlgorithm {
 
     Node startNode;
     Node goalNode;

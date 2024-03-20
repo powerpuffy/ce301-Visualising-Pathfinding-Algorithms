@@ -1,7 +1,13 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.util.Node;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Dijkstra extends AStar{
+public class Dijkstra extends AStar {
     public Dijkstra(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         super(startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
     }

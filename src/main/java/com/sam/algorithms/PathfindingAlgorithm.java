@@ -1,3 +1,8 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.ui.GridPanel;
+
 public abstract class PathfindingAlgorithm {
 
     public GridPanel gridpanel;
@@ -14,7 +19,7 @@ public abstract class PathfindingAlgorithm {
     long seed;
 
 
-    abstract void startSearch(boolean isFast) throws InterruptedException;
+    public abstract void startSearch(boolean isFast) throws InterruptedException;
 
 
 

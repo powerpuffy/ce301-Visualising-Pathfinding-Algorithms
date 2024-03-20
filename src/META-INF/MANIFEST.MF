@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+application.main.java.com.sam.Main-Class: application.main.java.com.sam.Main
+

@@ -1,3 +1,5 @@
+package main.java.com.sam.ui;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -8,7 +10,7 @@ import java.io.File;
 public class ComparisonPanel extends JPanel {
 
     public static int algoSpeed = 90;
-    static String currentselection;
+
     int maxCol;
 
     int maxRow;
@@ -24,7 +26,7 @@ public class ComparisonPanel extends JPanel {
         this.screenWidth = gridPanel.screenWidth;
         this.screenHeight = gridPanel.screenHeight;
 
-        this.setPreferredSize(new Dimension(400,screenHeight));
+        this.setPreferredSize(new Dimension(400,100));
 
         JComboBox<String> comaprisonBox1 = new JComboBox<>();
         comaprisonBox1.addItem("A*");

@@ -1,7 +1,14 @@
+package main.java.com.sam.algorithms;
+
+import main.java.com.sam.data.PathfindingData;
+import main.java.com.sam.ui.ControlPanel;
+import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.util.Node;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AStar extends PathfindingAlgorithm{
+public class AStar extends PathfindingAlgorithm {
 
 
 
@@ -9,7 +16,7 @@ public class AStar extends PathfindingAlgorithm{
     Node goalNode;
     Node currentNode;
 
-    Node[][] nodeArray;
+    public Node[][] nodeArray;
 
     int maxCol;
     int maxRow;
@@ -24,6 +31,8 @@ public class AStar extends PathfindingAlgorithm{
     String algorithm = this.getClass().getSimpleName();
 
     int totalNumOfNodes;
+
+    int totalNumOfVisitableNodes;
     int numOfNodesVisited;
     int numOfNodesToGoal;
 
@@ -109,7 +118,7 @@ public class AStar extends PathfindingAlgorithm{
             //int indexOfBestNode = leastFIndex(openList);
             //System.out.println(indexOfBestNode);
 
-            //Node cur = openList.get(indexOfBestNode);
+            //main.java.com.sam.util.Node cur = openList.get(indexOfBestNode);
             Node cur = openList.get(0);
 
             if (cur.isGoal){
@@ -137,7 +146,10 @@ public class AStar extends PathfindingAlgorithm{
                     n.parent = cur;
 
                     n.gCost =  n.weight + cur.gCost;
-                    n.hCost = calculateHManhattan(n,goalNode);
+
+                    if (goalNode != null){
+                        n.hCost = calculateHManhattan(n,goalNode);
+                    }
 
                     n.fCost = n.gCost + n.hCost;
                     //n.fCost = n.gCost;
@@ -219,6 +231,9 @@ public class AStar extends PathfindingAlgorithm{
     public int calculateHEuclidean(Node cur, Node goalNode){
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
     }
+
+
+
 
     @Override
     public String toString() {
