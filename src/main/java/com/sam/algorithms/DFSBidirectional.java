@@ -12,10 +12,6 @@ public class DFSBidirectional extends DFS {
         super(startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
     }
 
-    public DFSBidirectional(GridPanel gridPanel) {
-        super(gridPanel);
-    }
-
     public void startSearch(boolean isFast) throws InterruptedException {
 
         startTime = System.nanoTime();
@@ -41,8 +37,6 @@ public class DFSBidirectional extends DFS {
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
-            System.out.println(stackStart);
-
             Node curStart = null;
             Node curGoal = null;
 
@@ -60,12 +54,18 @@ public class DFSBidirectional extends DFS {
 
                 curStart.setAsSearched();
                 numOfNodesVisited += 1;
+
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
                     endTime = System.nanoTime();
                     elapsedTime = (double) (endTime - startTime) / 1000000000;
 
                     numOfNodesToGoal += 2;
+
+                    if (intersectionNode.isGoal){
+                        backTrackPathToNode(goalNode,startNode,false);
+                        break;
+                    }
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -75,13 +75,11 @@ public class DFSBidirectional extends DFS {
 
                 for (Node n: neighbourList){
                     if (!visitedListStart.contains(n)){
-                        if (n.parent == null){
-                            n.parent = curStart;
-                        } else {
+                        if (n.parent != null) {
                             n.secondParent = n.parent;
-                            n.parent = curStart;
                         }
-                        stackStart.add(n);
+                        n.parent = curStart;
+                        stackStart.push(n);
                         //visitedListStart.add(n);
                     }
                 }
@@ -91,12 +89,19 @@ public class DFSBidirectional extends DFS {
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     endTime = System.nanoTime();
                     elapsedTime = (double) (endTime - startTime) / 1000000000;
 
                     numOfNodesToGoal += 2;
+
+                    if (intersectionNode.isStart){
+                        backTrackPathGoalVersion(false);
+                        break;
+                    }
+
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -112,7 +117,7 @@ public class DFSBidirectional extends DFS {
                             n.secondParent = curGoal;
                         }
 
-                        stackGoal.add(n);
+                        stackGoal.push(n);
                         //visitedListGoal.add(n);
                     }
                 }
@@ -121,54 +126,4 @@ public class DFSBidirectional extends DFS {
 
         System.out.println("Stack is empty");
     }
-
-    public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
-        if (visitedList1.contains(n) && visitedList2.contains(n)){
-            intersectionNode = n;
-
-            System.out.println("Intersection node: " + intersectionNode);
-
-            System.out.println("Intersection node parent: " + intersectionNode.parent);
-            System.out.println("Intersection node secondParent: " + intersectionNode.secondParent);
-            intersectionNode.setAsIntersectedPath();
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    public void backTrackPathToNode(Node start, Node goal, boolean isFast) throws InterruptedException {
-        Node cur = start;
-
-        if (goal.isStart){
-            cur = cur.parent;
-        } else if (goal.isGoal){
-            cur = cur.secondParent;
-        }
-
-        if (!cur.isGoal && !cur.isStart){
-            cur.setAsPath();
-            numOfNodesToGoal += 1;
-        }
-
-
-        while (cur != goal){
-            if(isFast){
-                Thread.sleep(2);
-            } else{
-                Thread.sleep(10);
-            }
-
-            cur = cur.parent;
-
-            if (cur != goal){
-                cur.setAsPath();
-                numOfNodesToGoal += 1;
-            }
-        }
-    }
-
-
-
-
 }

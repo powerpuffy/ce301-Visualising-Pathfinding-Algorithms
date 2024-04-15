@@ -11,49 +11,13 @@ import java.util.Collections;
 public class AStar extends PathfindingAlgorithm {
 
 
-
-    Node startNode;
-    Node goalNode;
-    Node currentNode;
-
-    public Node[][] nodeArray;
-
-    int maxCol;
-    int maxRow;
-
-    ArrayList<Node> openList = new ArrayList<>();
-    ArrayList<Node> closedList = new ArrayList<>();
-    ArrayList<Node> successorList = new ArrayList<>();
-
-    double startTime ;
-    double endTime ;
-
-    String algorithm = this.getClass().getSimpleName();
-
-    int totalNumOfNodes;
-
-    int totalNumOfVisitableNodes;
-    int numOfNodesVisited;
-    int numOfNodesToGoal;
-
-    double elapsedTime;
-
     public AStar(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
-        this.startNode = startNode;
-        this.goalNode = goalNode;
-        this.currentNode = currentNode;
-        this.nodeArray = nodeArray;
-        this.maxCol = maxCol;
-        this.maxRow = maxRow;
+        super("A*",startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
     }
 
-    public AStar(GridPanel gridPanel) {
-        this.startNode = gridPanel.startNode;
-        this.goalNode = gridPanel.goalNode;
-        this.currentNode = gridPanel.currentNode;
-        this.nodeArray = gridPanel.nodeArray;
-        this.maxCol = gridPanel.maxCol;
-        this.maxRow = gridPanel.maxRow;
+    public AStar(String s, Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
+        super(s,startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+
     }
 
     public int leastFIndex(ArrayList<Node> openList){
@@ -80,6 +44,7 @@ public class AStar extends PathfindingAlgorithm {
     }
 
 
+    @Override
     public void startSearch(boolean isFast) throws InterruptedException {
 
         startTime = System.nanoTime();
@@ -112,8 +77,8 @@ public class AStar extends PathfindingAlgorithm {
 
 
             //System.out.println("in while loop");
-            System.out.println("open list size: " + openList.size());
-            System.out.println(openList);
+            //System.out.println("open list size: " + openList.size());
+            //System.out.println(openList);
 
             //int indexOfBestNode = leastFIndex(openList);
             //System.out.println(indexOfBestNode);
@@ -134,7 +99,7 @@ public class AStar extends PathfindingAlgorithm {
             numOfNodesVisited += 1;
 
             openList.remove(0);
-            System.out.println("open list size after remove: " + openList.size());
+            //System.out.println("open list size after remove: " + openList.size());
             closedList.add(cur);
 
             //System.out.println("successors");
@@ -165,75 +130,13 @@ public class AStar extends PathfindingAlgorithm {
         System.out.println("ended");
     }
 
-    public PathfindingData getPathfindingDataObject(){
-        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
-    }
-
-    public ArrayList<Node> getNeighbours(Node n){
-
-        ArrayList<Node> neighbourList = new ArrayList<>();
-
-        if (n.row - 1 >= 0){
-            Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.isWall){
-                neighbourList.add(uppernode);
-            }
-        }
-
-        if (n.col + 1 < maxCol){
-            Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.isWall){
-                neighbourList.add(rightnode);
-            }
-        }
-
-        if (n.row + 1 < maxRow){
-            Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.isWall){
-                neighbourList.add(downnode);
-            }
-        }
-
-        if (n.col - 1 >= 0){
-            Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.isWall){
-                neighbourList.add(leftnode);
-            }
-        }
-
-        return neighbourList;
-    }
-
-    public void backTrackPath(boolean isFast) throws InterruptedException {
-        Node cur = goalNode;
-
-        while (cur != startNode){
-            if (isFast){
-                Thread.sleep(1);
-            } else{
-                Thread.sleep(10);
-            }
-
-            cur = cur.parent;
-            if (cur != startNode){
-                cur.setAsPath();
-                numOfNodesToGoal += 1;
-            }
-        }
-    }
-
-
 
     public int calculateHManhattan(Node cur, Node goalNode){
         return Math.abs(cur.col - goalNode.col) + Math.abs(cur.row - goalNode.row);
     }
-
     public int calculateHEuclidean(Node cur, Node goalNode){
         return (int) Math.sqrt((Math.pow(cur.col - goalNode.col,2) + Math.pow(cur.row - goalNode.row,2)));
     }
-
-
-
 
     @Override
     public String toString() {

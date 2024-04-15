@@ -26,8 +26,11 @@ public class RandomizedPrims {
         this.nodeArray = nodeArray;
         this.maxCol = maxCol;
         this.maxRow = maxRow;
-        this.rng = new Random();
-        this.seed = rng.nextLong();
+
+        Random temprng =  new Random();
+        this.seed = temprng.nextLong();
+
+        this.rng = new Random(seed);
     }
 
     public RandomizedPrims(Node[][] nodeArray, int maxCol, int maxRow, long seed) {
@@ -116,6 +119,8 @@ public class RandomizedPrims {
         int inbetweenNodeY = firstNode.row - lastNode.row;
         int inbetweenNodeX = firstNode.col - lastNode.col;
 
+        System.out.println("("+inbetweenNodeX+","+inbetweenNodeY+")");
+
         if (inbetweenNodeY < 0){
             return nodeArray[firstNode.col][firstNode.row+1];
         } else if (inbetweenNodeY > 0) {
@@ -182,7 +187,7 @@ public class RandomizedPrims {
 
     public void generateMazeQuick() throws InterruptedException {
 
-        System.out.println(seed);
+        System.out.println("Seed:" + seed);
 
         setAllToWall();
 

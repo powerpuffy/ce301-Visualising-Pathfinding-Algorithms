@@ -10,52 +10,12 @@ import java.util.Stack;
 
 public class DFS extends PathfindingAlgorithm {
 
-    ArrayList<Node> visitedList = new ArrayList<>();
-    ArrayList<Node> visitedListStart = new ArrayList<>();
-
-    ArrayList<Node> visitedListGoal = new ArrayList<>();
-
-    Stack<Node> stack = new Stack<>();
-    Stack<Node> stackStart = new Stack<>();
-
-    Stack<Node> stackGoal = new Stack<>();
-
-    Node startNode;
-    Node goalNode;
-    Node currentNode;
-    Node intersectionNode;
-    Node[][] nodeArray;
-    int maxCol;
-    int maxRow;
-
-    double startTime ;
-    double endTime ;
-
-    String algorithm = this.getClass().getSimpleName();
-
-    int totalNumOfNodes;
-    int numOfNodesVisited;
-    int numOfNodesToGoal;
-
-    double elapsedTime;
-
-
-
 
     public DFS(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
-        this.startNode = startNode;
-        this.goalNode = goalNode;
-        this.currentNode = currentNode;
-        this.nodeArray = nodeArray;
-        this.maxCol = maxCol;
-        this.maxRow = maxRow;
+        super("DFS",startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
     }
 
-    public DFS(GridPanel gridPanel) {
-        super();
-    }
-
-
+    @Override
     public void startSearch(boolean isFast) throws InterruptedException {
 
         startTime = System.nanoTime();
@@ -112,62 +72,6 @@ public class DFS extends PathfindingAlgorithm {
 
     }
 
-    public ArrayList<Node> getNeighbours(Node n){
-
-        ArrayList<Node> neighbourList = new ArrayList<>();
-
-        if (n.row - 1 >= 0){
-            Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.isWall){
-                neighbourList.add(uppernode);
-            }
-        }
-
-        if (n.col + 1 < maxCol){
-            Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.isWall){
-                neighbourList.add(rightnode);
-            }
-        }
-
-        if (n.row + 1 < maxRow){
-            Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.isWall){
-                neighbourList.add(downnode);
-            }
-        }
-
-        if (n.col - 1 >= 0){
-            Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.isWall){
-                neighbourList.add(leftnode);
-            }
-        }
-
-        return neighbourList;
-    }
-
-    public void backTrackPath(boolean isFast) throws InterruptedException {
-        Node cur = goalNode;
-
-        while (cur != startNode){
-            if(isFast){
-                Thread.sleep(1);
-            } else{
-                Thread.sleep(10);
-            }
-
-            cur = cur.parent;
-            if (cur != startNode){
-                cur.setAsPath();
-                numOfNodesToGoal += 1;
-            }
-        }
-    }
-
-    public PathfindingData getPathfindingDataObject(){
-        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
-    }
 
 
     @Override

@@ -26,7 +26,7 @@ public class ComparisonPanel extends JPanel {
         this.screenWidth = gridPanel.screenWidth;
         this.screenHeight = gridPanel.screenHeight;
 
-        this.setPreferredSize(new Dimension(400,100));
+        this.setPreferredSize(new Dimension(400,80));
 
         JComboBox<String> comaprisonBox1 = new JComboBox<>();
         comaprisonBox1.addItem("A*");
@@ -49,7 +49,7 @@ public class ComparisonPanel extends JPanel {
         JTextField t2 = new JTextField(16);
 
         JButton startComparisonButton = new JButton("Start Comparison");
-        startComparisonButton.setPreferredSize(new Dimension(150,60));
+        startComparisonButton.setPreferredSize(new Dimension(150,30));
 
         startComparisonButton.addActionListener(new ActionListener() {
             @Override

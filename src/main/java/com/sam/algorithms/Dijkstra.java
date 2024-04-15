@@ -9,11 +9,7 @@ import java.util.Collections;
 
 public class Dijkstra extends AStar {
     public Dijkstra(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
-        super(startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
-    }
-
-    public Dijkstra(GridPanel gridPanel) {
-        super(gridPanel);
+        super("Dijkstra",startNode, goalNode, currentNode, nodeArray, maxCol, maxRow);
     }
 
     public void startSearch(boolean isFast) throws InterruptedException {
@@ -48,7 +44,7 @@ public class Dijkstra extends AStar {
 
 
             //System.out.println("in while loop");
-            System.out.println("open list size: " + openList.size());
+            //System.out.println("open list size: " + openList.size());
 
             int indexOfBestNode = leastFIndex(openList);
 
@@ -67,7 +63,7 @@ public class Dijkstra extends AStar {
             numOfNodesVisited += 1;
 
             openList.remove(indexOfBestNode);
-            System.out.println("open list size after remove: " + openList.size());
+            //System.out.println("open list size after remove: " + openList.size());
             closedList.add(cur);
 
             //System.out.println("successors");

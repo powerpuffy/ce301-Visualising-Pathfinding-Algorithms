@@ -29,13 +29,10 @@ public class BFSBidirectional extends BFS {
 
 
         queueStart.add(startNode);
-        System.out.println(startNode);
         visitedListStart.add(startNode);
 
         queueGoal.add(goalNode);
-        System.out.println(goalNode);
         visitedListGoal.add(goalNode);
-
 
         while (!queueStart.isEmpty() || !queueGoal.isEmpty()){
 
@@ -47,7 +44,6 @@ public class BFSBidirectional extends BFS {
 
             Node curStart = null;
             Node curGoal = null;
-
 
             if (!queueStart.isEmpty()){
                 curStart = queueStart.remove();
@@ -77,12 +73,10 @@ public class BFSBidirectional extends BFS {
 
                 for (Node n: neighbourList){
                     if (!visitedListStart.contains(n)){
-                        if (n.parent == null){
-                            n.parent = curStart;
-                        } else {
+                        if (n.parent != null) {
                             n.secondParent = n.parent;
-                            n.parent = curStart;
                         }
+                        n.parent = curStart;
                         queueStart.add(n);
                         visitedListStart.add(n);
                     }
@@ -124,55 +118,5 @@ public class BFSBidirectional extends BFS {
         System.out.println("Queue is empty");
     }
 
-    public boolean intersects(Node n, ArrayList<Node> visitedList1, ArrayList<Node> visitedList2){
-        if (visitedList1.contains(n) && visitedList2.contains(n)){
-            intersectionNode = n;
-
-            System.out.println("Intersection node: " + intersectionNode);
-
-            System.out.println("Intersection node parent: " + intersectionNode.parent);
-            System.out.println("Intersection node secondParent: " + intersectionNode.secondParent);
-            intersectionNode.setAsIntersectedPath();
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    public void backTrackPathToNode(Node start, Node goal, boolean isFast) throws InterruptedException {
-        Node cur = start;
-
-        if (goal.isStart){
-            cur = cur.parent;
-        } else if (goal.isGoal){
-            cur = cur.secondParent;
-        }
-
-
-        if (!cur.isGoal && !cur.isStart){
-            cur.setAsPath();
-            numOfNodesToGoal += 1;
-        }
-
-        while (cur != goal){
-            if(isFast){
-                Thread.sleep(1);
-            } else{
-                Thread.sleep(10);
-            }
-
-
-            cur = cur.parent;
-
-            if (cur != goal){
-                cur.setAsPath();
-                numOfNodesToGoal += 1;
-            }
-        }
-    }
-
-    public PathfindingData getPathfindingDataObject(){
-        return new PathfindingData(this.algorithm, this.totalNumOfNodes, this.numOfNodesVisited, this.numOfNodesToGoal, this.elapsedTime);
-    }
 
 }

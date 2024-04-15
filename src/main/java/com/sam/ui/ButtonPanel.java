@@ -35,7 +35,7 @@ public class ButtonPanel extends JPanel {
         comboBox.addItem("Random Walk");
 
         JButton goButton = new JButton("GO");
-        goButton.setPreferredSize(new Dimension(60,60));
+        goButton.setPreferredSize(new Dimension(30,30));
         goButton.addActionListener(e -> {
             try {
                 gridPanel.samSearch((String) comboBox.getSelectedItem());

@@ -19,7 +19,7 @@ public class PathfindingData {
 
     long seed;
 
-    public PathfindingData(String algorithm, int totalNumOfNodes, int numOfNodesVisited, int numOfNodesToGoal, double elapsedTime) {
+    public PathfindingData(String algorithm, int totalNumOfNodes, int totalNumOfVisitableNodes, int numOfNodesVisited, int numOfNodesToGoal, double elapsedTime) {
         this.algorithm = algorithm;
         this.totalNumOfNodes = totalNumOfNodes;
         this.totalNumOfVisitableNodes = totalNumOfVisitableNodes;
@@ -27,7 +27,7 @@ public class PathfindingData {
         this.numOfNodesToGoal = numOfNodesToGoal;
         this.elapsedTime = elapsedTime;
     }
-
+    /*
     @Override
     public String toString() {
         return "Data.PathfindingData{" +
@@ -43,6 +43,8 @@ public class PathfindingData {
                 ", seed=" + seed +
                 '}';
     }
+
+     */
 
     public int getRun() {
         return run;
@@ -132,7 +134,8 @@ public class PathfindingData {
         this.seed = seed;
     }
 
-    public String toCSV() {
-        return run + "," + algorithm + "," + maxCol + "x" + maxRow + "," + totalNumOfNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime + "," + seed;
+    @Override
+    public String toString() {
+        return run + "," + algorithm + "," + maxCol + "x" + maxRow + "," + totalNumOfNodes + "," + totalNumOfVisitableNodes + "," + numOfNodesVisited + "," + numOfNodesToGoal + "," + elapsedTime + "," + seed;
     }
 }

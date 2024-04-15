@@ -9,30 +9,13 @@ import java.util.Comparator;
 
 public class RandomWalk extends PathfindingAlgorithm {
 
-    Node startNode;
-    Node goalNode;
-    Node currentNode;
 
-    Node[][] nodeArray;
-
-    int maxCol;
-    int maxRow;
-
-    ArrayList<Node> openList = new ArrayList<>();
-    ArrayList<Node> closedList = new ArrayList<>();
-    ArrayList<Node> successorList = new ArrayList<>();
-
-    ArrayList<Node> visitedList = new ArrayList<>();
 
     public RandomWalk(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
-        this.startNode = startNode;
-        this.goalNode = goalNode;
-        this.currentNode = currentNode;
-        this.nodeArray = nodeArray;
-        this.maxCol = maxCol;
-        this.maxRow = maxRow;
+        super("Random Walk",startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
     }
 
+    @Override
     public void startSearch(boolean isFast) throws InterruptedException {
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
@@ -47,8 +30,11 @@ public class RandomWalk extends PathfindingAlgorithm {
         Node cur = startNode;
         Node parent = null;
 
-        while (!cur.isGoal){
+        int x = 0;
 
+        while (!cur.isGoal){
+            x++;
+            System.out.println(x);
             cur.setAsCurrentRandomWalk();
             if (!visitedList.contains(cur)){
                 visitedList.add(cur);
@@ -80,6 +66,10 @@ public class RandomWalk extends PathfindingAlgorithm {
 
         System.out.println("ended");
 
+        createHeatMap();
+    }
+
+    public void createHeatMap(){
         Comparator<Node> byVisitedCount = Comparator
                 .comparing(Node::getVisitedCount);
         visitedList.sort(byVisitedCount);
@@ -96,15 +86,8 @@ public class RandomWalk extends PathfindingAlgorithm {
     }
 
 
-
-    public static double normaliseVisitedCount(int visitedCount, int minimumVisitedCount, int maximumVisitedCount){
-        //System.out.println(visitedCount);
-        //System.out.println(minimumVisitedCount);
-        //System.out.println(maximumVisitedCount);
-
-        double d =  (double) ((double)(visitedCount - minimumVisitedCount) / (double)(maximumVisitedCount - minimumVisitedCount)) * 200;
-        System.out.println(d);
-        return d;
+    public double normaliseVisitedCount(int visitedCount, int minimumVisitedCount, int maximumVisitedCount){
+        return ((double)(visitedCount - minimumVisitedCount) / (double)(maximumVisitedCount - minimumVisitedCount)) * 200;
     }
 
     public Node getRandomNode (ArrayList<Node> nodeList){
@@ -134,9 +117,9 @@ public class RandomWalk extends PathfindingAlgorithm {
         }
 
         // Create list of probabilities of each of the neighbouring nodes
-        ArrayList<Double> list = new ArrayList<>();
+        ArrayList<Double> probabilityList = new ArrayList<>();
         for (int i = 0; i < nodeList.size(); i++){
-            list.add((double) (nodeList.get(i).probabilityWeight/totalProbabilityWeights));
+            probabilityList.add((double) (nodeList.get(i).probabilityWeight/totalProbabilityWeights));
         }
 
         // Create the random num from 0 to 1
@@ -145,71 +128,23 @@ public class RandomWalk extends PathfindingAlgorithm {
 
 
         double cumulativeProbability = 0;
-        System.out.println("Probability list" + list);
-        for (int i = 0; i < list.size(); i++){
-            cumulativeProbability += list.get(i);
+        System.out.println("Probability list" + probabilityList);
+        for (int i = 0; i < probabilityList.size(); i++){
+            cumulativeProbability += probabilityList.get(i);
             System.out.println("Cumulative probability:" + cumulativeProbability);
 
             if (random < cumulativeProbability){
 
+
+                if (nodeList.get(i) == cur.parent){
+                    System.out.println("Going BACK");
+                }
                 return nodeList.get(i);
             }
         }
 
         System.out.println("Returning null");
         return null;
-    }
-
-
-    public ArrayList<Node> getNeighbours(Node n){
-
-        ArrayList<Node> neighbourList = new ArrayList<>();
-
-        if (n.row - 1 >= 0){
-            Node uppernode = nodeArray[n.col][n.row-1];
-            if (!uppernode.isWall){
-                neighbourList.add(uppernode);
-            }
-        }
-
-        if (n.col + 1 < maxCol){
-            Node rightnode = nodeArray[n.col+1][n.row];
-            if (!rightnode.isWall){
-                neighbourList.add(rightnode);
-            }
-        }
-
-        if (n.row + 1 < maxRow){
-            Node downnode = nodeArray[n.col][n.row+1];
-            if (!downnode.isWall){
-                neighbourList.add(downnode);
-            }
-        }
-
-        if (n.col - 1 >= 0){
-            Node leftnode = nodeArray[n.col-1][n.row];
-            if (!leftnode.isWall){
-                neighbourList.add(leftnode);
-            }
-        }
-
-        return neighbourList;
-    }
-
-    public void backTrackPath() throws InterruptedException {
-        Node cur = goalNode;
-
-        while (cur != startNode){
-            Thread.sleep(10);
-            //System.out.println(cur);
-            cur = cur.parent;
-
-            if (cur != startNode){
-                cur.setAsPath();
-            }
-
-        }
-
     }
 
 }

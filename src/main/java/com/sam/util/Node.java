@@ -49,6 +49,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public Node(int col, int row){
         this.col = col;
         this.row = row;
+        this.gCost = 10000;
         this.weight = 1;
         this.probabilityWeight = 2;
         this.setFocusable(false);
@@ -92,6 +93,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
 
     public void setAsDefault(){
         setBackground(Color.white);
+        this.weight = 1;
         isDefault = true;
         isStart = false;
         isGoal = false;
@@ -125,16 +127,11 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             }
 
             if (isCostTextEnabled){
-                this.setText("<html>G: "+this.gCost + "<br>H: "+ this.hCost + "<br>F: "+ this.fCost + "</html>");
+                this.enableCostText();
             }
 
             if (isPositionTextEnabled){
-                if (this.secondParent != null){
-                    this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
-                }
-                else{
-                    this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
-                }
+                this.enablePositionText();
             }
 
         }
@@ -162,7 +159,7 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
                 this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "  " + this.secondParent.col +" "+ this.secondParent.row + "</html>");
             }
             else{
-                this.setText("<html>" + this.col +" "+ this.row + "<br>" + this.parent.col +" "+ this.parent.row + "</html>");
+                this.setText("<html>c:" + this.col +" "+ this.row + "<br>p:" + this.parent.col +" "+ this.parent.row + "</html>");
             }
         }
     }
@@ -254,6 +251,6 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
                 return 0;
             }
         }
-
     }
+
 }

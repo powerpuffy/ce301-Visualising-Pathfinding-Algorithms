@@ -30,7 +30,7 @@ public class ControlPanel extends JPanel {
 
 
 
-        this.setPreferredSize(new Dimension(400,screenHeight));
+        this.setPreferredSize(new Dimension(350,screenHeight));
         this.setBackground(Color.LIGHT_GRAY);
         this.setFocusable(false);
 

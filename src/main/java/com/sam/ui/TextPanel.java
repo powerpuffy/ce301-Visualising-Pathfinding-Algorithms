@@ -16,13 +16,13 @@ public class TextPanel extends JPanel {
     JLabel elapsedTimeLabel;
     JLabel seedLabel;
 
-    int fontSize = 18;
+    int fontSize = 10;
 
     public TextPanel(GridPanel gridPanel){
 
         this.setLayout(new GridLayout(0,1));
 
-        this.setFont(new Font("Serif", Font.PLAIN, 28));
+        this.setFont(new Font("Serif", Font.PLAIN, fontSize));
 
         this.add(algoLabel = new JLabel());
         this.add(totalNodesLabel= new JLabel());

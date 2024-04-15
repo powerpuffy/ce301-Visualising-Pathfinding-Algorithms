@@ -237,7 +237,7 @@ public class GridPanel extends JPanel {
         }
     }
 
-    public int getNumOfVisitableNodes(){
+    public int getNumOfVisitableNodes(Node[][] nodeArray){
         int count = 0;
         for (Node[] na: nodeArray){
             for (Node n: na){
@@ -369,6 +369,8 @@ public class GridPanel extends JPanel {
                         goalNode = null;
                         boolean isFast = true;
 
+
+
                         disableButtons();
                         resetSearch();
                         resetButtonText();
@@ -383,6 +385,8 @@ public class GridPanel extends JPanel {
                         setRandomGoalNode();
                         samSetStartNode();
                         samSetGoalNode();
+
+                        int totalNumOfVisitableNodes = getNumOfVisitableNodes(nodeArray);
 
                         ArrayList<PathfindingData> pathfindingDataArrayList = new ArrayList<>();
                         CSVWriter myCSVWriter = new CSVWriter(file);
@@ -413,6 +417,7 @@ public class GridPanel extends JPanel {
 
                         PathfindingData data = finalAlgo.getPathfindingDataObject();
                         data.setRun(i + 1);
+                        data.setTotalNumOfVisitableNodes(totalNumOfVisitableNodes);
                         data.setMaxCol(maxCol);
                         data.setMaxRow(maxRow);
                         data.setSeed(rp.seed);
@@ -452,6 +457,7 @@ public class GridPanel extends JPanel {
 
                         data = finalAlgo2.getPathfindingDataObject();
                         data.setRun(i + 1);
+                        data.setTotalNumOfVisitableNodes(totalNumOfVisitableNodes);
                         data.setMaxCol(maxCol);
                         data.setMaxRow(maxRow);
                         data.setSeed(rp.seed);

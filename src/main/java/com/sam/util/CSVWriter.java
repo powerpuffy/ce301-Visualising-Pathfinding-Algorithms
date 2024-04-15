@@ -11,7 +11,7 @@ public class CSVWriter {
 
     //String file = "samcsv.csv";
 
-    String header = "Run number,Algorithm,Grid Shape,totalNumOfNodes,numOfNodesVisited,numOfNodesToGoal,elapsedTime,seed" ;
+    String header = "Run number,Algorithm,Grid Shape,totalNumOfNodes,visitableNodes,numOfNodesVisited,numOfNodesToGoal,elapsedTime,seed" ;
 
 
     File file;
@@ -32,10 +32,12 @@ public class CSVWriter {
                 writer.write(String.join(",", header) + "\n");
             }
 
+
             for (PathfindingData data : pathfindingDataList) {
-                writer.write(data.toCSV() + "\n");
+                writer.write(String.valueOf(data));
             }
 
+            writer.write("\n");
             writer.close();
             System.out.println("Written to " + file.getAbsolutePath());
             System.out.println("Data written to CSV successfully");
