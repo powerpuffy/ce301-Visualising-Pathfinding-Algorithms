@@ -37,6 +37,8 @@ public class DFSBidirectional extends DFS {
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
+            System.out.println(stackStart);
+
             Node curStart = null;
             Node curGoal = null;
 
@@ -54,18 +56,12 @@ public class DFSBidirectional extends DFS {
 
                 curStart.setAsSearched();
                 numOfNodesVisited += 1;
-
                 if (intersects(curStart, visitedListStart, visitedListGoal)){
                     System.out.println("from start");
                     endTime = System.nanoTime();
                     elapsedTime = (double) (endTime - startTime) / 1000000000;
 
                     numOfNodesToGoal += 2;
-
-                    if (intersectionNode.isGoal){
-                        backTrackPathToNode(goalNode,startNode,false);
-                        break;
-                    }
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -75,12 +71,14 @@ public class DFSBidirectional extends DFS {
 
                 for (Node n: neighbourList){
                     if (!visitedListStart.contains(n)){
-                        if (n.parent != null) {
+                        if (n.parent == null){
+                            n.parent = curStart;
+                        } else {
                             n.secondParent = n.parent;
+                            n.parent = curStart;
                         }
-                        n.parent = curStart;
-                        stackStart.push(n);
-                        //visitedListStart.add(n);
+                        stackStart.add(n);
+                        visitedListStart.add(n);
                     }
                 }
             }
@@ -89,19 +87,12 @@ public class DFSBidirectional extends DFS {
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
-                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     endTime = System.nanoTime();
                     elapsedTime = (double) (endTime - startTime) / 1000000000;
 
                     numOfNodesToGoal += 2;
-
-                    if (intersectionNode.isStart){
-                        backTrackPathGoalVersion(false);
-                        break;
-                    }
-
                     backTrackPathToNode(intersectionNode,startNode, isFast);
                     backTrackPathToNode(intersectionNode,goalNode, isFast);
                     break;
@@ -117,8 +108,8 @@ public class DFSBidirectional extends DFS {
                             n.secondParent = curGoal;
                         }
 
-                        stackGoal.push(n);
-                        //visitedListGoal.add(n);
+                        stackGoal.add(n);
+                        visitedListGoal.add(n);
                     }
                 }
             }
@@ -126,4 +117,5 @@ public class DFSBidirectional extends DFS {
 
         System.out.println("Stack is empty");
     }
+
 }
