@@ -3,6 +3,8 @@ package main.java.com.sam.ui;
 import main.java.com.sam.algorithms.*;
 import main.java.com.sam.data.PathfindingData;
 import main.java.com.sam.util.CSVWriter;
+import main.java.com.sam.heuristics.Euclidean;
+import main.java.com.sam.heuristics.Manhattan;
 import main.java.com.sam.util.Node;
 
 import javax.swing.*;
@@ -316,8 +318,10 @@ public class GridPanel extends JPanel {
 
         //algo.setGridpanel(this);
         PathfindingAlgorithm algo = null;
-        if (algoString.equals("A*")){
-            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        if (algoString.equals("A* - Manhattan")){
+            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Manhattan());
+        } else if (algoString.equals("A* - Euclidean")) {
+            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Euclidean());
         } else if (algoString.equals("Dijkstra")) {
             algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
         } else if (algoString.equals("BFS")) {
@@ -393,8 +397,10 @@ public class GridPanel extends JPanel {
 
                         //algo.setGridpanel(this);
                         PathfindingAlgorithm algo = null;
-                        if (algoString.equals("A*")){
-                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        if (algoString.equals("A* - Manhattan")){
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Manhattan());
+                        } else if (algoString.equals("A* - Euclidean")) {
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Euclidean());
                         } else if (algoString.equals("Dijkstra")) {
                             algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString.equals("BFS")) {
@@ -434,8 +440,10 @@ public class GridPanel extends JPanel {
                         resetAllParents();
                         resetCosts();
 
-                        if (algoString2.equals("A*")){
-                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+                        if (algoString2.equals("A* - Manhattan")){
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Manhattan());
+                        } else if (algoString2.equals("A* - Euclidean")) {
+                            algo = new AStar(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow, new Euclidean());
                         } else if (algoString2.equals("Dijkstra")) {
                             algo = new Dijkstra(startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
                         } else if (algoString2.equals("BFS")) {

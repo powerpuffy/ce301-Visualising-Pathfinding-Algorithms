@@ -37,7 +37,7 @@ public class DFSBidirectional extends DFS {
                 Thread.sleep(ControlPanel.algoSpeed);
             }
 
-            System.out.println(stackStart);
+            //System.out.println(stackStart);
 
             Node curStart = null;
             Node curGoal = null;

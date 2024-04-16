@@ -26,7 +26,8 @@ public class ButtonPanel extends JPanel {
         swampNodeButton.addActionListener(e -> ControlPanel.currentselection = "swamp");
 
         JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.addItem("A*");
+        comboBox.addItem("A* - Manhattan");
+        comboBox.addItem("A* - Euclidean");
         comboBox.addItem("Dijkstra");
         comboBox.addItem("BFS");
         comboBox.addItem("BFS - Bidirectional");

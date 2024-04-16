@@ -29,7 +29,8 @@ public class ComparisonPanel extends JPanel {
         this.setPreferredSize(new Dimension(400,80));
 
         JComboBox<String> comaprisonBox1 = new JComboBox<>();
-        comaprisonBox1.addItem("A*");
+        comaprisonBox1.addItem("A* - Manhattan");
+        comaprisonBox1.addItem("A* - Euclidean");
         comaprisonBox1.addItem("Dijkstra");
         comaprisonBox1.addItem("BFS");
         comaprisonBox1.addItem("BFS - Bidirectional");
@@ -38,7 +39,8 @@ public class ComparisonPanel extends JPanel {
         comaprisonBox1.addItem("Random Walk");
 
         JComboBox<String> comaprisonBox2 = new JComboBox<>();
-        comaprisonBox2.addItem("A*");
+        comaprisonBox2.addItem("A* - Manhattan");
+        comaprisonBox2.addItem("A* - Euclidean");
         comaprisonBox2.addItem("Dijkstra");
         comaprisonBox2.addItem("BFS");
         comaprisonBox2.addItem("BFS - Bidirectional");

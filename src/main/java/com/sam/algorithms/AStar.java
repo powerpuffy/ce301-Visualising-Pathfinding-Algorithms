@@ -1,8 +1,7 @@
 package main.java.com.sam.algorithms;
 
-import main.java.com.sam.data.PathfindingData;
 import main.java.com.sam.ui.ControlPanel;
-import main.java.com.sam.ui.GridPanel;
+import main.java.com.sam.heuristics.Heuristic;
 import main.java.com.sam.util.Node;
 
 import java.util.ArrayList;
@@ -10,14 +9,15 @@ import java.util.Collections;
 
 public class AStar extends PathfindingAlgorithm {
 
+    Heuristic heuristic;
 
-    public AStar(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
-        super("A*",startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+    public AStar(Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow, Heuristic heuristic) {
+        super("A* - " + heuristic.toString(),startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
+        this.heuristic = heuristic;
     }
 
     public AStar(String s, Node startNode, Node goalNode, Node currentNode, Node[][] nodeArray, int maxCol, int maxRow) {
         super(s,startNode,goalNode,currentNode,nodeArray,maxCol,maxRow);
-
     }
 
     public int leastFIndex(ArrayList<Node> openList){
@@ -113,7 +113,7 @@ public class AStar extends PathfindingAlgorithm {
                     n.gCost =  n.weight + cur.gCost;
 
                     if (goalNode != null){
-                        n.hCost = calculateHManhattan(n,goalNode);
+                        n.hCost = heuristic.calculateHeuristic(n,goalNode);
                     }
 
                     n.fCost = n.gCost + n.hCost;

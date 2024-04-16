@@ -76,7 +76,7 @@ public void backTrackPath() throws InterruptedException {
 
 # Heuristics
 
-Mainly A* will need to use a heursitics to calculate an estimated distance to the goal node. I have currently implemented a function to calculate the Manhattan distance and the Euclidean distance.
+Mainly A* will need to use a heursitics to calculate an estimated distance to the goal node. I have currently implemented a function to calculate the main.java.com.sam.heuristics.Manhattan distance and the Euclidean distance.
 
 ``` java
 public int calculateHManhattan(main.java.com.sam.util.Node cur, main.java.com.sam.util.Node goalNode){
