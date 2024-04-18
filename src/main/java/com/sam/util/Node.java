@@ -49,7 +49,8 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
     public Node(int col, int row){
         this.col = col;
         this.row = row;
-        this.gCost = 10000;
+        //this.gCost = 10000;
+        this.fCost = 10000;
         this.weight = 1;
         this.probabilityWeight = 2;
         this.setFocusable(false);
@@ -124,6 +125,29 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
                 setBackground(Color.pink);
             }else{
                 setBackground(Color.orange);
+            }
+
+            if (isCostTextEnabled){
+                this.enableCostText();
+            }
+
+            if (isPositionTextEnabled){
+                this.enablePositionText();
+            }
+
+        }
+    }
+
+    public void setAsOpen(){
+
+        this.isSearched = true;
+        if (!this.isStart && !this.isGoal){
+            if (this.isSwamp){
+                setBackground(new Color(181, 245, 71));
+            } else if (this.isFromGoal){
+                setBackground(new Color(139, 252, 222));
+            }else{
+                setBackground(new Color(139, 252, 222));
             }
 
             if (isCostTextEnabled){
@@ -252,5 +276,25 @@ public class Node extends JButton implements ActionListener, Comparable<Node>  {
             }
         }
     }
+
+    /*
+    @Override
+    public int compareTo(Node o) {
+        if(this.fCost > o.fCost){
+            return 1;
+        }else if(this.fCost < o.fCost){
+            return -1;
+        } else {
+            if (this.hCost > o.hCost){
+                return 1;
+            } else if (this.hCost < o.hCost) {
+                return -1;
+            } else{
+                return 0;
+            }
+        }
+    }
+
+     */
 
 }

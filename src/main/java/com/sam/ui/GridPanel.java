@@ -159,7 +159,7 @@ public class GridPanel extends JPanel {
             for (Node n: na){
                 n.gCost = 0;
                 n.hCost = 0;
-                n.fCost = 0;
+                n.fCost = 10000;
             }
         }
     }

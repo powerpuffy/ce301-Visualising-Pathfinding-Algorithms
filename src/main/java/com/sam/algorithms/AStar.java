@@ -107,19 +107,51 @@ public class AStar extends PathfindingAlgorithm {
             ArrayList<Node> neighbourList = getNeighbours(cur);
 
             for (Node n: neighbourList){
-                if (!closedList.contains(n) && !openList.contains(n)){
-                    n.parent = cur;
+                if (!closedList.contains(n) && !openList.contains(n)) {
 
-                    n.gCost =  n.weight + cur.gCost;
+                    int gCost = n.weight + cur.gCost;
 
-                    if (goalNode != null){
-                        n.hCost = heuristic.calculateHeuristic(n,goalNode);
+                    int hCost = 0;
+                    if (goalNode != null) {
+                        hCost = heuristic.calculateHeuristic(n, goalNode);
                     }
 
-                    n.fCost = n.gCost + n.hCost;
+
+                    int fCost = gCost + hCost;
+                    System.out.println(fCost);
+                    System.out.println(n.fCost);
+
+                    if (fCost < n.fCost){
+                        System.out.println("Pwow");
+                        n.parent = cur;
+                        n.gCost = gCost;
+                        n.hCost = hCost;
+                        n.fCost = fCost;
+                        openList.add(n);
+
+                        n.setAsOpen();  // Comment out if you dont want the blue open nodes shown
+
+                    }
+
+
+
                     //n.fCost = n.gCost;
                     //n.fCost = n.hCost;
-                    openList.add(n);
+
+                } else if (!closedList.contains(n) && openList.contains(n)){
+                    System.out.println("moo");
+                    int fcost2 = cur.fCost + cur.weight;
+                    int gcost2 = cur.gCost + cur.weight;
+                    if (fcost2 < n.fCost || gcost2 < n.gCost){
+                        n.gCost = gcost2;
+                        n.fCost = n.gCost + n.hCost;
+                        openList.remove(n);
+                        //Collections.sort(openList);
+                        openList.add(n);
+                        //Collections.sort(openList);
+                        System.out.println("bark");
+                        n.parent = cur;
+                    }
                 }
             }
             Collections.sort(openList);
