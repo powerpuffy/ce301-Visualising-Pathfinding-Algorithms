@@ -45,22 +45,6 @@ class NodeTest {
     }
 
     @Test
-    void setAsSearched() {
-
-    }
-
-    @Test
-    void testToString() {
-
-
-    }
-
-    @Test
-    void verifyStartPressedWithStartSelected() {
-
-    }
-
-    @Test
     void compareGreaterThan() {
         Node n = new Node(1,2);
         Node n2 = new Node(3,4);

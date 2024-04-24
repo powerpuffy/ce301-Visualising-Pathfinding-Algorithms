@@ -385,8 +385,11 @@ public class GridPanel extends JPanel {
                         RandomizedPrims rp = new RandomizedPrims(nodeArray,maxCol,maxRow);
                         rp.generateMazeQuick();
 
-                        setRandomStartNode();
-                        setRandomGoalNode();
+                        setStartNodeTopLeft();
+                        setGoalNodeBottomRight();
+
+                        //setStartNodeBottomLeft();
+                        //setGoalNodeTopRight();
                         samSetStartNode();
                         samSetGoalNode();
 
@@ -487,7 +490,7 @@ public class GridPanel extends JPanel {
 
     }
 
-    public void setRandomStartNode(){
+    public void setStartNodeTopLeft(){
         for (Node[] na: nodeArray){
             for (Node n: na){
                 if (n.isDefault){
@@ -498,9 +501,31 @@ public class GridPanel extends JPanel {
         }
     }
 
-    public void setRandomGoalNode(){
+    public void setStartNodeBottomLeft(){
+        for (int i = 0; i < nodeArray.length; i++){
+            for (int j = nodeArray[i].length-1; j > 0; j--){
+                if (nodeArray[i][j].isDefault){
+                    nodeArray[i][j].setAsStart();
+                    return;
+                }
+            }
+        }
+    }
+
+    public void setGoalNodeBottomRight(){
         for (int i = nodeArray.length-1; i > 0; i--){
             for (int j = nodeArray[i].length-1; j > 0; j--){
+                if (nodeArray[i][j].isDefault){
+                    nodeArray[i][j].setAsGoal();
+                    return;
+                }
+            }
+        }
+    }
+
+    public void setGoalNodeTopRight(){
+        for (int i = nodeArray.length-1; i > 0; i--){
+            for (int j = 0; j < nodeArray[i].length; j++){
                 if (nodeArray[i][j].isDefault){
                     nodeArray[i][j].setAsGoal();
                     return;
