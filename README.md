@@ -222,4 +222,53 @@ retrieveButton.addActionListener(new ActionListener() {
 
 # Maze Generation
 
-To implement maze generation...
+Maze Generation uses a modified version of Prim's algorithm to create a MST which is essentially a maze. When generating neighbours, the neighbours need to be of +2 distance from the node. In my implementation I have labelled these as "frontier nodes".
+
+``` java
+public void generateMaze() throws InterruptedException {
+    setAllToWall();
+
+    Node curNode = getRandomNodeFromGrid();
+    curNode.setAsDefault();
+
+    ArrayList<Node> frontierList = getFrontierNodes(curNode);
+
+    for (Node n : frontierList){
+        n.setBackground(new Color(169, 100, 217));
+    }
+
+    while (!frontierList.isEmpty()){
+            
+        for (Node n : frontierList){
+            n.setBackground(new Color(169, 100, 217));
+        }
+
+        Node frontierNode = getRandomNode(frontierList);
+        frontierList.remove(frontierNode);
+
+        Thread.sleep(ControlPanel.algoSpeed);
+            
+        frontierNode.setAsDefault();
+            
+        Node inbetweenNode = getInbetweenNode(frontierNode.frontierParent,frontierNode);
+        inbetweenNode.setAsDefault();
+
+        for (Node f: getFrontierNodes(frontierNode)){
+            if (!frontierList.contains(f)){
+                    frontierList.add(f);
+            }
+        }
+    }
+}
+```
+
+If a seed is used, a secondary constructor will be called and will set the intital pseudorandom number generator with the seed. Otherwise a random seed will be generated.
+
+``` java
+public RandomizedPrims(Node[][] nodeArray, int maxCol, int maxRow, long seed) {
+    this.nodeArray = nodeArray;
+    this.maxCol = maxCol;
+    this.maxRow = maxRow;
+    this.rng = new Random(seed);
+}
+```
