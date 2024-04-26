@@ -87,6 +87,7 @@ public class DFSBidirectional extends DFS {
 
                 curGoal.isFromGoal = true;
                 curGoal.setAsSearched();
+                numOfNodesVisited += 1;
                 if (intersects(curGoal, visitedListStart, visitedListGoal)){
                     System.out.println("from goal");
                     endTime = System.nanoTime();

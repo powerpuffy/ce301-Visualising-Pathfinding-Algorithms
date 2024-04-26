@@ -38,7 +38,6 @@ public class RandomizedPrims {
         this.maxCol = maxCol;
         this.maxRow = maxRow;
         this.rng = new Random(seed);
-        System.out.println(this.rng);
     }
 
 
@@ -152,8 +151,6 @@ public class RandomizedPrims {
 
         while (!frontierList.isEmpty()){
 
-
-
             for (Node n : frontierList){
                 n.setBackground(new Color(169, 100, 217));
             }
@@ -162,27 +159,18 @@ public class RandomizedPrims {
             frontierList.remove(frontierNode);
 
             Thread.sleep(ControlPanel.algoSpeed);
-            //Thread.sleep(2000);
-
-
 
             frontierNode.setAsDefault();
 
-
             Node inbetweenNode = getInbetweenNode(frontierNode.frontierParent,frontierNode);
-            //System.out.println("First main.java.com.sam.util.Node: " + frontierNode.frontierParent + "   Inbetween main.java.com.sam.util.Node: " + inbetweenNode + "   Frontier main.java.com.sam.util.Node" + frontierNode);
             inbetweenNode.setAsDefault();
-
-            //frontierList.addAll(getFrontierNodes(frontierNode));
 
             for (Node f: getFrontierNodes(frontierNode)){
                 if (!frontierList.contains(f)){
                     frontierList.add(f);
                 }
             }
-
         }
-
     }
 
     public void generateMazeQuick() throws InterruptedException {

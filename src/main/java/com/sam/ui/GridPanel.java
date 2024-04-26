@@ -385,11 +385,11 @@ public class GridPanel extends JPanel {
                         RandomizedPrims rp = new RandomizedPrims(nodeArray,maxCol,maxRow);
                         rp.generateMazeQuick();
 
-                        setStartNodeTopLeft();
-                        setGoalNodeBottomRight();
+                        //setStartNodeTopLeft();
+                        //setGoalNodeBottomRight();
 
-                        //setStartNodeBottomLeft();
-                        //setGoalNodeTopRight();
+                        setStartNodeBottomLeft();
+                        setGoalNodeTopRight();
                         samSetStartNode();
                         samSetGoalNode();
 
